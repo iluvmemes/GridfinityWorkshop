@@ -202,8 +202,17 @@ def createGridfinityBinBody(
         pocketRadius = input.lidMagnetDiameter / 2
         bossSize = magnetOffset + pocketRadius + const.BIN_WALL_THICKNESS
         bossHeight = input.lidMagnetDepth + const.BIN_COMPARTMENT_BOTTOM_THICKNESS
-        bossBottomZ = binBodyTotalHeight - bossHeight
+        # 45 degree tapered reinforcement below the ledge transfers press fit
+        # loads into the walls. The taper runs all the way down to the wall
+        # faces so the boss prints without supports; the dialog validation
+        # enforces a bin tall enough to fit ledge + taper.
+        bossTaperHeight = max(0, min(
+            bossSize - input.wallThickness,
+            binBodyTotalHeight - bossHeight,
+        ))
+        bossBottomZ = binBodyTotalHeight - bossHeight - bossTaperHeight
         filletFeatures: adsk.fusion.FilletFeatures = features.filletFeatures
+        chamferFeatures: adsk.fusion.ChamferFeatures = features.chamferFeatures
 
         binCorners = [
             (0, 0),
@@ -219,29 +228,69 @@ def createGridfinityBinBody(
             bossExtrude = extrudeUtils.createBoxAtPoint(
                 bossSize,
                 bossSize,
-                bossHeight,
+                bossHeight + bossTaperHeight,
                 targetComponent,
                 adsk.core.Point3D.create(bossOriginX, bossOriginY, bossBottomZ),
             )
             bossExtrude.name = 'Lid magnet boss extrude'
             bossBody = bossExtrude.bodies.item(0)
+            # taper chamfer goes first, on the plain box: two planar chamfers
+            # on the straight interior bottom edges, mitering at the sharp
+            # inner corner. Chamfering before the corner fillet exists is what
+            # lets the taper run the full distance to the wall faces — done
+            # after, the chamfer surface would intersect the fillet face and
+            # compute would fail.
+            if bossTaperHeight > 0.05:
+                bossBottomFace = faceUtils.getBottomFace(bossBody)
+                bottomEdgesByCornerDistance = sorted(
+                    bossBottomFace.edges,
+                    key=lambda edge: min(
+                        (edge.startVertex.geometry.x - cornerX) ** 2 + (edge.startVertex.geometry.y - cornerY) ** 2,
+                        (edge.endVertex.geometry.x - cornerX) ** 2 + (edge.endVertex.geometry.y - cornerY) ** 2,
+                    ),
+                )
+                bossChamferInput = chamferFeatures.createInput2()
+                bossChamferInput.chamferEdgeSets.addEqualDistanceChamferEdgeSet(
+                    commonUtils.objectCollectionFromList(bottomEdgesByCornerDistance[-2:]),
+                    adsk.core.ValueInput.createByReal(bossTaperHeight),
+                    False,
+                )
+                chamferFeatures.add(bossChamferInput).name = 'Lid magnet boss taper'
+            # outer vertical edge follows the bin corner fillet. Fillets must
+            # come after the taper chamfer: chamfering through a filleted edge
+            # degenerates (equal distance chamfers cannot offset a small
+            # convex arc inward further than its radius)
             verticalEdges = [
                 edge for edge in bossBody.edges
                 if abs(edge.startVertex.geometry.x - edge.endVertex.geometry.x) < const.DEFAULT_FILTER_TOLERANCE
                 and abs(edge.startVertex.geometry.y - edge.endVertex.geometry.y) < const.DEFAULT_FILTER_TOLERANCE
             ]
-            # outer edge follows the bin corner fillet, inner edge gets the same
-            # radius to blend the boss into the compartment
             outerEdge = min(verticalEdges, key=lambda edge: (edge.startVertex.geometry.x - cornerX) ** 2 + (edge.startVertex.geometry.y - cornerY) ** 2)
-            innerEdge = max(verticalEdges, key=lambda edge: (edge.startVertex.geometry.x - cornerX) ** 2 + (edge.startVertex.geometry.y - cornerY) ** 2)
             bossFilletInput = filletFeatures.createInput()
             bossFilletInput.isRollingBallCorner = True
             bossFilletInput.edgeSetInputs.addConstantRadiusEdgeSet(
-                commonUtils.objectCollectionFromList([outerEdge, innerEdge]),
+                commonUtils.objectCollectionFromList([outerEdge]),
                 adsk.core.ValueInput.createByReal(input.binCornerFilletRadius),
                 True,
             )
             filletFeatures.add(bossFilletInput).name = 'Lid magnet boss fillet'
+            # small blend on the exposed inner corner of the ledge so it does
+            # not scratch and matches the bin styling; re-query edges since the
+            # outer fillet rebuilt the body
+            ledgeVerticalEdges = [
+                edge for edge in bossBody.edges
+                if abs(edge.startVertex.geometry.x - edge.endVertex.geometry.x) < const.DEFAULT_FILTER_TOLERANCE
+                and abs(edge.startVertex.geometry.y - edge.endVertex.geometry.y) < const.DEFAULT_FILTER_TOLERANCE
+            ]
+            innerEdge = max(ledgeVerticalEdges, key=lambda edge: (edge.startVertex.geometry.x - cornerX) ** 2 + (edge.startVertex.geometry.y - cornerY) ** 2)
+            innerFilletInput = filletFeatures.createInput()
+            innerFilletInput.isRollingBallCorner = True
+            innerFilletInput.edgeSetInputs.addConstantRadiusEdgeSet(
+                commonUtils.objectCollectionFromList([innerEdge]),
+                adsk.core.ValueInput.createByReal(0.1),
+                True,
+            )
+            filletFeatures.add(innerFilletInput).name = 'Lid magnet boss inner fillet'
             bossBodies.append(bossBody)
             pocketCenters.append(adsk.core.Point3D.create(
                 magnetOffset if cornerX == 0 else cornerX - magnetOffset,

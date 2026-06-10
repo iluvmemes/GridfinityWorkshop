@@ -504,6 +504,17 @@ def is_all_input_valid(inputs: adsk.core.CommandInputs):
                 result = result and width.value > 0 and (posX.value + width.value) <= compartmentsX.value
                 result = result and length.value > 0 and (posY.value + length.value) <= compartmentsY.value
 
+    bin_has_lid_magnets: adsk.core.BoolValueCommandInput = inputs.itemById(BIN_HAS_LID_MAGNETS_INPUT_ID)
+    bin_lid_magnet_depth: adsk.core.ValueCommandInput = inputs.itemById(BIN_LID_MAGNET_DEPTH_INPUT)
+    bin_lid_magnet_diameter: adsk.core.ValueCommandInput = inputs.itemById(BIN_LID_MAGNET_DIAMETER_INPUT)
+    if bin_generate_body.value and bin_has_lid_magnets.value and not binTypeDropdownInput.selectedItem.name == BIN_TYPE_SHELLED:
+        # bin walls must be tall enough for the magnet ledge and its 45 degree
+        # reinforcement taper, which descends from the ledge to the wall face
+        binBodyTotalHeight = (bin_height.value - 1) * height_unit.value + max(0, height_unit.value - const.BIN_BASE_HEIGHT)
+        bossSize = const.DIMENSION_SCREW_HOLES_OFFSET - xy_tolerance.value + bin_lid_magnet_diameter.value / 2 + const.BIN_WALL_THICKNESS
+        requiredWallHeight = bin_lid_magnet_depth.value + const.BIN_COMPARTMENT_BOTTOM_THICKNESS + bossSize - bin_wall_thickness.value
+        result = result and binBodyTotalHeight >= requiredWallHeight
+
     return result
 
 # Function that is called when a user clicks the corresponding button in the UI.
