@@ -67,6 +67,9 @@ class BinBodyGeneratorInput():
         self.compartmentsByX = 1
         self.compartmentsByY = 1
         self.binCornerFilletRadius = const.BIN_CORNER_FILLET_RADIUS
+        self.hasLidMagnets = False
+        self.lidMagnetDiameter = const.DIMENSION_MAGNET_CUTOUT_DIAMETER
+        self.lidMagnetDepth = const.DIMENSION_MAGNET_CUTOUT_DEPTH
 
     @property
     def baseWidth(self) -> float:
@@ -243,3 +246,27 @@ class BinBodyGeneratorInput():
     @compartments.setter
     def compartments(self, value: list[BinBodyCompartmentDefinition]):
         self._compartments = value
+
+    @property
+    def hasLidMagnets(self) -> bool:
+        return self._hasLidMagnets
+
+    @hasLidMagnets.setter
+    def hasLidMagnets(self, value: bool):
+        self._hasLidMagnets = value
+
+    @property
+    def lidMagnetDiameter(self) -> float:
+        return self._lidMagnetDiameter
+
+    @lidMagnetDiameter.setter
+    def lidMagnetDiameter(self, value: float):
+        self._lidMagnetDiameter = value
+
+    @property
+    def lidMagnetDepth(self) -> float:
+        return self._lidMagnetDepth
+
+    @lidMagnetDepth.setter
+    def lidMagnetDepth(self, value: float):
+        self._lidMagnetDepth = value

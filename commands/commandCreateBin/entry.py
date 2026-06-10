@@ -64,6 +64,7 @@ BIN_COMPARTMENTS_GROUP_ID = 'compartments_group'
 BIN_SCOOP_GROUP_ID = 'bin_scoop_group'
 BIN_TAB_FEATURES_GROUP_ID = 'bin_tab_features_group'
 BIN_BASE_FEATURES_GROUP_ID = 'bin_base_features_group'
+BIN_LID_MAGNETS_GROUP_ID = 'bin_lid_magnets_group'
 USER_CHANGES_GROUP_ID = 'user_changes_group'
 PREVIEW_GROUP_ID = 'preview_group'
 INFO_GROUP = 'info_group'
@@ -89,6 +90,9 @@ BIN_MAGNET_CUTOUTS_TABS_INPUT_ID = 'bin_magnet_cutouts_tabs'
 BIN_SCREW_DIAMETER_INPUT = 'screw_diameter'
 BIN_MAGNET_DIAMETER_INPUT = 'magnet_diameter'
 BIN_MAGNET_HEIGHT_INPUT = 'magnet_height'
+BIN_HAS_LID_MAGNETS_INPUT_ID = 'bin_has_lid_magnets'
+BIN_LID_MAGNET_DIAMETER_INPUT = 'lid_magnet_diameter'
+BIN_LID_MAGNET_DEPTH_INPUT = 'lid_magnet_depth'
 BIN_HAS_SCOOP_INPUT_ID = 'bin_has_scoop'
 BIN_SCOOP_MAX_RADIUS_INPUT_ID = 'bin_scoop_max_radius'
 BIN_HAS_TAB_INPUT_ID = 'bin_has_tab'
@@ -152,6 +156,7 @@ def initDefaultUiState():
     commandUIState.initValue(BIN_SCOOP_GROUP_ID, True, adsk.core.GroupCommandInput.classType())
     commandUIState.initValue(BIN_TAB_FEATURES_GROUP_ID, True, adsk.core.GroupCommandInput.classType())
     commandUIState.initValue(BIN_BASE_FEATURES_GROUP_ID, True, adsk.core.GroupCommandInput.classType())
+    commandUIState.initValue(BIN_LID_MAGNETS_GROUP_ID, True, adsk.core.GroupCommandInput.classType())
     commandUIState.initValue(USER_CHANGES_GROUP_ID, True, adsk.core.GroupCommandInput.classType())
     commandUIState.initValue(PREVIEW_GROUP_ID, True, adsk.core.GroupCommandInput.classType())
 
@@ -190,6 +195,10 @@ def initDefaultUiState():
     commandUIState.initValue(BIN_MAGNET_CUTOUTS_TABS_INPUT_ID, False, adsk.core.BoolValueCommandInput.classType())
     commandUIState.initValue(BIN_MAGNET_DIAMETER_INPUT, const.DIMENSION_MAGNET_CUTOUT_DIAMETER, adsk.core.ValueCommandInput.classType())
     commandUIState.initValue(BIN_MAGNET_HEIGHT_INPUT, const.DIMENSION_MAGNET_CUTOUT_DEPTH, adsk.core.ValueCommandInput.classType())
+
+    commandUIState.initValue(BIN_HAS_LID_MAGNETS_INPUT_ID, False, adsk.core.BoolValueCommandInput.classType())
+    commandUIState.initValue(BIN_LID_MAGNET_DIAMETER_INPUT, 0.65, adsk.core.ValueCommandInput.classType())
+    commandUIState.initValue(BIN_LID_MAGNET_DEPTH_INPUT, 0.24, adsk.core.ValueCommandInput.classType())
 
     commandCompartmentsTableUIState = []
     recordedDefaults = configUtils.readJsonConfig(UI_INPUT_DEFAULTS_CONFIG_PATH)
@@ -654,6 +663,24 @@ def command_created(args: adsk.core.CommandCreatedEventArgs):
     magnetHeightInput.isMinimumInclusive = True
     commandUIState.registerCommandInput(magnetHeightInput)
 
+    lidMagnetsGroup = inputs.addGroupCommandInput(BIN_LID_MAGNETS_GROUP_ID, 'Lid magnets')
+    lidMagnetsGroup.isExpanded = commandUIState.getState(BIN_LID_MAGNETS_GROUP_ID)
+    commandUIState.registerCommandInput(lidMagnetsGroup)
+    hasLidMagnetsInput = lidMagnetsGroup.children.addBoolValueInput(BIN_HAS_LID_MAGNETS_INPUT_ID, 'Add lid magnet pockets', True, '', commandUIState.getState(BIN_HAS_LID_MAGNETS_INPUT_ID))
+    commandUIState.registerCommandInput(hasLidMagnetsInput)
+    lidMagnetDiameterInput = lidMagnetsGroup.children.addValueInput(BIN_LID_MAGNET_DIAMETER_INPUT, 'Lid magnet pocket diameter', defaultLengthUnits, adsk.core.ValueInput.createByReal(commandUIState.getState(BIN_LID_MAGNET_DIAMETER_INPUT)))
+    lidMagnetDiameterInput.minimumValue = 0.1
+    lidMagnetDiameterInput.isMinimumInclusive = True
+    lidMagnetDiameterInput.maximumValue = 1
+    lidMagnetDiameterInput.isMaximumInclusive = True
+    lidMagnetDiameterInput.isEnabled = commandUIState.getState(BIN_HAS_LID_MAGNETS_INPUT_ID)
+    commandUIState.registerCommandInput(lidMagnetDiameterInput)
+    lidMagnetDepthInput = lidMagnetsGroup.children.addValueInput(BIN_LID_MAGNET_DEPTH_INPUT, 'Lid magnet pocket depth', defaultLengthUnits, adsk.core.ValueInput.createByReal(commandUIState.getState(BIN_LID_MAGNET_DEPTH_INPUT)))
+    lidMagnetDepthInput.minimumValue = 0.1
+    lidMagnetDepthInput.isMinimumInclusive = True
+    lidMagnetDepthInput.isEnabled = commandUIState.getState(BIN_HAS_LID_MAGNETS_INPUT_ID)
+    commandUIState.registerCommandInput(lidMagnetDepthInput)
+
     userChangesGroup = inputs.addGroupCommandInput(USER_CHANGES_GROUP_ID, 'Changes')
     userChangesGroup.isExpanded = commandUIState.getState(USER_CHANGES_GROUP_ID)
     commandUIState.registerCommandInput(userChangesGroup)
@@ -824,6 +851,10 @@ def onChangeValidate():
     generateLip: bool = commandUIState.getState(BIN_WITH_LIP_INPUT_ID)
     commandUIState.getInput(BIN_WITH_LIP_NOTCHES_INPUT_ID).isEnabled = generateLip
 
+    hasLidMagnets: bool = commandUIState.getState(BIN_HAS_LID_MAGNETS_INPUT_ID)
+    commandUIState.getInput(BIN_LID_MAGNET_DIAMETER_INPUT).isEnabled = hasLidMagnets
+    commandUIState.getInput(BIN_LID_MAGNET_DEPTH_INPUT).isEnabled = hasLidMagnets
+
     generateScoop: bool = commandUIState.getState(BIN_HAS_SCOOP_INPUT_ID)
     commandUIState.getInput(BIN_SCOOP_MAX_RADIUS_INPUT_ID).isEnabled = generateScoop
 
@@ -882,6 +913,9 @@ def generateBin(args: adsk.core.CommandEventArgs):
     binCompartmentsTable: adsk.core.TableCommandInput = inputs.itemById(BIN_COMPARTMENTS_TABLE_ID)
     compartmentsX: adsk.core.IntegerSpinnerCommandInput = inputs.itemById(BIN_COMPARTMENTS_GRID_BASE_WIDTH_ID)
     compartmentsY: adsk.core.IntegerSpinnerCommandInput = inputs.itemById(BIN_COMPARTMENTS_GRID_BASE_LENGTH_ID)
+    bin_has_lid_magnets: adsk.core.BoolValueCommandInput = inputs.itemById(BIN_HAS_LID_MAGNETS_INPUT_ID)
+    bin_lid_magnet_diameter: adsk.core.ValueCommandInput = inputs.itemById(BIN_LID_MAGNET_DIAMETER_INPUT)
+    bin_lid_magnet_depth: adsk.core.ValueCommandInput = inputs.itemById(BIN_LID_MAGNET_DEPTH_INPUT)
 
     isHollow = binTypeDropdownInput.selectedItem.name == BIN_TYPE_HOLLOW
     isSolid = binTypeDropdownInput.selectedItem.name == BIN_TYPE_SOLID
@@ -956,6 +990,9 @@ def generateBin(args: adsk.core.CommandEventArgs):
         binBodyInput.tabOverhangAngle = binTabAngle.value
         binBodyInput.compartmentsByX = compartmentsX.value
         binBodyInput.compartmentsByY = compartmentsY.value
+        binBodyInput.hasLidMagnets = bin_has_lid_magnets.value and not isShelled
+        binBodyInput.lidMagnetDiameter = bin_lid_magnet_diameter.value
+        binBodyInput.lidMagnetDepth = bin_lid_magnet_depth.value
 
         if binCompartmentGridTypeDropdownInput.selectedItem.name == BIN_COMPARTMENTS_GRID_TYPE_UNIFORM:
             binBodyInput.compartments = uniformCompartments(binBodyInput.compartmentsByX, binBodyInput.compartmentsByY)

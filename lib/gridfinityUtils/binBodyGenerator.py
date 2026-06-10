@@ -4,7 +4,7 @@ import math
 import copy
 
 from ...lib import fusion360utils as futil
-from . import const, combineUtils, faceUtils, commonUtils, sketchUtils, extrudeUtils, baseGenerator, edgeUtils, filletUtils, geometryUtils
+from . import const, combineUtils, faceUtils, commonUtils, sketchUtils, extrudeUtils, baseGenerator, edgeUtils, filletUtils, geometryUtils, shapeUtils
 from .binBodyCutoutGenerator import createGridfinityBinBodyCutout
 from .binBodyCutoutGeneratorInput import BinBodyCutoutGeneratorInput
 from .baseGeneratorInput import BaseGeneratorInput
@@ -192,6 +192,85 @@ def createGridfinityBinBody(
             commonUtils.objectCollectionFromList(bodiesToMerge),
             targetComponent
         )
+
+    if input.hasLidMagnets:
+        # Pockets sit at the same XY as the base magnet cutouts so the lid (a base
+        # profile) aligns. Hollow bin walls are too thin to hold a magnet, so each
+        # corner gets a boss joined to the walls right below the lip, and the pocket
+        # is cut down into it from the top of the bin walls.
+        magnetOffset = const.DIMENSION_SCREW_HOLES_OFFSET - input.xyClearance
+        pocketRadius = input.lidMagnetDiameter / 2
+        bossSize = magnetOffset + pocketRadius + const.BIN_WALL_THICKNESS
+        bossHeight = input.lidMagnetDepth + const.BIN_COMPARTMENT_BOTTOM_THICKNESS
+        bossBottomZ = binBodyTotalHeight - bossHeight
+        filletFeatures: adsk.fusion.FilletFeatures = features.filletFeatures
+
+        binCorners = [
+            (0, 0),
+            (actualBodyWidth, 0),
+            (actualBodyWidth, actualBodyLength),
+            (0, actualBodyLength),
+        ]
+        bossBodies: list[adsk.fusion.BRepBody] = []
+        pocketCenters: list[adsk.core.Point3D] = []
+        for (cornerX, cornerY) in binCorners:
+            bossOriginX = cornerX if cornerX == 0 else cornerX - bossSize
+            bossOriginY = cornerY if cornerY == 0 else cornerY - bossSize
+            bossExtrude = extrudeUtils.createBoxAtPoint(
+                bossSize,
+                bossSize,
+                bossHeight,
+                targetComponent,
+                adsk.core.Point3D.create(bossOriginX, bossOriginY, bossBottomZ),
+            )
+            bossExtrude.name = 'Lid magnet boss extrude'
+            bossBody = bossExtrude.bodies.item(0)
+            verticalEdges = [
+                edge for edge in bossBody.edges
+                if abs(edge.startVertex.geometry.x - edge.endVertex.geometry.x) < const.DEFAULT_FILTER_TOLERANCE
+                and abs(edge.startVertex.geometry.y - edge.endVertex.geometry.y) < const.DEFAULT_FILTER_TOLERANCE
+            ]
+            # outer edge follows the bin corner fillet, inner edge gets the same
+            # radius to blend the boss into the compartment
+            outerEdge = min(verticalEdges, key=lambda edge: (edge.startVertex.geometry.x - cornerX) ** 2 + (edge.startVertex.geometry.y - cornerY) ** 2)
+            innerEdge = max(verticalEdges, key=lambda edge: (edge.startVertex.geometry.x - cornerX) ** 2 + (edge.startVertex.geometry.y - cornerY) ** 2)
+            bossFilletInput = filletFeatures.createInput()
+            bossFilletInput.isRollingBallCorner = True
+            bossFilletInput.edgeSetInputs.addConstantRadiusEdgeSet(
+                commonUtils.objectCollectionFromList([outerEdge, innerEdge]),
+                adsk.core.ValueInput.createByReal(input.binCornerFilletRadius),
+                True,
+            )
+            filletFeatures.add(bossFilletInput).name = 'Lid magnet boss fillet'
+            bossBodies.append(bossBody)
+            pocketCenters.append(adsk.core.Point3D.create(
+                magnetOffset if cornerX == 0 else cornerX - magnetOffset,
+                magnetOffset if cornerY == 0 else cornerY - magnetOffset,
+                0,
+            ))
+        combineUtils.joinBodies(binBody, commonUtils.objectCollectionFromList(bossBodies), targetComponent)
+
+        # pockets open at the top of the bin walls (base of the lip), cut downward
+        lidMagnetPlaneInput = targetComponent.constructionPlanes.createInput()
+        lidMagnetPlaneInput.setByOffset(
+            targetComponent.xYConstructionPlane,
+            adsk.core.ValueInput.createByReal(binBodyTotalHeight),
+        )
+        lidMagnetPlane = targetComponent.constructionPlanes.add(lidMagnetPlaneInput)
+        lidMagnetPlane.name = 'Lid magnet pocket plane'
+        lidMagnetPlane.isLightBulbOn = False
+        lidMagnetCutBodies = adsk.core.ObjectCollection.create()
+        for pocketCenter in pocketCenters:
+            magnetBody = shapeUtils.simpleCylinder(
+                lidMagnetPlane,
+                0,
+                -input.lidMagnetDepth,
+                pocketRadius,
+                pocketCenter,
+                targetComponent,
+            )
+            lidMagnetCutBodies.add(magnetBody)
+        combineUtils.cutBody(binBody, lidMagnetCutBodies, targetComponent)
 
     return binBody
 
