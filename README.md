@@ -1,4 +1,10 @@
+# Gridfinity Workshop
+
 [![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa]
+
+A continuation of **[FusionGridfinityGenerator](https://github.com/Le0Michine/FusionGridfinityGenerator)** by **Lev Mishin ([@Le0Michine](https://github.com/Le0Michine))**, the original author of this add-in and of all the work up to the fork point. This repository carries the full history of the original project and continues development independently, as the original has not had a release since January 2026.
+
+This is a modified version of the original work. It is distributed under the same licence, [Creative Commons Attribution-NonCommercial-ShareAlike 4.0](LICENSE.md): you may share and adapt it for non-commercial purposes, with attribution, under the same licence. Documentation links and images below still point to the original project's wiki and assets.
 
 ## Description
 Add-In for Fusion 360 allowing quick generation of simple [gridfinity](https://www.youtube.com/watch?v=ra_9zU-mnl8) bins and baseplates. The created bodies are parametric and can be easily edited if needed before exporting. Bins have an option to be generated solid providing a kick start for specialized tool bins creation.
