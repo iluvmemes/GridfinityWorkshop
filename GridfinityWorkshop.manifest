@@ -1,0 +1,13 @@
+{
+	"autodeskProduct":	"Fusion360",
+	"type":	"addin",
+	"id":	"f07583cb-92bd-4971-93c0-d29e1a40cafd",
+	"author":	"iluvmemes, based on GridfinityGenerator by Lev Mishin",
+	"description":	{
+		"":	"Gridfinity bins, baseplates and lids. Continuation of FusionGridfinityGenerator by Lev Mishin (CC BY-NC-SA 4.0)."
+	},
+	"version":	"1.4.2.0",
+	"runOnStartup":	true,
+	"supportedOS":	"windows|mac",
+	"editEnabled":	true
+}
