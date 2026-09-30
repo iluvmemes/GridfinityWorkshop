@@ -96,43 +96,36 @@ Bin for random round things
 
 ## Installation
 
-### Via Autodesk App Store
+Gridfinity Workshop is installed from source. The Autodesk App Store listing for GridfinityGenerator installs the original add-in, not this one. Both can be installed side by side: they use different add-in and command IDs.
 
-- Download GridfinityGenerator installer from [Autodesk App Store](https://apps.autodesk.com/FUSION/en/Detail/Index?id=7197558650811789) ([MacOS](https://apps.autodesk.com/FUSION/en/Detail/Index?id=7197558650811789&os=Mac&appLang=en) | [Windows](https://apps.autodesk.com/FUSION/en/Detail/Index?id=7197558650811789&os=Win64&appLang=en))
-- Run installer and wait for installation to complete, it will automatically close
-- Relaunch Fusion 360
-- `Gridfinity bin` and `Gridfinity baseplate` options should appear in `Create` menu in the Solid body workspace environment
-
-
-### From source code
 #### Step 1: Download
 
-Download code into a location on your hard drive.
+Download code into a folder named `GridfinityWorkshop` (Fusion requires the folder name to match `GridfinityWorkshop.py`).
 - Option 1: Clone git repository
 
 ```
-git clone https://github.com/Le0Michine/FusionGridfinityGenerator.git
+git clone https://github.com/iluvmemes/GridfinityWorkshop.git
 ```
 - Option 2: Download ZIP file
-  - Use [latest release page](https://github.com/Le0Michine/FusionGridfinityGenerator/releases) to download ZIP file `GridfinityGenerator-vX.X.X.X.zip`. The release page should contain latest stable version. Alternatively you can choose to use `Code / Download ZIP` option (or use this [direct link to the zip](https://github.com/Le0Michine/FusionGridfinityGenerator/archive/refs/heads/master.zip)) to download most recent changes which aren't released yet.
-  - Unpack content of the ZIP file into your target location
+  - Use the [releases page](https://github.com/iluvmemes/GridfinityWorkshop/releases) to download `GridfinityWorkshop-vX.X.X.X.zip`, or use `Code / Download ZIP` for the most recent unreleased changes.
+  - Unpack the ZIP into a folder named `GridfinityWorkshop`
 
 #### Step 2: Install as Add-In to Fusion 360
 - In Fusion open `Scripts and Add-Ins` window by pressing `Shift + S`.
   - It can also be found in the UI `Design -> Utilities -> ADD-INS`
 - Select `Add-Ins` tab and press `+` icon to add new add in
-- Select path to the repository downloaded in Step 1. Choose the folder containing `GridfinityGenerator.py`.
-- `GridfinityGenerator` should appear in the list of add ins
-- Select `GridfinityGenerator` and click `Run` to launch the add in
+- Select the `GridfinityWorkshop` folder from Step 1 (the folder containing `GridfinityWorkshop.py`).
+- `GridfinityWorkshop` should appear in the list of add ins
+- Select `GridfinityWorkshop` and click `Run` to launch the add in
 - `Gridfinity bin` and `Gridfinity baseplate` options should appear in `Create` menu in the Solid body workspace environment
 
 ## Update
 
-To update the script download latest sources into the same location and relaunch Fusion. If you used Autodesk app store to install the addon please follow the same link then download and install the latest version from there.
+To update, download the latest sources into the same folder and relaunch Fusion.
 
-## Support the project
+## Support the original author
 
-The plugin is free. However, if you want to support the project you can do so by [buying me a coffe](https://www.buymeacoffee.com/levmishin) or subscribing on patreon https://www.patreon.com/levmishin.
+The original add-in is free. If you want to support Lev Mishin, you can [buy him a coffee](https://www.buymeacoffee.com/levmishin) or subscribe on Patreon: https://www.patreon.com/levmishin.
 
 ## Credits
 

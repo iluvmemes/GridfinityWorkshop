@@ -254,7 +254,7 @@ def start():
     except Exception as err:
         futil.log(f'{CMD_NAME} Error occurred at the start, {err}, {getErrorMessage()}')
         ui.statusMessage = f"{CMD_NAME} failed to initialize"
-        showErrorInMessageBox(f"{CMD_NAME} Critical error occurred at the start, the command will be unavailable, if the issue persists use <a href=\"https://github.com/Le0Michine/FusionGridfinityGenerator/issues/new\">this link</a> to report it")
+        showErrorInMessageBox(f"{CMD_NAME} Critical error occurred at the start, the command will be unavailable, if the issue persists use <a href=\"https://github.com/iluvmemes/GridfinityWorkshop/issues/new\">this link</a> to report it")
 
 # Executed when add-in is stopped.
 def stop():
