@@ -3,8 +3,8 @@
   "type": "addin",
   "id": "3790cd5c-6a18-4b3d-92f3-61c9e47d72ab",
   "author": "Gridfinity Workshop",
-  "description": {"": "UI-only drawer/baseplate prototype. No geometry generation."},
-  "version": "0.1.0",
+  "description": {"": "Drawer-fit baseplates with lightweight previews and cached standard geometry."},
+  "version": "0.2.0",
   "runOnStartup": false,
   "supportedOS": "windows|mac",
   "editEnabled": true

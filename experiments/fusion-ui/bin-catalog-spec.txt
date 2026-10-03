@@ -1,0 +1,174 @@
+Gridfinity Workshop bin catalog specification
+Draft for interface review — 2026-10-03
+
+Scope
+Build a local Fusion catalog palette and a native Create-menu activation button.
+All catalog controls update an illustrative preview and a configuration summary.
+Bin generation stays disabled until the interface and mechanical requirements
+are agreed. The working baseplate generator remains separate. Existing clasp
+prototypes are reference designs and are not edited by this milestone.
+
+Observed reference designs
+Clasp Bin - 6mm Magnets: Body, Lid, Buckle; 2x1 grid; body bounds
+83.5x41.5x59.5 mm. CellsL has a documented minimum of 2 because the hinge and
+latch ears remain inside the grid footprint. Length subtracts 12.2 mm for ears.
+Magnet channels and Gridfinity base sockets already have independent parameters.
+Clasp Cartridge Prototype: Body, Lid, Buckle; body bounds 80.2x17.5x54.5 mm;
+body Length is 68 mm with 12.2 mm additional end hardware. PinHole is 2 mm.
+Both have healthy features, but body height is currently a literal 53 mm and
+hinge/latch locations include fixed 48.5 mm dimensions. Arbitrary height changes
+must first replace these literals with relationships to the closure datum.
+These are API observations, not a proof of closure fit or printed performance.
+
+Catalog families and options
+Standard bin: open cavity, regular or custom compartments, scoop, label ledge,
+stacking rim; base magnets optional. Start at 1x1 and cap both axes at 6.
+Clasp bin: grid-driven enclosure, minimum 2 cells along hinge-to-latch axis and
+1 across; cap at 6x6. Body, lid and buckle are a matched output set. Empty,
+divided and magnet-channel interiors are independent choices. The clasp layout
+keeps all closed hardware inside the footprint. Lid swing is a separate envelope.
+Cartridge: narrow clasp enclosure with length and width in mm, configurable
+height and interior. Reuse the bin buckle's accessible pull-tab concept, sized
+for the narrow enclosure; do not scale hinge bores, catch engagement or clearances.
+Cartridge magazine: a Gridfinity carrier indexing a matched cartridge revision.
+A common cartridge specification drives pocket dimensions, clearance, pitch and
+capacity. Carrier footprint uses grid cells up to 6x6; orientation is 0 or 90 deg.
+Custom blank: solid stock or an open envelope with standard Gridfinity feet,
+optional stacking rim and base magnets, ready for later custom cuts. No automatic
+selection of existing bodies as cutting tools.
+
+Size and height contracts
+Grid pitch and mating interfaces are fixed standards; dimension fit is handled
+by explicit clearances. Do not globally scale standards to fit a drawer.
+UI height uses nominal 7 mm units and also displays mm. Proposed initial lower
+bounds: standard/custom blank 2U, clasp/cartridge 8U, magazine wall 2U.
+The proposed 8U clasp minimum is conservative relative to the existing 53 mm
+body. It is NOT a verified mechanical minimum. Derive the final bound from floor,
+tongue/skirt overlap, hinge/pin envelope, latch movement and usable storage depth.
+Separate nominal body height, measured closed overall height, usable internal
+depth and lid-open envelope. Do not claim a drawer fit until the latter values
+are computed from verified templates. UI drawer height is a planning note for now.
+No automatic splitting of bins: an oversized bin must warn or use a larger bed;
+splitting would alter enclosure strength and closure behavior.
+
+Clasp improvements
+Provide Buckle extra side clearance, defined as extra TOTAL lateral play relative
+to the source prototype. Proposed default +0.20 mm total (+0.10 per side).
+Keep physical pin diameter and added bore allowance separate; default 1.75 + 0.25 mm. Do not change
+pin fit or catch overlap when adjusting lateral clearance. The exact constrained
+faces and resulting clearances must be measured before changing source geometry.
+Transfer the bin's pull-tab/grip shape to the cartridge buckle. Preserve hinge
+axis, eye wall thickness and catch engagement; parameterize grip projection.
+Proposed grip projection 2 mm is a UI starting point, not measured source geometry.
+Confirm finger access and pull direction with neighboring cartridges in a carrier.
+Future output options: complete matched set or a replacement lid/buckle identified
+by the parent configuration and template revision. UI initially shows the whole set.
+
+Cartridge magazine indexing
+Initial concept: upright cartridges indexed by bottom stops and guide ribs with
+an asymmetric key or end stop to prevent reverse insertion. No friction latch in
+version one; retention comes from seating depth and guides, with accessible grips.
+Slot clearance is PER SIDE, proposed 0.30 mm. Structural wall/rib thickness starts
+at 1.2 mm in the layout estimate. Pocket bounding footprint initially includes
+12.2 mm of hinge/latch allowance beyond the cartridge body length. Actual closed
+buckle/grip envelope must replace this estimate before generation.
+Capacity estimate per axis: floor((usableSpan + rib) / (itemSpan + 2*clearance + rib)).
+Multiply across axes; show requested count and available capacity. Empty capacity
+positions remain unused. Rotation swaps the cartridge footprint axes. UI shares
+cartridge settings with the magazine so a size change updates capacity immediately.
+Validate stops, insertion sweep, lid/buckle access, tip stability, print bridging,
+wall thickness and cartridge removal with neighboring slots occupied. Seated
+cartridge height, not magazine wall height, governs assembled drawer clearance.
+Consider an explicit matched cartridge set + magazine creation action later.
+
+Hardware
+Base retention magnets: Off, Press fit 6.08 mm, Clearance fit 6.50 mm, Custom.
+Default depth 2.4 mm, separately editable. Press fit is the user's requested nominal
+hole diameter, not a promise of printer/material fit. Apply to Gridfinity feet on
+standard, clasp, magazine and blank families. Cartridge has no feet by default.
+Stored magnets: separate diameter/channel clearance controls; never inherit the
+base press-fit setting. Proposal: 6 mm stored magnet with 0.5 mm total diametral
+clearance, matching the current 6.5 mm channel. Capacity and channel wall checks
+are required before generation. Screw mounting remains an optional later extension.
+
+Interface
+Six illustrated family/test cards; relevant sections for size, interior, closure,
+magazine indexing and hardware; live top/side or parts schematic, dimensions and
+parts list. Clearly identify approximate geometry and proposed settings.
+Preserve each family's form values while switching; cartridge settings are shared
+with magazine. Saved favorites persist locally when browser storage is available;
+show an error rather than claiming a save if unavailable. Favorite schema has a
+version. No cloud writes. Preview uses local SVG, not full CAD or external assets.
+Native command: Solid > Create > Gridfinity Bins, promoted toolbar icon.
+No generation route is registered in the catalog HTML handler. Create is disabled.
+Later: select grid cells on a baseplate layout; drawer fit with measured closed
+height; custom compartment painting; exported matched-part names and print list.
+
+Generation architecture after UI agreement
+Cache versioned fixed interfaces: feet, hinge/latch details and hardware cutters.
+Build envelope, wall/floor, height, compartments and placement with a small native
+parametric history. Generate variable rims from verified sections. Do not scale
+whole templates. Benchmark native patterns versus temporary BRep arrays in bins.
+Every catalog recipe stores a schema version, template revision, allowed ranges,
+compatibility rules, preview data, expected parts, units and generation strategy.
+Use a single native command transaction; all cuts explicitly target owned bodies.
+Part designs receive owned bodies; hybrid designs receive a named component/set.
+Use design-local layout IDs and body/lid/buckle/magazine roles in printable names.
+Store source configuration and revision as attributes; separate labels describing
+creation-time dimensions from parameters that users may edit afterward.
+
+Iteration sequence and acceptance
+1. Review this UI and provisional defaults; no generation or prototype edits.
+2. Measure closure interfaces, derive minimum height and make parameterized copies;
+   test +0.20 mm lateral buckle clearance and cartridge grip at smallest dimensions.
+3. Validate standard bin and plain clasp enclosure, including smallest supported
+   footprint, height endpoints and 6x6; test feet against the standard reference.
+4. Validate shared cartridge/magazine contract, count boundaries and rotated slots.
+5. Add compartments, stored-magnet channels and custom blanks; validate combinations.
+For every generated family: healthy features, connected solids, target-only cuts,
+undo/redo, deterministic part naming, recompute after supported parameter edits,
+correct mating clearances and timing measured independently of preview. Physical
+fit tests are required for buckle engagement, magnet press fit and cartridge seating.
+Compare performance before choosing caches/patterns; baseplate timings are not bin
+performance claims. Model fit verification and print fit verification are distinct.
+
+Magnet channel layout update
+Round, square and rectangle channels use independent along-length/across-width
+counts. The UI reports requested total and maximum count per axis, and rejects
+layouts exceeding either axis rather than dropping channels. Square uses one side
+dimension; rectangle uses two; round uses diameter. StoredClearance adds to each
+full dimension (0.5 mm total means 0.25 mm per side). Array extent is n*size+(n-1)*web
+with adjustable separation (default 1 mm) and 2 mm edge walls. Center the complete array using half the unused
+span on both sides. Clasp/cartridge estimates reserve 12.2 mm for end hardware.
+Invalid arrays are not drawn outside the storage envelope. The final CAD envelope
+will also account for closure detail, corner radii, scoop and label geometry.
+Existing saved configurations gain default channel options when restored.
+
+Clasp implementation update (2026-10-03)
+The clasp family now creates a separate native Fusion design from the measured
+prototype archive. Use native palette HTMLEvent + importToNewDocument; archive
+import does not belong inside a Command event. Other families keep native command
+transactions. No existing bodies are modified by clasp generation.
+Clasp range: 2..6 by 1..6 cells, 6..20U; closed height = 7*U + 3.7 mm.
+BuckleExtra adds total play to the original 0.10 mm. Default 0.20 means 0.15 mm/side.
+Grip dimension is thickness (2..4 mm), not reach. Pin range 1.8..2.5 mm.
+Storage: open, divided, round/square/rectangle channels; no side windows yet.
+Creation-time names identify recipe and role. Parameter edits do not update names.
+Native CAD checks passed; physical latch and press-fit checks remain print tests.
+Cartridge and magazine remain previews and are the next mechanical iterations.
+
+Fit controls and sixth family implemented (2026-10-03)
+ChannelGapX/Y are edge-to-edge separations, default 1 mm, range 1..30. Linked by
+default. StoredClearance still adds to the full channel dimension. All capacity,
+centering and native pattern pitches use the selected separations.
+PinDiameter plus shared PinAllowance has optional BodyPinAllowance, LidPinAllowance,
+LidLatchAllowance and BucklePinAllowance. Resulting bores must be 1.80..2.70 mm.
+Legacy +0.20 mm lid-latch/buckle offsets migrate into visible overrides; modern
+recipes have no hidden offset. Lateral buckle play remains a separate control.
+Fit tests is the sixth selector: pin ladder, working closure, magnet socket ladder,
+channel spacing samples and drawer envelope gauge. Tests use their own new design.
+Mark ladder/spacing samples physically; name all test bodies. Match pin bore and
+base-pocket printing orientation. Spacing tests use realistic stack depth and a
+2..5 by 2..5 array to include neighboring stacks. Keep the entire set within 6x6.
+Provide source-recipe copy, selected-result transfer and local printer/material fit
+profiles. Applying results changes future recipes, never existing user geometry.

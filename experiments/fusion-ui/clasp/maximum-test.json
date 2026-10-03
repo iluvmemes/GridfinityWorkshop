@@ -1,0 +1,20 @@
+{
+  "name": "Clasp maximum test - 6x6 20U - divided - M6.08x2.4",
+  "parts": [
+    "Clasp maximum test - 6x6 20U - divided - M6.08x2.4 - Buckle",
+    "Clasp maximum test - 6x6 20U - divided - M6.08x2.4 - Lid",
+    "Clasp maximum test - 6x6 20U - divided - M6.08x2.4 - Body"
+  ],
+  "seconds": 8.028575900010765,
+  "overallHeightMM": 143.7,
+  "newDocument": true,
+  "parameters": [
+    "CellsL",
+    "CellsW",
+    "HeightUnits",
+    "BuckleExtra",
+    "PinHole",
+    "GripThickness"
+  ],
+  "channels": 0
+}

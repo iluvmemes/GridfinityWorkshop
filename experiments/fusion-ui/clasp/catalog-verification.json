@@ -1,0 +1,278 @@
+{
+  "state": {
+    "schema": 1,
+    "family": "clasp",
+    "view": "layout",
+    "cartridge": {
+      "cartLength": 68,
+      "cartWidth": 17.5
+    },
+    "configs": {
+      "standard": {
+        "title": "Standard bin",
+        "cols": 2,
+        "rows": 1,
+        "height": 6,
+        "drawer": 85,
+        "interior": "open",
+        "divX": 2,
+        "divY": 2,
+        "scoop": true,
+        "label": false,
+        "scoopRadius": 25,
+        "labelLength": 40,
+        "labelDepth": 13,
+        "rim": false,
+        "buckle": 0.2,
+        "pin": 2,
+        "grip": 2,
+        "quantity": 4,
+        "slot": 0.3,
+        "orientation": "0",
+        "magnet": "press",
+        "diameter": 6.08,
+        "magnetDepth": 2.4,
+        "storedDiameter": 6,
+        "storedClearance": 0.5,
+        "channelShape": "round",
+        "channelWidth": 6,
+        "channelDepth": 10,
+        "channelColumns": 8,
+        "channelRows": 4
+      },
+      "clasp": {
+        "title": "Clasp bin",
+        "cols": 2,
+        "rows": 1,
+        "height": 8,
+        "drawer": 85,
+        "interior": "open",
+        "divX": 2,
+        "divY": 2,
+        "scoop": false,
+        "label": false,
+        "scoopRadius": 25,
+        "labelLength": 40,
+        "labelDepth": 13,
+        "rim": true,
+        "buckle": 0.2,
+        "pin": 2,
+        "grip": 2,
+        "quantity": 4,
+        "slot": 0.3,
+        "orientation": "0",
+        "magnet": "press",
+        "diameter": 6.08,
+        "magnetDepth": 2.4,
+        "storedDiameter": 6,
+        "storedClearance": 0.5,
+        "channelShape": "round",
+        "channelWidth": 6,
+        "channelDepth": 10,
+        "channelColumns": 8,
+        "channelRows": 4
+      },
+      "cartridge": {
+        "title": "Cartridge",
+        "cols": 2,
+        "rows": 1,
+        "height": 8,
+        "drawer": 85,
+        "interior": "magnets",
+        "divX": 2,
+        "divY": 2,
+        "scoop": false,
+        "label": false,
+        "scoopRadius": 25,
+        "labelLength": 40,
+        "labelDepth": 13,
+        "rim": true,
+        "buckle": 0.2,
+        "pin": 2,
+        "grip": 2,
+        "quantity": 4,
+        "slot": 0.3,
+        "orientation": "0",
+        "magnet": "press",
+        "diameter": 6.08,
+        "magnetDepth": 2.4,
+        "storedDiameter": 6,
+        "storedClearance": 0.5,
+        "channelShape": "round",
+        "channelWidth": 6,
+        "channelDepth": 10,
+        "channelColumns": 8,
+        "channelRows": 1
+      },
+      "magazine": {
+        "title": "Cartridge magazine",
+        "cols": 3,
+        "rows": 2,
+        "height": 4,
+        "drawer": 85,
+        "interior": "open",
+        "divX": 2,
+        "divY": 2,
+        "scoop": false,
+        "label": false,
+        "scoopRadius": 25,
+        "labelLength": 40,
+        "labelDepth": 13,
+        "rim": true,
+        "buckle": 0.2,
+        "pin": 2,
+        "grip": 2,
+        "quantity": 4,
+        "slot": 0.3,
+        "orientation": "0",
+        "magnet": "press",
+        "diameter": 6.08,
+        "magnetDepth": 2.4,
+        "storedDiameter": 6,
+        "storedClearance": 0.5,
+        "channelShape": "round",
+        "channelWidth": 6,
+        "channelDepth": 10,
+        "channelColumns": 8,
+        "channelRows": 4
+      },
+      "blank": {
+        "title": "Custom blank",
+        "cols": 2,
+        "rows": 1,
+        "height": 8,
+        "drawer": 85,
+        "interior": "solid",
+        "divX": 2,
+        "divY": 2,
+        "scoop": false,
+        "label": false,
+        "scoopRadius": 25,
+        "labelLength": 40,
+        "labelDepth": 13,
+        "rim": true,
+        "buckle": 0.2,
+        "pin": 2,
+        "grip": 2,
+        "quantity": 4,
+        "slot": 0.3,
+        "orientation": "0",
+        "magnet": "press",
+        "diameter": 6.08,
+        "magnetDepth": 2.4,
+        "storedDiameter": 6,
+        "storedClearance": 0.5,
+        "channelShape": "round",
+        "channelWidth": 6,
+        "channelDepth": 10,
+        "channelColumns": 8,
+        "channelRows": 4
+      }
+    }
+  },
+  "accessories": {
+    "cells": [
+      {
+        "x": 2,
+        "y": 2,
+        "w": 79.5,
+        "d": 37.5
+      }
+    ],
+    "scoop": 18.75,
+    "labelLength": 40,
+    "labelDepth": 13
+  },
+  "accessorySummary": ". Sizes are limited to the available compartment space. Preview only.",
+  "renderedScoops": 0,
+  "renderedLabels": 0,
+  "mojibakeFound": false,
+  "pageLabels": [
+    "\u25a6 Gridfinity Workshop / Bin catalogBIN WORKSHOP",
+    "Opens a new design with Body, Lid and Buckle.Create clasp design",
+    "2 \u00d7 1 grid \u00b7 83.5 \u00d7 41.5 mm footprint",
+    "Choose a favorite\u2026"
+  ],
+  "channelLabels": [
+    "Channel shape",
+    "Stored magnet \u00d8 \u00b7 mm",
+    "Stored magnet width / side \u00b7 mm",
+    "Stored magnet length \u00b7 mm",
+    "Clearance per dimension \u00b7 mm",
+    "Channels along length",
+    "Channels across width"
+  ],
+  "hasReplacementCharacters": false,
+  "previewOnly": false,
+  "generationEnabled": true,
+  "family": "clasp",
+  "channels": null,
+  "renderedChannels": 0,
+  "capacity": 2,
+  "parts": [
+    "Clasp bin 2x1 8U \u2014 Body",
+    "Clasp bin 2x1 8U \u2014 Lid",
+    "Clasp bin 2x1 8U \u2014 Pull-tab buckle"
+  ],
+  "validation": "",
+  "overflow": false,
+  "viewport": [
+    954,
+    666
+  ],
+  "selectorArt": [
+    {
+      "source": "catalog-art/standard.svg",
+      "loaded": true
+    },
+    {
+      "source": "catalog-art/clasp.svg",
+      "loaded": true
+    },
+    {
+      "source": "catalog-art/cartridge.svg",
+      "loaded": true
+    },
+    {
+      "source": "catalog-art/magazine.svg",
+      "loaded": true
+    },
+    {
+      "source": "catalog-art/blank.svg",
+      "loaded": true
+    }
+  ],
+  "layout": [
+    {
+      "tag": "HEADER",
+      "width": 954,
+      "scroll": 954
+    },
+    {
+      "tag": "NAV",
+      "width": 954,
+      "scroll": 954
+    },
+    {
+      "tag": "DIV",
+      "width": 954,
+      "scroll": 954
+    },
+    {
+      "tag": "ASIDE",
+      "width": 302,
+      "scroll": 302
+    },
+    {
+      "tag": "MAIN",
+      "width": 617,
+      "scroll": 617
+    },
+    {
+      "tag": "FOOTER",
+      "width": 954,
+      "scroll": 954
+    }
+  ],
+  "errors": []
+}

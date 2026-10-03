@@ -6,7 +6,7 @@ window.addEventListener('error', event => {
     adsk.fusionSendData('uiError', JSON.stringify({message:event.message}));
   }
 });
-(()=>{const root=document.getElementById('gf-workshop'),q=s=>root.querySelector(s),all=s=>[...root.querySelectorAll(s)];const state={mode:'fit',style:'skeleton',view:'assembled',anchor:4,selected:0};const names=['Back left','Back center','Back right','Middle left','Centered','Middle right','Front left','Front center','Front right'];const arrows=['↖','↑','↗','←','•','→','↙','↓','↘'];q('.gw-anchor').innerHTML=names.map((n,i)=>`<button aria-label="${n}" data-anchor="${i}" aria-pressed="${i===4}">${arrows[i]}</button>`).join('');const num=id=>Number(q('#gw-'+id).value),fmt=n=>Number(n.toFixed(2)).toString();let last;
+(()=>{const root=document.getElementById('gf-workshop'),q=s=>root.querySelector(s),all=s=>[...root.querySelectorAll(s)];const state={mode:'fit',style:'skeleton',view:'assembled',anchor:4,selected:0};const names=['Back left','Back center','Back right','Middle left','Centered','Middle right','Front left','Front center','Front right'];const arrows=['↖','↑','↗','←','•','→','↙','↓','↘'];q('.gw-anchor').innerHTML=names.map((n,i)=>`<button aria-label="${n}" data-anchor="${i}" aria-pressed="${i===4}">${arrows[i]}</button>`).join('');const num=id=>Number(q('#gw-'+id).value),fmt=n=>Number(n.toFixed(2)).toString();let last; let creating=false;
 function validNumber(el) {
   const value = Number(el.value);
   const min = Number(el.getAttribute('min'));
@@ -16,8 +16,8 @@ function validNumber(el) {
   if (value < min || value > max) return false;
   return Math.abs((value - min) / step - Math.round((value - min) / step)) < 0.000001;
 }
-function calculate(){const fit=state.mode==='fit',clear=fit?num('clearance'):0,w=fit?num('width'):num('columns')*42-.5,d=fit?num('depth'):num('rows')*42-.5;for(const el of all('input[type=number]')){if(el.closest('[hidden]')||el.id.startsWith('gw-magnet-')&&!q('#gw-magnets').checked)continue;if(!validNumber(el))return {error:'Enter a valid value within the field limits.'};}const nx=fit?Math.floor((w-clear*2+.5)/42):num('columns'),ny=fit?Math.floor((d-clear*2+.5)/42):num('rows');if(nx<1||ny<1||nx>6||ny>6)return{error:'This concept supports 1–6 full cells per axis. Adjust the space or clearance.'};const pw=w-clear*2,pd=d-clear*2,ex=pw-(nx*42-.5),ey=pd-(ny*42-.5),left=ex*(state.anchor%3)/2,back=ey*Math.floor(state.anchor/3)/2;let cx=nx,cy=ny;while(cx>1&&cx*42-.5+ex>num('bed-width'))cx--;while(cy>1&&cy*42-.5+ey>num('bed-depth'))cy--;if(cx*42-.5+ex>num('bed-width')||cy*42-.5+ey>num('bed-depth'))return{error:'The bed is too small for a cell with this padding.'};let pieces=[];for(let y=0;y<ny;y+=cy)for(let x=0;x<nx;x+=cx){let cols=Math.min(cx,nx-x),rows=Math.min(cy,ny-y),x0=x===0?0:left+x*42,y0=y===0?0:back+y*42,x1=x+cols===nx?pw:left+(x+cols)*42,y1=y+rows===ny?pd:back+(y+rows)*42;pieces.push({x,y,cols,rows,x0,y0,x1,y1});}return{w,d,pw,pd,nx,ny,left,back,right:ex-left,front:ey-back,pieces};}
-function render(){q('#gw-press-fit').checked=Math.abs(num('magnet-diameter')-6.08)<0.000001;q('#gw-press-fit').disabled=!q('#gw-magnets').checked;q('#gw-fit').hidden=state.mode!=='fit';q('#gw-grid').hidden=state.mode!=='grid';q('#gw-padding-section').hidden=state.mode!=='fit';for(const key of ['mode','style','view','anchor'])all('[data-'+key+']').forEach(b=>b.setAttribute('aria-pressed',String(String(state[key])===b.dataset[key])));q('#gw-anchor-name').textContent=names[state.anchor];const data=calculate();q('#gw-error').hidden=!data.error;if(data.error){q('#gw-error').textContent=data.error;q('#gw-title').textContent='Last valid preview';return;}last=data;const{w,d,pw,pd,nx,ny,left,back,right,front,pieces}=data;state.selected=Math.max(0,Math.min(state.selected,pieces.length-1));q('#gw-grid-summary').textContent=`${nx} × ${ny} grid · ${nx*ny} usable cells`;['left','right','front','back'].forEach(k=>q('#gw-'+k).textContent=fmt(data[k])+' mm');q('#gw-title').textContent=state.mode==='fit'?'Drawer baseplate':'Grid baseplate';q('#gw-dimensions').textContent=`${fmt(pw)} × ${fmt(pd)} mm finished plate`;q('#gw-piece-count').textContent=pieces.length===1?'One printable plate':`${pieces.length} printable pieces`;const p=pieces[state.selected];q('#gw-piece-detail').textContent=`Piece ${state.selected+1} · ${p.cols} × ${p.rows} cells · ${fmt(p.x1-p.x0)} × ${fmt(p.y1-p.y0)} mm`;q('#gw-piece-buttons').innerHTML=pieces.map((p,i)=>`<button data-piece="${i}" aria-pressed="${i===state.selected}">Piece ${i+1}</button>`).join('');draw();}
+function calculate(){if(state.style==='skeleton'&&q('#gw-magnets').checked&&num('magnet-diameter')>6.5)return {error:'Skeletonized plates support magnet holes up to 6.5 mm. Choose Solid for larger holes.'};const fit=state.mode==='fit',clear=fit?num('clearance'):0,w=fit?num('width'):num('columns')*42-.5,d=fit?num('depth'):num('rows')*42-.5;for(const el of all('input[type=number]')){if(el.closest('[hidden]')||el.id.startsWith('gw-magnet-')&&!q('#gw-magnets').checked)continue;if(!validNumber(el))return {error:'Enter a valid value within the field limits.'};}const nx=fit?Math.floor((w-clear*2+.5)/42):num('columns'),ny=fit?Math.floor((d-clear*2+.5)/42):num('rows');if(nx<1||ny<1||nx>6||ny>6)return{error:'This concept supports 1–6 full cells per axis. Adjust the space or clearance.'};const pw=w-clear*2,pd=d-clear*2,ex=pw-(nx*42-.5),ey=pd-(ny*42-.5),left=ex*(state.anchor%3)/2,back=ey*Math.floor(state.anchor/3)/2;let cx=nx,cy=ny;while(cx>1&&cx*42-(cx===nx?.5:0)+ex>num('bed-width'))cx--;while(cy>1&&cy*42-(cy===ny?.5:0)+ey>num('bed-depth'))cy--;if(cx*42-(cx===nx?.5:0)+ex>num('bed-width')||cy*42-(cy===ny?.5:0)+ey>num('bed-depth'))return{error:'The bed is too small for a cell with this padding.'};let pieces=[];for(let y=0;y<ny;y+=cy)for(let x=0;x<nx;x+=cx){let cols=Math.min(cx,nx-x),rows=Math.min(cy,ny-y),x0=x===0?0:left+x*42,y0=y===0?0:back+y*42,x1=x+cols===nx?pw:left+(x+cols)*42,y1=y+rows===ny?pd:back+(y+rows)*42;pieces.push({x,y,cols,rows,x0,y0,x1,y1});}return{w,d,pw,pd,nx,ny,left,back,right:ex-left,front:ey-back,pieces};}
+function render(){q('#gw-press-fit').checked=Math.abs(num('magnet-diameter')-6.08)<0.000001;q('#gw-press-fit').disabled=!q('#gw-magnets').checked;q('#gw-fit').hidden=state.mode!=='fit';q('#gw-grid').hidden=state.mode!=='grid';q('#gw-padding-section').hidden=state.mode!=='fit';for(const key of ['mode','style','view','anchor'])all('[data-'+key+']').forEach(b=>b.setAttribute('aria-pressed',String(String(state[key])===b.dataset[key])));q('#gw-anchor-name').textContent=names[state.anchor];const data=calculate();q('#gw-error').hidden=!data.error;q('#gw-create').disabled=creating||!!data.error;if(data.error){q('#gw-error').textContent=data.error;q('#gw-title').textContent='Last valid preview';return;}last=data;const{w,d,pw,pd,nx,ny,left,back,right,front,pieces}=data;state.selected=Math.max(0,Math.min(state.selected,pieces.length-1));q('#gw-grid-summary').textContent=`${nx} × ${ny} grid · ${nx*ny} usable cells`;['left','right','front','back'].forEach(k=>q('#gw-'+k).textContent=fmt(data[k])+' mm');q('#gw-title').textContent=state.mode==='fit'?'Drawer baseplate':'Grid baseplate';q('#gw-dimensions').textContent=`${fmt(pw)} × ${fmt(pd)} mm finished plate`;q('#gw-piece-count').textContent=pieces.length===1?'One printable plate':`${pieces.length} printable pieces`;const p=pieces[state.selected];q('#gw-piece-detail').textContent=`Piece ${state.selected+1} · ${p.cols} × ${p.rows} cells · ${fmt(p.x1-p.x0)} × ${fmt(p.y1-p.y0)} mm`;q('#gw-piece-buttons').innerHTML=pieces.map((p,i)=>`<button data-piece="${i}" aria-pressed="${i===state.selected}">Piece ${i+1}</button>`).join('');draw();}
 function draw() {
   if (!last) return;
   drawGridfinityPreview(q('#gw-drawing'), last, {
@@ -30,6 +30,19 @@ function draw() {
 root.addEventListener('click', e => {
   const b = e.target && typeof e.target.closest === 'function' ? e.target.closest('button') : null;
   if (!b || b.disabled) return;
+  if (b.id === 'gw-create') {
+    const current = calculate();
+    if (current.error) { render(); return; }
+    if (typeof adsk === 'undefined' || typeof adsk.fusionSendData !== 'function') {
+      q('#gw-create-status').textContent='Open this interface inside Fusion to create a plate.';
+      return;
+    }
+    creating=true;
+    q('#gw-create-status').textContent='Creating baseplate…';
+    render();
+    send('create',creationRequest());
+    return;
+  }
   for (const k of ['mode','style','view','anchor']) {
     if (b.dataset[k] !== undefined) state[k] = k === 'anchor' ? Number(b.dataset[k]) : b.dataset[k];
   }
@@ -53,18 +66,27 @@ root.addEventListener('input', event => {
   render();
   save();
 });
+function creationRequest() {
+  return {mode:state.mode,style:state.style,anchor:state.anchor,
+    width:num('width'),depth:num('depth'),clearance:num('clearance'),
+    columns:num('columns'),rows:num('rows'),magnets:q('#gw-magnets').checked,
+    screws:q('#gw-screws').checked,magnetDiameter:num('magnet-diameter'),
+    magnetDepth:num('magnet-depth'),bedWidth:num('bed-width'),bedDepth:num('bed-depth')};
+}
 function send(action, data) {
   if (typeof adsk === 'undefined' || typeof adsk.fusionSendData !== 'function') return;
   const result = adsk.fusionSendData(action, JSON.stringify(data));
   if (result && typeof result.catch === 'function') result.catch(error => {
-    q('#gw-host-status').textContent = 'Preview ready · bridge unavailable';
+    creating=false;render();q('#gw-create-status').textContent='Could not contact Fusion. Please try again.';
     console.error(error);
   });
 }
 function report() {
   const svg = q('#gw-drawing svg');
   return {
-    previewOnly: true,
+    previewOnly: !creating,
+    creationStatus: q('#gw-create-status').textContent,
+    creationRequest: creationRequest(),
     bridgeAvailable: typeof adsk !== 'undefined' && typeof adsk.fusionSendData === 'function',
     state: {...state},
     inputs: all('input').map(el => ({id:el.id,value:el.value,checked:el.checked})),
@@ -125,7 +147,13 @@ function restore(v) {
 window.fusionJavaScriptHandler = {
   handle: function(action, data) {
     try {
-      if (action === 'setPreviewState') {
+      if (action === 'creationStatus') {
+        const status=JSON.parse(data);
+        creating=status.phase==='creating';
+        q('#gw-create-status').textContent=status.message;
+        q('#gw-create-status').classList.toggle('gw-error',status.phase==='error');
+        render();
+      } else if (action === 'setPreviewState') {
         restore(JSON.parse(data));
         render();
       } else if (action !== 'inspect') {

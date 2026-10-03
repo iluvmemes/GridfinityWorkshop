@@ -1,0 +1,189 @@
+[
+  {
+    "case": "3x3 reference",
+    "result": {
+      "component": "Gridfinity baseplate 3\u00d73",
+      "pieces": 1,
+      "seconds": 0.4758035000413656,
+      "paddingParameters": {
+        "left": "gf_f44863af_padding_left",
+        "right": "gf_f44863af_padding_right",
+        "back": "gf_f44863af_padding_back",
+        "front": "gf_f44863af_padding_front"
+      },
+      "featureCount": 5,
+      "dimensionsMM": [
+        125.5,
+        125.5,
+        7.9
+      ],
+      "magnetDiameterMM": 6.5
+    },
+    "volumeMM3": 32150.75358875184,
+    "health": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "fullyConstrained": true,
+    "difference": {
+      "extraMM3": 0.0,
+      "missingMM3": 0.0
+    },
+    "paddingEditHealthy": true,
+    "protectedBodyDifference": {
+      "extraMM3": 0.0,
+      "missingMM3": 0.0
+    }
+  },
+  {
+    "case": "6x6 split reference",
+    "result": {
+      "component": "Gridfinity baseplate 6\u00d76",
+      "pieces": 4,
+      "seconds": 1.739977299934253,
+      "paddingParameters": {
+        "left": "gf_b8fdd3e5_padding_left",
+        "right": "gf_b8fdd3e5_padding_right",
+        "back": "gf_b8fdd3e5_padding_back",
+        "front": "gf_b8fdd3e5_padding_front"
+      },
+      "featureCount": 8,
+      "dimensionsMM": [
+        251.5,
+        251.5,
+        7.9
+      ],
+      "magnetDiameterMM": 6.5
+    },
+    "volumeMM3": 130996.42345868448,
+    "health": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "fullyConstrained": true,
+    "difference": {
+      "extraMM3": 0.0,
+      "missingMM3": 0.0
+    },
+    "paddingEditHealthy": true,
+    "protectedBodyDifference": {
+      "extraMM3": 0.0,
+      "missingMM3": 0.0
+    }
+  },
+  {
+    "case": "drawer press-fit solid screws",
+    "result": {
+      "component": "Gridfinity baseplate 5\u00d74",
+      "pieces": 2,
+      "seconds": 1.1380778001621366,
+      "paddingParameters": {
+        "left": "gf_eedfe9ea_padding_left",
+        "right": "gf_eedfe9ea_padding_right",
+        "back": "gf_eedfe9ea_padding_back",
+        "front": "gf_eedfe9ea_padding_front"
+      },
+      "featureCount": 6,
+      "dimensionsMM": [
+        229.0,
+        189.0,
+        7.9
+      ],
+      "magnetDiameterMM": 6.08
+    },
+    "volumeMM3": 201872.15048959304,
+    "health": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "fullyConstrained": true,
+    "paddingEditHealthy": true,
+    "protectedBodyDifference": {
+      "extraMM3": 0.0,
+      "missingMM3": 0.0
+    }
+  },
+  {
+    "case": "2x3 solid no hardware",
+    "result": {
+      "component": "Gridfinity baseplate 2\u00d73",
+      "pieces": 1,
+      "seconds": 0.6981608998030424,
+      "paddingParameters": {
+        "left": "gf_f9395a43_padding_left",
+        "right": "gf_f9395a43_padding_right",
+        "back": "gf_f9395a43_padding_back",
+        "front": "gf_f9395a43_padding_front"
+      },
+      "featureCount": 5,
+      "dimensionsMM": [
+        83.5,
+        125.5,
+        7.9
+      ],
+      "magnetDiameterMM": null
+    },
+    "volumeMM3": 42982.24799839422,
+    "health": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "fullyConstrained": true,
+    "paddingEditHealthy": true,
+    "protectedBodyDifference": {
+      "extraMM3": 0.0,
+      "missingMM3": 0.0
+    }
+  },
+  {
+    "case": "1x1 skeleton no hardware",
+    "result": {
+      "component": "Gridfinity baseplate 1\u00d71 (1)",
+      "pieces": 1,
+      "seconds": 0.7521826000884175,
+      "paddingParameters": {
+        "left": "gf_2f40834c_padding_left",
+        "right": "gf_2f40834c_padding_right",
+        "back": "gf_2f40834c_padding_back",
+        "front": "gf_2f40834c_padding_front"
+      },
+      "featureCount": 5,
+      "dimensionsMM": [
+        41.5,
+        41.5,
+        7.9
+      ],
+      "magnetDiameterMM": null
+    },
+    "volumeMM3": 3573.705196438366,
+    "health": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "fullyConstrained": true,
+    "paddingEditHealthy": true,
+    "protectedBodyDifference": {
+      "extraMM3": 0.0,
+      "missingMM3": 0.0
+    }
+  }
+]

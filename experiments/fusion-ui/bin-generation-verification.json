@@ -1,0 +1,132 @@
+[
+  {
+    "name": "GF01 Standard bin - 1x1 6U - open - M6.08x2.4 - Body",
+    "seconds": 0.39787439978681505,
+    "heightParameter": "GF01_bin_height",
+    "overallHeightMM": 45.8,
+    "features": 8,
+    "bodyToken": "/v4BAAAARlJLZXkAH4sIAAAAAAAA/zNQsFAwAEJDBSMgBrOMLIAsQwUTkIiZQtUiI4NNV7yP7Dyh8ezncecXQBVGCsZmCsmpyalm5sZGuonGJsm6JqbmFroWhmZpuoYWyabGqUnJxmZAzQYQMxjQANg+AwWwdSDrTUwNAMKqJwmIAAAA",
+    "interior": "open",
+    "channels": 0
+  },
+  {
+    "name": "GF02 Bin verification - 6x6 2U - divided - M6.08x2.4 - Body",
+    "seconds": 26.547136900015175,
+    "heightParameter": "GF02_bin_height",
+    "overallHeightMM": 17.8,
+    "features": 8,
+    "bodyToken": "/v4BAAAARlJLZXkAH4sIAAAAAAAA/zNQsFAwAEJDBSMgBrOMLIAsQwUTkIiZQtUiI4NNV7yP7Dyh8ezncecXQBVGCsZmCobmhgYWxpYGusmWyQa6JmmmSbqWaWYGuoZpRkZmZgZJlsamFmC1QDMY0ADYPgMFsHUgRYaGJhYAf4nFMYkAAAA=",
+    "interior": "divided",
+    "channels": 0,
+    "heightEditVerified": true,
+    "unrelatedBodyDifferenceMM3": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "name": "GF03 Bin verification - 2x1 6U - magnets - M6.08x2.4 - Body",
+    "seconds": 1.5274916000198573,
+    "heightParameter": "GF03_bin_height",
+    "overallHeightMM": 45.8,
+    "features": 8,
+    "bodyToken": "/v4BAAAARlJLZXkAH4sIAAAAAAAA/zNQsFAwAEJDBSMgBrOMLIAsQwUTkIiZQtUiI4NNV7yP7Dyh8ezncecXQBVGCsZmCuZJyZZJhqmWukYWxkm6JhaJBroWyYYGumlJyUlmpmnJpqbGhmC1QDMY0ADYPgMFsHUg6y2NzS0ANycobYkAAAA=",
+    "interior": "magnets",
+    "channels": 32,
+    "heightEditVerified": true,
+    "unrelatedBodyDifferenceMM3": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "name": "GF04 Bin verification - 2x1 6U - magnets - M6.08x2.4 - Body",
+    "seconds": 4.2675935998559,
+    "heightParameter": "GF04_bin_height",
+    "overallHeightMM": 45.8,
+    "features": 8,
+    "bodyToken": "/v4BAAAARlJLZXkAH4sIAAAAAAAA/zNQsFAwAEJDBSMgBrOMLIAsQwUTkIiZQtUiI4NNV7yP7Dyh8ezncecXQBVGCsZmCsmpJqZmpknmukkpJga6JokpqboW5saWukkmhsmWloZJSUASrBZoBgMaANtnoAC2DmS9oaG5kREAMJ98PYoAAAA=",
+    "interior": "magnets",
+    "channels": 32,
+    "heightEditVerified": true,
+    "unrelatedBodyDifferenceMM3": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "name": "GF05 Bin verification - 2x1 6U - magnets - M6.08x2.4 - Body",
+    "seconds": 3.582757299998775,
+    "heightParameter": "GF05_bin_height",
+    "overallHeightMM": 45.8,
+    "features": 8,
+    "bodyToken": "/v4BAAAARlJLZXkAH4sIAAAAAAAA/zNQsFAwAEJDBSMgBrOMLIAsQwUTkIiZQtUiI4NNV7yP7Dyh8ezncecXQBVGCsZmCkZpKabmyaaJuiaWKRa6JklGabpJ5qbGumlGFsmmRsaJqcZmKWC1QDMY0ADYPgMFsHUg6w1NDUxNAA2nc/iKAAAA",
+    "interior": "magnets",
+    "channels": 24,
+    "heightEditVerified": true,
+    "unrelatedBodyDifferenceMM3": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "name": "GF06 Bin verification - 2x1 6U - solid - Body",
+    "seconds": 0.5545143000781536,
+    "heightParameter": "GF06_bin_height",
+    "overallHeightMM": 42,
+    "features": 3,
+    "bodyToken": "/v4BAAAARlJLZXkAH4sIAAAAAAAA/zNQsFAwAEJDBSMgBrOMLIAsQwUTkIiZQtUiI4NNV7yP7Dyh8ezncecXQBVGCsZmCkaWqSZpSSaWusbJhom6JuYmBrqJiRZJukYWhuYpiWmmJmmppmC1QDMY0ADYPgMFsHUg6w0tjCzMAHcCRrSKAAAA",
+    "interior": "solid",
+    "channels": 0,
+    "heightEditVerified": true,
+    "unrelatedBodyDifferenceMM3": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "name": "GF07 Bin verification - 2x1 6U - open - M6.08x2.4 - Body",
+    "seconds": 1.7191027000080794,
+    "heightParameter": "GF07_bin_height",
+    "overallHeightMM": 45.8,
+    "features": 8,
+    "bodyToken": "/v4BAAAARlJLZXkAH4sIAAAAAAAA/zNQsFAwAEJDBSMgBrOMLIAsQwUTkIiZQtUiI4NNV7yP7Dyh8ezncecXQBVGCsZmCskGBiaJlskmuoamRma6JmaJqboW5obmumZpqYbGSRapZsmmKWC1QDMY0ADYPgMFsHUg640MjI1NAFJtLWSKAAAA",
+    "interior": "open",
+    "channels": 0,
+    "heightEditVerified": true,
+    "unrelatedBodyDifferenceMM3": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "name": "GF08 Optimized bin - 6x6 2U - divided - M6.08x2.4 - Body",
+    "seconds": 2.5545266000553966,
+    "heightParameter": "GF08_bin_height",
+    "overallHeightMM": 17.8,
+    "features": 7,
+    "bodyToken": "/v4BAAAARlJLZXkAH4sIAAAAAAAA/zNQsFAwAEJDBSMgBrOMLIAsQwUTkIiZQtUiI4NNV7yP7Dyh8ezncecXQBVGCsZmCpZmlklmyakpuoZJyWa6JhYm5rqWKYlmumYpaYnJKZbJyYkmqWC1QDMY0ADYPgMFsHUg642MLE0MAOCLoSyKAAAA",
+    "interior": "divided",
+    "channels": 0,
+    "heightEditVerified": true,
+    "previousGeometryDifferenceMM3": [
+      0,
+      0
+    ],
+    "footPlateInterferenceMM3": 0.0
+  },
+  {
+    "name": "GF02 Final 6x6 verification - 6x6 2U - divided - M6.08x2.4 - Body",
+    "seconds": 1.601238600211218,
+    "heightParameter": "GF02_bin_height",
+    "overallHeightMM": 17.8,
+    "features": 7,
+    "bodyToken": "/v4BAAAARlJLZXkAH4sIAAAAAAAA/zNQsFAwAEJDBSMgBrOMLIAsQwUTkIiZwh7fwJ8b8pwqtmSV3NrJei4IqMJIwdhMwTDFwjIlzSRR19zY0lLXxMjUUjcpxTRRNznNzMjEMDHJwsQkBawWaAYDGgDbZ6AAtg5kvaGFsRkABEuk9okAAAA=",
+    "interior": "divided",
+    "channels": 0,
+    "heightEditVerified": true,
+    "nativeUndoRedoVerified": true,
+    "originalBodyPreserved": true,
+    "rimOuterRadiusMM": 3.75
+  }
+]
