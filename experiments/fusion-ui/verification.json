@@ -1,0 +1,48 @@
+{
+  "paletteVisible": true,
+  "size": [
+    480,
+    733
+  ],
+  "nativeReopenVerified": true,
+  "modelUnchanged": true,
+  "model": {
+    "timeline": 29,
+    "components": [
+      {
+        "name": "(Unsaved)",
+        "bodies": 1,
+        "sketches": 5
+      }
+    ]
+  },
+  "preview": {
+    "summary": "5 × 4 grid · 20 usable cells",
+    "dimensions": "229 × 189 mm finished plate",
+    "state": {
+      "mode": "fit",
+      "style": "skeleton",
+      "view": "assembled",
+      "anchor": 4,
+      "selected": 0
+    },
+    "bridgeAvailable": true,
+    "errors": [],
+    "generationDisabled": true
+  },
+  "addIn": {
+    "running": true,
+    "runOnStartup": false
+  },
+  "checks": {
+    "sixBySix": {
+      "cells": 36,
+      "screwIndicators": 144,
+      "pieces": 4,
+      "errors": []
+    },
+    "syntax": "Python, JavaScript, manifest passed",
+    "launch": "Application.scripts.addExisting + Script.run(false)",
+    "scope": "UI only; generation button disabled and no backend modeling route"
+  }
+}

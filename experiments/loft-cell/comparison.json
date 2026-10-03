@@ -1,0 +1,34 @@
+{
+  "original": {
+    "volumeMM3": 3255.147701364348,
+    "timelineItemsBeforeCapture": 29,
+    "rebuildSecondsBeforeCapture": [
+      0.1407073,
+      0.1432995,
+      0.1380577
+    ]
+  },
+  "capturedLoft": {
+    "document": "Gridfinity 1x1 - captured profile loft",
+    "volumeMM3": 3255.1517903442714,
+    "timelineItems": 23,
+    "sketches": 9,
+    "solidFeatures": 7,
+    "bodies": 1,
+    "buildSeconds": 1.1158616000320762,
+    "rebuildSeconds": [
+      0.20597879984416068,
+      0.19139789999462664,
+      0.18946009990759194
+    ],
+    "surfaceTypes": {
+      "Cylinder": 8,
+      "Plane": 21,
+      "NurbsSurface": 5
+    },
+    "extraMaterialMM3": 0,
+    "missingMaterialMM3": 0,
+    "comparison": "Temporary BRep Boolean differences empty at Fusion modeling tolerance. Volume integration differs by 0.004089 mm3.",
+    "geometryStatus": "Captured and fixed; not yet driven by dimensional sketch constraints or named parameters."
+  }
+}
