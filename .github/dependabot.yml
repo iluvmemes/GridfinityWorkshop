@@ -9,7 +9,7 @@ updates:
       github-actions:
         patterns: ['*']
   - package-ecosystem: npm
-    directory: /.github/dependencies
+    directory: /security/dependencies
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
