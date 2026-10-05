@@ -5,3 +5,12 @@ commandConfig
 *.msi
 *.wixpdb
 /dist
+
+# Local QA evidence, generated harnesses, and one-off audit artifacts
+/.agents/qa/runs/
+/.agents/qa/*-harness.html
+/.agents/qa/bridge-investigation.py
+/.agents/security/
+
+# Personal generated print exports
+/outputs/

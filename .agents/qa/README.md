@@ -20,30 +20,28 @@ Scope: main Fusion add-in at GridfinityWorkshop.py, with runtime in workshop/; a
 - END-01 reload/duplicates, END-02 disposable cleanup
 
 ## Evidence and execution
-Store this plan, reusable runners, screenshots and dated run results here under .agents/qa. Existing repository tests may be invoked unchanged; historical JSON files are not fresh evidence. API-level generator tests are integration coverage, not proof of mouse interaction. Native palette bridge tests cover actual HTML/JS/WebGL and bridge responses; synthetic clicks must be identified. Manually unverified pointer interactions and physical print fit must not be reported as passed.
+Keep this plan and reusable runners in version control. Store screenshots, logs and dated run results in the ignored `.agents/qa/runs/` directory. Generated `*-harness.html` files and one-off security audits also stay local. Existing repository tests may be invoked unchanged; historical JSON files are not fresh evidence. API-level generator tests are integration coverage, not proof of mouse interaction. Native palette bridge tests cover actual HTML/JS/WebGL and bridge responses; synthetic clicks must be identified. Manually unverified pointer interactions and physical print fit must not be reported as passed.
 
 ## Running the saved tools
-- `python .agents/qa/run-unit.py [output-directory]` executes all eight existing suites plus the new preview-state regression. Outputs command lines, stdout, stderr and exit codes.
+- `python .agents/qa/run-unit.py [output-directory]` executes all eleven request, layout, preview and retention suites. Outputs command lines, stdout, stderr and exit codes.
 - `python .agents/qa/build-harnesses.py` rebuilds the QA-only palette HTML with a base URL pointing to the production assets. The application JS is unchanged; the harness adds narrowly scoped qaSuite/qaCreate bridge actions. Synthetic Create clicks are deferred until after the bridge callback returns.
 - Through Fusion MCP, create a disposable anchor and retain it as `sys._gf_qa_anchor`. Set `sys._gf_qa_out` to the dated run folder (optional; default is runs/local).
 - Load `fusion-suites.py` using `exec(Path(...).read_text(encoding='utf-8-sig'), namespace)` and call `namespace['run_suite'](name)` once per MCP call. Names: cartridge, magazine, dovetail, fit, clasp, baseplate, bin. Existing assertions are reused; fresh output paths are redirected here. Keep the anchor open; no user documents are required.
-- Open the catalog using its registered command. Assign its palette.htmlFileURL to catalog-harness.html; wait for load, then sendInfoToHTML('qaSuite','{}'). Read catalog._last_response in a later MCP call; save the `qa.results` array. Expect 32 cases. Record model counts before/after to prove preview isolation.
+- Open the catalog using its registered command. Assign its palette.htmlFileURL to catalog-harness.html; wait for load, then sendInfoToHTML('qaSuite','{}'). Read catalog._last_response in a later MCP call; save the `qa.results` array. Expect 40 cases. Record model counts before/after to prove preview isolation.
 - Equivalent baseplate harness action runs 15 cases. Read the add-in root module's _last_response.
 - To test creation, load fusion-create-e2e.py. Call request_ready(), then in a separate MCP call verify the qaPing acknowledgement and call prepare(family). The runner now refuses to dispatch without the expected harness version and matching page URL. Repeat the handshake before each case. In a separate call, finish(family) checks native result, feature health and the overlapping sentinel. For standard/blank/magazine/baseplate, execute registered UndoCommand, check_undo in a later call, execute RedoCommand, then check_redo in another call. Finally cleanup closes only QA documents. For clasp/cartridge/tests, finish then cleanup; these are explicitly separate-document workflows.
 - Restore both palette URLs to production HTML after testing. Stop/run the add-in through Scripts API, confirm one control per command, then close only QA documents and the anchor.
 
 ## Harness cautions
 Do not compare Fusion body enumeration order across Undo/Redo; compare identities/names and measurements. Deep-copy UI snapshots immediately because preview stats are mutable. Verify the rendered family matches the selected family when in 3D; a stale but valid mesh is not a pass. Do not call synthetic clicks synchronously from inside the JavaScript bridge handler.
-If the MCP transport starts returning empty output or `Stack overflow` in `_NsSanitizedWriter.__getattr__`, record diagnostics and restart Fusion before continuing. Do not mistake a transport failure for a passing or failing geometry test. The first run reached 378 nested writer wrappers; no transport guards were altered.
+If the MCP transport starts returning empty output or `Stack overflow` in `_NsSanitizedWriter.__getattr__`, record diagnostics and restart Fusion before continuing. Do not mistake a transport failure for a passing or failing geometry test. Do not modify transport guards.
 
 
-### Bridge investigation resolution (2026-10-04)
-The earlier reload finding was not established as an add-in defect. A traced production handler received inspect correctly; after removing instrumentation, normal inspect, hide/reopen, fresh stop/start, and acknowledged magazine/fit-test Create round trips passed. Browser receipts confirmed creating -> complete and re-enabled Create. No production event-handler change was needed.
-The old harness replaced HTML and assumed the next bridge action was ready, then inspected shared last-response/result fields without a page acknowledgement. That cannot distinguish delayed/stale QA state from an actual creation failure. v6 adds qaPing with page URL/version and qaReceipt with bounded status history; fusion-create-e2e.py enforces the handshake. Never infer readiness from a visible panel or elapsed time. If the response has not arrived, wait/poll in another MCP call; do not call prepare or count it as a product failure.
-Evidence: runs/2026-10-04/bridge-investigation/RESOLUTION.md. Real pointer gestures remain separate manual coverage.
+### Bridge readiness
+The harness must acknowledge `qaPing` with its page URL and version before creation. A visible panel or elapsed time does not establish readiness. Record missing responses as unverified coverage; do not infer a product failure or success. `qaReceipt` records bounded creation-status history. Real pointer gestures remain separate manual coverage.
 
 ## Main add-in / release checks
 
 Run `python scripts/build-release.py` to produce an installable ZIP, and `python .agents/qa/test-release.py` to verify isolated extraction, syntax, presets and local asset references. The same checks run in the release workflow. The main entry point is `GridfinityWorkshop.py`; disable the retired `GridfinityUIPreview` registration.
 
-Integration evidence: `runs/2026-10-05-integration/`. Keep screenshot/model presentation changes separate from Undo checks: even changing body visibility can add an undo entry. Rerun creation in a clean disposable document when needed.
+Keep screenshot/model presentation changes separate from Undo checks: even changing body visibility can add an undo entry. Rerun creation in a clean disposable document when needed.

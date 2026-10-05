@@ -1,6 +1,0 @@
-GF01 Bin verification - 6x6 2U - divided - M6.08x2.4 - Body 2.026 s
-GF02 Bin verification - 2x1 6U - magnets - round 8x4 channels - M6.08x2.4 - Body 0.816 s
-GF03 Bin verification - 2x1 6U - magnets - square 8x4 channels - M6.08x2.4 - Body 1.066 s
-GF04 Bin verification - 2x1 6U - magnets - rectangle 8x3 channels - M6.08x2.4 - Body 1.141 s
-GF05 Bin verification - 2x1 6U - solid - Body 0.446 s
-GF06 Bin verification - 2x1 6U - open - M6.08x2.4 - Body 0.881 s
