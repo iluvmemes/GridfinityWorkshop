@@ -2,7 +2,7 @@
 
 An Autodesk Fusion add-in for drawer-fit baseplates, everyday bins, clasp storage and matching cartridge magazines. Configure a layout with a live 3D preview, then create named Fusion bodies ready to inspect and export for printing.
 
-This is a continuation of [FusionGridfinityGenerator by Lev Mishin](https://github.com/Le0Michine/FusionGridfinityGenerator), with a new workshop interface and generation workflow. Grid-based parts use the standard **42 mm pitch and 7 mm height units**, with layouts up to **6 × 6 cells**.
+This is a continuation of [FusionGridfinityGenerator by Lev Mishin](https://github.com/Le0Michine/FusionGridfinityGenerator), with a new workshop interface and generation workflow. Grid-based parts use the standard **42 mm pitch and 7 mm height units**, with bins and individual printed plates up to **6 × 6 cells**; larger drawers are tiled automatically.
 
 ## A look at the workshop
 
@@ -90,3 +90,5 @@ Reusable Fusion E2E plans, runners and evidence are in [.agents/qa](.agents/qa/R
 - Three.js: bundled under its [MIT license](workshop/vendor/three-LICENSE.txt); [version and source](workshop/vendor/README.txt).
 
 Gridfinity Workshop continues under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0](LICENSE.md), retaining the original project's attribution and license.
+
+Baseplate drawer layouts accept dimensions up to 2500 mm per axis (or grids up to 60 cells per axis). Each printed piece remains limited to 6×6 cells and the selected print bed; padding is applied only at the outer drawer edges. Bin sizes remain limited to 6×6.

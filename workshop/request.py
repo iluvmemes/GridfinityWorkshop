@@ -30,19 +30,19 @@ def validate(data):
     clearance = 0
     if mode == 'fit':
         clearance = number(data, 'clearance', 0, 5)
-        width = number(data, 'width', 42, 253) - 2*clearance
-        depth_mm = number(data, 'depth', 42, 253) - 2*clearance
+        width = number(data, 'width', 42, 2500) - 2*clearance
+        depth_mm = number(data, 'depth', 42, 2500) - 2*clearance
         cols, rows = math.floor((width+0.5)/42), math.floor((depth_mm+0.5)/42)
     else:
-        cols, rows = number(data, 'columns', 1, 6, True), number(data, 'rows', 1, 6, True)
+        cols, rows = number(data, 'columns', 1, 60, True), number(data, 'rows', 1, 60, True)
         width, depth_mm = cols*42-0.5, rows*42-0.5
-    if not (1 <= cols <= 6 and 1 <= rows <= 6):
-        raise ValueError('The available space must fit between 1 and 6 full cells per axis.')
+    if not (1 <= cols <= 60 and 1 <= rows <= 60):
+        raise ValueError('The available space must fit between 1 and 60 full cells per axis.')
     extra_x, extra_y = width-(cols*42-.5), depth_mm-(rows*42-.5)
     left, back = extra_x*(anchor%3)/2, extra_y*(anchor//3)/2
     def chunk_size(count, leading, trailing, bed):
         # Padding belongs only to the outer pieces; the last cell is 0.5 mm shorter.
-        for stride in range(count, 0, -1):
+        for stride in range(min(count, 6), 0, -1):
             spans = [min(stride, count-start)*42
                      + (leading if start == 0 else 0)
                      + (trailing-.5 if start+stride >= count else 0)

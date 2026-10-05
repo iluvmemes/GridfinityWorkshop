@@ -15,7 +15,7 @@ window.addEventListener('load',()=>{
  await step('pieces',()=>click('[data-view="pieces"]'));
  await step('2d',()=>click('#gw-view-mode'));
  await step('3d',()=>click('#gw-view-mode'));
- await step('invalid-grid',()=>set('columns',7),true);
+ await step('invalid-grid',()=>set('columns',61),true);
  await step('recover-grid',()=>set('columns',6));
  await step('invalid-bed',()=>set('bed-width',20),true);
  await step('recover-bed',()=>set('bed-width',220));

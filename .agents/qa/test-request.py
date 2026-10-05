@@ -11,7 +11,7 @@ DEFAULT = dict(mode='grid',style='skeleton',columns=6,rows=6,anchor=4,
 
 class RequestTests(unittest.TestCase):
     def test_invalid_inputs(self):
-        for change in ({'columns':7},{'columns':1.5},{'columns':True},
+        for change in ({'columns':61},{'columns':1.5},{'columns':True},
                        {'magnetDiameter':float('nan')},{'bedWidth':float('inf')},
                        {'magnets':'yes'},{'anchor':9},{'magnetDiameter':7}):
             with self.subTest(change=change), self.assertRaises(ValueError):
@@ -60,6 +60,18 @@ class RequestTests(unittest.TestCase):
             result=request.validate(c)
             self.assertEqual((result['magnetDiameter'],result['magnetDepth']),(6.08,2.4))
             with self.assertRaises(ValueError):request.validate(dict(c,magnets=True))
+
+    def test_husky_drawer(self):
+        # H72MWC15DL long drawer: 48.9 x 21.1 inches, per Home Depot.
+        for bed,count in [(220,24),(256,18),(350,10)]:
+            c=request.validate(dict(DEFAULT,mode='fit',width=1242.06,depth=535.94,clearance=.5,bedWidth=bed,bedDepth=bed))
+            self.assertEqual((c['columns'],c['rows']),(29,12))
+            self.assertEqual(len(c['pieces']),count)
+            self.assertEqual(sum(p['columns']*p['rows'] for p in c['pieces']),348)
+            self.assertAlmostEqual(sum((p['x1']-p['x0'])*(p['y1']-p['y0']) for p in c['pieces']),1241.06*534.94)
+            for p in c['pieces']:
+                self.assertLessEqual(p['columns'],6);self.assertLessEqual(p['rows'],6)
+                self.assertLessEqual(p['x1']-p['x0'],bed);self.assertLessEqual(p['y1']-p['y0'],bed)
 
 if __name__=='__main__':
     unittest.main()

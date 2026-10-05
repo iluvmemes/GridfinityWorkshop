@@ -1,6 +1,6 @@
 # Gridfinity Workshop end-to-end QA
 
-Scope: main Fusion add-in at GridfinityWorkshop.py, with runtime in workshop/; all six bin families and baseplates. Maximum grid size 6x6. Use Fusion MCP and its documented API, not desktop automation. Never modify user documents. Create named disposable QA designs and close only those designs without saving.
+Scope: main Fusion add-in at GridfinityWorkshop.py, with runtime in workshop/; all six bin families and baseplates. Bins and printed plates are limited to 6x6; baseplate layouts support up to 60x60 cells. Use Fusion MCP and its documented API, not desktop automation. Never modify user documents. Create named disposable QA designs and close only those designs without saving.
 
 ## Repeatable sequence
 1. Record git revision/dirty state, Fusion version, open documents and command state. Reload add-in via Scripts API; inspect Create menu controls/icons for duplicates. Launch both palette commands with a blank QA design.

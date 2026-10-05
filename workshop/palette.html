@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="palette.css">
 <script src="cell-profiles.js" defer></script>
 <script src="preview-drawing.js" defer></script>
-<script src="vendor/three-runtime.js" defer></script><script src="workshop-three.js?v=23" defer></script><script src="palette.js?v=23" defer></script>
+<script src="vendor/three-runtime.js" defer></script><script src="workshop-three.js?v=23" defer></script><script src="palette.js?v=26" defer></script>
 </head>
 <body>
 <div id="gf-workshop" aria-label="Gridfinity Workshop baseplate interface">
@@ -15,9 +15,9 @@
   <div class="gw-workspace">
     <aside class="gw-panel">
       <section><h3>Size your baseplate</h3><div class="gw-segment" aria-label="Sizing method"><button data-mode="fit" aria-pressed="true">Fit a space</button><button data-mode="grid" aria-pressed="false">Grid size</button></div>
-      <div id="gw-fit" class="gw-fields"><label>Drawer width <span>mm</span><input id="gw-width" type="number" min="42" max="253" step="0.1" value="230"></label><label>Drawer depth <span>mm</span><input id="gw-depth" type="number" min="42" max="253" step="0.1" value="190"></label><label class="gw-full">Wall clearance <span>mm per side</span><input id="gw-clearance" type="number" min="0" max="5" step="0.1" value="0.5"></label></div>
-      <div id="gw-grid" class="gw-fields" hidden><label>Columns<input id="gw-columns" type="number" min="1" max="6" value="5"></label><label>Rows<input id="gw-rows" type="number" min="1" max="6" value="4"></label></div>
-      <div class="gw-result" id="gw-grid-summary" aria-live="polite"></div><p class="gw-small">Standard 42 mm grid · up to 6 × 6 maximum</p><div id="gw-error" class="gw-error" role="alert" hidden></div></section>
+      <div id="gw-fit" class="gw-fields"><label>Drawer width <span>mm</span><input id="gw-width" type="number" min="42" max="2500" step="0.01" value="230"></label><label>Drawer depth <span>mm</span><input id="gw-depth" type="number" min="42" max="2500" step="0.01" value="190"></label><label class="gw-full">Wall clearance <span>mm per side</span><input id="gw-clearance" type="number" min="0" max="5" step="0.1" value="0.5"></label></div>
+      <div id="gw-grid" class="gw-fields" hidden><label>Columns<input id="gw-columns" type="number" min="1" max="60" value="5"></label><label>Rows<input id="gw-rows" type="number" min="1" max="60" value="4"></label></div>
+      <div class="gw-result" id="gw-grid-summary" aria-live="polite"></div><p class="gw-small">Standard 42 mm grid · large drawer layouts · each printed plate up to 6 × 6</p><div id="gw-error" class="gw-error" role="alert" hidden></div></section>
       <section id="gw-padding-section"><div class="gw-heading"><h3>Padding & alignment</h3><span id="gw-anchor-name">Centered</span></div>
         <div class="gw-padding"><div class="gw-pad-back">Back <strong id="gw-back"></strong></div><div class="gw-pad-left">Left<strong id="gw-left"></strong></div><div class="gw-anchor" aria-label="Grid alignment"></div><div class="gw-pad-right">Right<strong id="gw-right"></strong></div><div class="gw-pad-front">Front <strong id="gw-front"></strong></div></div>
       </section>
