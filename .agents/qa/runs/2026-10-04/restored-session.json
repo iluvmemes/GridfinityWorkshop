@@ -1,0 +1,15 @@
+{
+  "documents": [],
+  "commands": [
+    "GridfinityWorkshop_UIPreview_Show",
+    "GridfinityWorkshop_CreateCachedBaseplate",
+    "GridfinityWorkshop_BinCatalog_Show",
+    "GridfinityWorkshop_BinCatalog_Create"
+  ],
+  "palettes": [
+    {
+      "id": "GridfinityWorkshop_UIPreview_Palette",
+      "url": "file:///D:/Code%20Projects/GridfinityWorkshop/experiments/fusion-ui/GridfinityUIPreview/palette.html"
+    }
+  ]
+}

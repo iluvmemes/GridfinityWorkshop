@@ -1,0 +1,218 @@
+[
+  {
+    "case": "3x3 reference",
+    "result": {
+      "component": "GF01 Grid3x3 - 3x3 - Skeleton M6.5x2.4",
+      "plate": "GF01 Grid3x3 - 3x3 - Skeleton M6.5x2.4",
+      "pieces": 1,
+      "seconds": 0.5010438999161124,
+      "layoutId": "GF01",
+      "pieceNames": [
+        "GF01 Grid3x3 - P01of01 R1C1 - 3x3 - 125.5x125.5mm - Skeleton M6.5x2.4"
+      ],
+      "paddingParameters": {
+        "left": "gf_407f3417_padding_left",
+        "right": "gf_407f3417_padding_right",
+        "back": "gf_407f3417_padding_back",
+        "front": "gf_407f3417_padding_front"
+      },
+      "featureCount": 5,
+      "dimensionsMM": [
+        125.5,
+        125.5,
+        7.9
+      ],
+      "magnetDiameterMM": 6.5
+    },
+    "volumeMM3": 32150.75358875184,
+    "health": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "fullyConstrained": true,
+    "difference": {
+      "extraMM3": 0.0,
+      "missingMM3": 0.0
+    },
+    "paddingEditHealthy": true,
+    "protectedBodyDifference": {
+      "extraMM3": 0.0,
+      "missingMM3": 0.0
+    }
+  },
+  {
+    "case": "6x6 split reference",
+    "result": {
+      "component": "GF02 Grid6x6 - 6x6 - Skeleton M6.5x2.4",
+      "plate": "GF02 Grid6x6 - 6x6 - Skeleton M6.5x2.4",
+      "pieces": 4,
+      "seconds": 1.6607670998200774,
+      "layoutId": "GF02",
+      "pieceNames": [
+        "GF02 Grid6x6 - P01of04 R1C1 - 5x5 - 210x210mm - Skeleton M6.5x2.4",
+        "GF02 Grid6x6 - P02of04 R1C2 - 1x5 - 41.5x210mm - Skeleton M6.5x2.4",
+        "GF02 Grid6x6 - P03of04 R2C1 - 5x1 - 210x41.5mm - Skeleton M6.5x2.4",
+        "GF02 Grid6x6 - P04of04 R2C2 - 1x1 - 41.5x41.5mm - Skeleton M6.5x2.4"
+      ],
+      "paddingParameters": {
+        "left": "gf_6e6242ad_padding_left",
+        "right": "gf_6e6242ad_padding_right",
+        "back": "gf_6e6242ad_padding_back",
+        "front": "gf_6e6242ad_padding_front"
+      },
+      "featureCount": 8,
+      "dimensionsMM": [
+        251.5,
+        251.5,
+        7.9
+      ],
+      "magnetDiameterMM": 6.5
+    },
+    "volumeMM3": 130996.42345868454,
+    "health": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "fullyConstrained": true,
+    "difference": {
+      "extraMM3": 0.0,
+      "missingMM3": 0.0
+    },
+    "paddingEditHealthy": true,
+    "protectedBodyDifference": {
+      "extraMM3": 0.0,
+      "missingMM3": 0.0
+    }
+  },
+  {
+    "case": "drawer press-fit solid screws",
+    "result": {
+      "component": "GF03 Drawer230x190mm - 5x4 - Solid M6.08x2.4 Screws",
+      "plate": "GF03 Drawer230x190mm - 5x4 - Solid M6.08x2.4 Screws",
+      "pieces": 2,
+      "seconds": 0.8833278000820428,
+      "layoutId": "GF03",
+      "pieceNames": [
+        "GF03 Drawer230x190mm - P01of02 R1C1 - 4x4 - 177.75x189mm - Solid M6.08x2.4 Screws",
+        "GF03 Drawer230x190mm - P02of02 R1C2 - 1x4 - 51.25x189mm - Solid M6.08x2.4 Screws"
+      ],
+      "paddingParameters": {
+        "left": "gf_2dd237b5_padding_left",
+        "right": "gf_2dd237b5_padding_right",
+        "back": "gf_2dd237b5_padding_back",
+        "front": "gf_2dd237b5_padding_front"
+      },
+      "featureCount": 6,
+      "dimensionsMM": [
+        229.0,
+        189.0,
+        7.9
+      ],
+      "magnetDiameterMM": 6.08
+    },
+    "volumeMM3": 201872.15048959304,
+    "health": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "fullyConstrained": true,
+    "paddingEditHealthy": true,
+    "protectedBodyDifference": {
+      "extraMM3": 0.0,
+      "missingMM3": 0.0
+    }
+  },
+  {
+    "case": "2x3 solid no hardware",
+    "result": {
+      "component": "GF04 Grid2x3 - 2x3 - Solid",
+      "plate": "GF04 Grid2x3 - 2x3 - Solid",
+      "pieces": 1,
+      "seconds": 0.5866727000102401,
+      "layoutId": "GF04",
+      "pieceNames": [
+        "GF04 Grid2x3 - P01of01 R1C1 - 2x3 - 83.5x125.5mm - Solid"
+      ],
+      "paddingParameters": {
+        "left": "gf_eb96e3ac_padding_left",
+        "right": "gf_eb96e3ac_padding_right",
+        "back": "gf_eb96e3ac_padding_back",
+        "front": "gf_eb96e3ac_padding_front"
+      },
+      "featureCount": 5,
+      "dimensionsMM": [
+        83.5,
+        125.5,
+        7.9
+      ],
+      "magnetDiameterMM": null
+    },
+    "volumeMM3": 42982.24799839422,
+    "health": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "fullyConstrained": true,
+    "paddingEditHealthy": true,
+    "protectedBodyDifference": {
+      "extraMM3": 0.0,
+      "missingMM3": 0.0
+    }
+  },
+  {
+    "case": "1x1 skeleton no hardware",
+    "result": {
+      "component": "GF05 Grid1x1 - 1x1 - Skeleton",
+      "plate": "GF05 Grid1x1 - 1x1 - Skeleton",
+      "pieces": 1,
+      "seconds": 0.5692827000748366,
+      "layoutId": "GF05",
+      "pieceNames": [
+        "GF05 Grid1x1 - P01of01 R1C1 - 1x1 - 41.5x41.5mm - Skeleton"
+      ],
+      "paddingParameters": {
+        "left": "gf_ba4ec3b3_padding_left",
+        "right": "gf_ba4ec3b3_padding_right",
+        "back": "gf_ba4ec3b3_padding_back",
+        "front": "gf_ba4ec3b3_padding_front"
+      },
+      "featureCount": 5,
+      "dimensionsMM": [
+        41.5,
+        41.5,
+        7.9
+      ],
+      "magnetDiameterMM": null
+    },
+    "volumeMM3": 3573.705196438366,
+    "health": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "fullyConstrained": true,
+    "paddingEditHealthy": true,
+    "protectedBodyDifference": {
+      "extraMM3": 0.0,
+      "missingMM3": 0.0
+    }
+  }
+]

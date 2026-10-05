@@ -22,6 +22,7 @@ def validate(data):
         if type(c.get('testPosts')) is not bool:raise ValueError('Height posts must be on or off.')
         source=c.get('testSource','clasp')
         c['envelopeHeight']=c['height']*7+(3.7 if source=='clasp' else 3.8 if c.get('rim',False) else 0)
+        if source=='standard' and c.get('dovetailLid',False):c['envelopeHeight']+=5.6
         c['samples']=[dict(label=f"{c['cols']*42-.5:g}x{c['rows']*42-.5:g}",w=c['cols']*42-.5,d=c['rows']*42-.5,h=c['envelopeHeight'] if c['testPosts'] else 3)]
     else:
         count=number(c,'testCount',1,7,True);step=number(c,'testStep',.01,10)

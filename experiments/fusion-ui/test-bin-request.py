@@ -11,6 +11,28 @@ DEFAULT=dict(family='clasp',title='Test',cols=2,rows=1,height=6,interior='open',
              channelWidth=6,channelDepth=10,channelColumns=9,channelRows=5)
 
 class BinRequests(unittest.TestCase):
+    def test_fixed_dovetail_height(self):
+        for rim in (False,True):
+            c=validate({**DEFAULT,'family':'standard','dovetailLid':True,'rim':rim})
+            self.assertAlmostEqual(c['overallMM'],42+5.6+(3.8 if rim else 0))
+        self.assertFalse(validate({**DEFAULT,'dovetailLid':True})['dovetailLid'])
+        self.assertFalse(validate(DEFAULT)['dovetailLid'])
+        with self.assertRaises(ValueError):validate({**DEFAULT,'dovetailLid':'yes'})
+    def test_cartridge_dimensions_and_limits(self):
+        base={**DEFAULT,'family':'cartridge','cartLength':68,'cartWidth':17.5,'height':4}
+        c=validate(base)
+        self.assertAlmostEqual(c['widthMM'],80.2)
+        self.assertAlmostEqual(c['overallMM'],31.7)
+        self.assertEqual(c['magnet'],'off')
+        self.assertFalse(c['rim'])
+        self.assertAlmostEqual(c['cavities'][0]['w'],64)
+        for changes in [dict(height=3),dict(cartLength=29.9),dict(cartLength=221),dict(cartWidth=11.9),dict(cartWidth=81)]:
+            with self.subTest(changes=changes),self.assertRaises(ValueError):validate({**base,**changes})
+        c=validate({**base,'interior':'magnets','channelColumns':8,'channelRows':1})
+        self.assertEqual(len(c['cavities']),8)
+        with self.assertRaises(ValueError):validate({**base,'interior':'magnets','channelColumns':8,'channelRows':2})
+        with self.assertRaises(ValueError):validate({**base,'interior':'magnets','channelColumns':8,'channelRows':1,'channelGapX':3})
+
     def test_clasp_boundaries(self):
         for values in ({'cols':1},{'cols':7},{'height':5},{'height':21},{'rows':1.5},
                        {'buckle':-.1},{'pin':float('nan')},{'grip':1},{'family':'cartridge'}):

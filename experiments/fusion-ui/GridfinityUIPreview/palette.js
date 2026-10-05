@@ -6,7 +6,7 @@ window.addEventListener('error', event => {
     adsk.fusionSendData('uiError', JSON.stringify({message:event.message}));
   }
 });
-(()=>{const root=document.getElementById('gf-workshop'),q=s=>root.querySelector(s),all=s=>[...root.querySelectorAll(s)];const state={mode:'fit',style:'skeleton',view:'assembled',anchor:4,selected:0};const names=['Back left','Back center','Back right','Middle left','Centered','Middle right','Front left','Front center','Front right'];const arrows=['↖','↑','↗','←','•','→','↙','↓','↘'];q('.gw-anchor').innerHTML=names.map((n,i)=>`<button aria-label="${n}" data-anchor="${i}" aria-pressed="${i===4}">${arrows[i]}</button>`).join('');const num=id=>Number(q('#gw-'+id).value),fmt=n=>Number(n.toFixed(2)).toString();let last; let creating=false;
+(()=>{const root=document.getElementById('gf-workshop'),q=s=>root.querySelector(s),all=s=>[...root.querySelectorAll(s)];const state={mode:'fit',style:'skeleton',view:'assembled',anchor:4,selected:0};const names=['Back left','Back center','Back right','Middle left','Centered','Middle right','Front left','Front center','Front right'];const arrows=['↖','↑','↗','←','•','→','↙','↓','↘'];q('.gw-anchor').innerHTML=names.map((n,i)=>`<button aria-label="${n}" data-anchor="${i}" aria-pressed="${i===4}">${arrows[i]}</button>`).join('');const num=id=>Number(q('#gw-'+id).value),fmt=n=>Number(n.toFixed(2)).toString();let last; let creating=false; let useThree=true; let previewThree=null;
 function validNumber(el) {
   const value = Number(el.value);
   const min = Number(el.getAttribute('min'));
@@ -20,6 +20,8 @@ function calculate(){if(state.style==='skeleton'&&q('#gw-magnets').checked&&num(
 function render(){q('#gw-press-fit').checked=Math.abs(num('magnet-diameter')-6.08)<0.000001;q('#gw-press-fit').disabled=!q('#gw-magnets').checked;q('#gw-fit').hidden=state.mode!=='fit';q('#gw-grid').hidden=state.mode!=='grid';q('#gw-padding-section').hidden=state.mode!=='fit';for(const key of ['mode','style','view','anchor'])all('[data-'+key+']').forEach(b=>b.setAttribute('aria-pressed',String(String(state[key])===b.dataset[key])));q('#gw-anchor-name').textContent=names[state.anchor];const data=calculate();q('#gw-error').hidden=!data.error;q('#gw-create').disabled=creating||!!data.error;if(data.error){q('#gw-error').textContent=data.error;q('#gw-title').textContent='Last valid preview';return;}last=data;const{w,d,pw,pd,nx,ny,left,back,right,front,pieces}=data;state.selected=Math.max(0,Math.min(state.selected,pieces.length-1));q('#gw-grid-summary').textContent=`${nx} × ${ny} grid · ${nx*ny} usable cells`;['left','right','front','back'].forEach(k=>q('#gw-'+k).textContent=fmt(data[k])+' mm');q('#gw-title').textContent=state.mode==='fit'?'Drawer baseplate':'Grid baseplate';q('#gw-dimensions').textContent=`${fmt(pw)} × ${fmt(pd)} mm finished plate`;q('#gw-piece-count').textContent=pieces.length===1?'One printable plate':`${pieces.length} printable pieces`;const p=pieces[state.selected];q('#gw-piece-detail').textContent=`Piece ${state.selected+1} · ${p.cols} × ${p.rows} cells · ${fmt(p.x1-p.x0)} × ${fmt(p.y1-p.y0)} mm`;q('#gw-piece-buttons').innerHTML=pieces.map((p,i)=>`<button data-piece="${i}" aria-pressed="${i===state.selected}">Piece ${i+1}</button>`).join('');draw();}
 function draw() {
   if (!last) return;
+  q('#gw-three').hidden=!useThree;q('#gw-drawing').hidden=useThree;q('#gw-fit-view').hidden=!useThree;q('#gw-three-status').hidden=!useThree;
+  if(useThree){if(!previewThree)previewThree=new WorkshopThree.Preview(q('#gw-three'),q('#gw-three-status'));previewThree.update({family:'baseplate',layout:last,options:{style:state.style,exploded:state.view==='pieces',magnets:q('#gw-magnets').checked,screws:q('#gw-screws').checked,magnetDiameter:num('magnet-diameter'),magnetDepth:num('magnet-depth'),selected:state.selected}});}
   drawGridfinityPreview(q('#gw-drawing'), last, {
     style: state.style, exploded: state.view === 'pieces', fit: state.mode === 'fit',
     magnets:q('#gw-magnets').checked, screws:q('#gw-screws').checked,
@@ -30,6 +32,8 @@ function draw() {
 root.addEventListener('click', e => {
   const b = e.target && typeof e.target.closest === 'function' ? e.target.closest('button') : null;
   if (!b || b.disabled) return;
+  if(b.id==='gw-view-mode'){useThree=!useThree;b.textContent=useThree?'2D layout':'3D preview';draw();return;}
+  if(b.id==='gw-fit-view'){previewThree?.fit();return;}
   if (b.id === 'gw-create') {
     const current = calculate();
     if (current.error) { render(); return; }
@@ -81,9 +85,11 @@ function send(action, data) {
     console.error(error);
   });
 }
+window.addEventListener('pagehide',()=>previewThree?.dispose());
 function report() {
   const svg = q('#gw-drawing svg');
   return {
+    threePreview:previewThree?.stats||null,
     previewOnly: !creating,
     creationStatus: q('#gw-create-status').textContent,
     creationRequest: creationRequest(),
@@ -147,6 +153,7 @@ function restore(v) {
 window.fusionJavaScriptHandler = {
   handle: function(action, data) {
     try {
+      if(action==='capture3D')return JSON.stringify({report:report(),image:previewThree?.capture()});
       if (action === 'creationStatus') {
         const status=JSON.parse(data);
         creating=status.phase==='creating';
@@ -191,6 +198,7 @@ if (typeof window.ResizeObserver === 'function') {
   window.addEventListener('resize', onResize);
 }
 
+window.addEventListener('pagehide',()=>previewThree?.dispose());
 function ready() { send('ready',report()); }
 if (document.readyState === 'complete') ready();
 else window.addEventListener('load',ready,{once:true});

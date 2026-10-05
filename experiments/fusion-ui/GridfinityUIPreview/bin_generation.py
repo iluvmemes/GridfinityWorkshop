@@ -67,9 +67,9 @@ def join(component,target,tools,name):
     return f.bodies.item(0)
 
 
-def generate(data):
+def generate(data,group_timeline=True):
     c=validate(data);app=adsk.core.Application.get();design=adsk.fusion.Design.cast(app.activeProduct)
-    if c['family']=='clasp':raise ValueError('Clasp generation must use its new-design template workflow.')
+    if c['family'] in ('clasp','cartridge'):raise ValueError('Closure generation must use its new-design template workflow.')
     if not design or design.designType!=adsk.fusion.DesignTypes.ParametricDesignType:raise ValueError('Open a parametric Design document.')
     if design.timeline.markerPosition!=design.timeline.count:raise ValueError('Move the timeline to the end first.')
     # Validate all assets before touching the document.
@@ -81,6 +81,7 @@ def generate(data):
     name=f"{uid} {title} - {c['cols']}x{c['rows']} {c['height']}U - {c['interior']}"
     if c['interior']=='magnets':name+=f" - {c['channelShape']} {c['channelColumns']}x{c['channelRows']} channels"
     if c['magnet']!='off':name+=f" - M{c['diameter']:g}x{c['magnetDepth']:g}"
+    if c['dovetailLid']:name+=' - dovetail lid'
     comp=design.rootComponent
     if design.designIntent!=adsk.fusion.DesignIntentTypes.PartDesignIntentType:
         comp=comp.occurrences.addNewComponent(adsk.core.Matrix3D.create()).component;comp.name=name
@@ -104,7 +105,11 @@ def generate(data):
                 curve=s.sketchCurves.sketchCircles.addByCenterRadius(P((q['x']+q['w']/2)/10,(q['y']+q['d']/2)/10,0),q['w']/20);curve.isFixed=True
             else:rectangle(s,q['x'],q['y'],q['w'],q['d'],q['r'])
         extrude(comp,s,parameter+' - 7 mm',uid+' - Cut interior in this bin',OP.CutFeatureOperation,body)
-    if rim:
+    lid=None
+    if c['dovetailLid']:
+        from . import dovetail_generation
+        body,lid=dovetail_generation.add(design,comp,body,c,parameter,name)
+    elif rim:
         base=insert(comp,[rim],uid+' - Cached standard stacking rim')
         ri=comp.features.moveFeatures.createInput2(collection(list(base.bodies)))
         ri.defineAsTranslateXYZ(V(0),V(0),E(parameter),False)
@@ -117,10 +122,15 @@ def generate(data):
     if issues:raise RuntimeError('; '.join(issues))
     body.attributes.add('GridfinityWorkshop','binRecipe',json.dumps(c))
     body.attributes.add('GridfinityWorkshop','heightParameter',parameter)
-    design.timeline.timelineGroups.add(start,design.timeline.count-1).name=name
+    if lid:
+        lid.attributes.add('GridfinityWorkshop','binRecipe',json.dumps(c))
+        lid.attributes.add('GridfinityWorkshop','heightParameter',parameter)
+    if group_timeline:design.timeline.timelineGroups.add(start,design.timeline.count-1).name=name
     return dict(name=body.name,seconds=time.perf_counter()-started,heightParameter=parameter,
                 overallHeightMM=c['overallMM'],features=comp.features.count-feature_start,
-                bodyToken=body.entityToken,interior=c['interior'],channels=len(c['cavities']) if c['interior']=='magnets' else 0)
+                bodyToken=body.entityToken,lidToken=lid.entityToken if lid else None,
+                parts=[body.name]+([lid.name] if lid else []),
+                interior=c['interior'],channels=len(c['cavities']) if c['interior']=='magnets' else 0)
 
 
 def foot_with_hardware(c):

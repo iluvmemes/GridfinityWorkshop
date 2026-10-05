@@ -1,0 +1,60 @@
+{
+  "python": "all add-in modules compiled",
+  "javascript": [
+    {
+      "file": "experiments\\fusion-ui\\GridfinityUIPreview\\catalog.js",
+      "exitCode": 0,
+      "error": ""
+    },
+    {
+      "file": "experiments\\fusion-ui\\GridfinityUIPreview\\cell-profiles.js",
+      "exitCode": 0,
+      "error": ""
+    },
+    {
+      "file": "experiments\\fusion-ui\\GridfinityUIPreview\\channel-layout.js",
+      "exitCode": 0,
+      "error": ""
+    },
+    {
+      "file": "experiments\\fusion-ui\\GridfinityUIPreview\\fit-tests.js",
+      "exitCode": 0,
+      "error": ""
+    },
+    {
+      "file": "experiments\\fusion-ui\\GridfinityUIPreview\\palette.js",
+      "exitCode": 0,
+      "error": ""
+    },
+    {
+      "file": "experiments\\fusion-ui\\GridfinityUIPreview\\preview-drawing.js",
+      "exitCode": 0,
+      "error": ""
+    },
+    {
+      "file": "experiments\\fusion-ui\\GridfinityUIPreview\\three-demo.js",
+      "exitCode": 0,
+      "error": ""
+    },
+    {
+      "file": "experiments\\fusion-ui\\GridfinityUIPreview\\workshop-three.js",
+      "exitCode": 0,
+      "error": ""
+    },
+    {
+      "file": ".agents\\qa\\baseplate-harness.js",
+      "exitCode": 0,
+      "error": ""
+    },
+    {
+      "file": ".agents\\qa\\catalog-harness.js",
+      "exitCode": 0,
+      "error": ""
+    },
+    {
+      "file": ".agents\\qa\\test-preview-state.js",
+      "exitCode": 0,
+      "error": ""
+    }
+  ]
+}

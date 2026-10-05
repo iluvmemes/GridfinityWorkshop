@@ -1,0 +1,56 @@
+{
+  "family": "blank",
+  "result": {
+    "name": "GF01 QA blank - 2x1 6U - solid - M6.08x2.4 - Body",
+    "seconds": 0.24786809994839132,
+    "heightParameter": "GF01_bin_height",
+    "overallHeightMM": 45.8,
+    "features": 6,
+    "parts": [
+      "GF01 QA blank - 2x1 6U - solid - M6.08x2.4 - Body"
+    ],
+    "interior": "solid",
+    "channels": 0
+  },
+  "before": {
+    "document": "QA E2E blank",
+    "bodies": [
+      "QA existing solid"
+    ],
+    "timeline": 3,
+    "groups": [],
+    "unhealthy": [],
+    "sketches": [
+      {
+        "name": "QA sentinel sketch",
+        "constrained": true
+      }
+    ]
+  },
+  "after": {
+    "document": "QA E2E blank",
+    "bodies": [
+      "GF01 QA blank - 2x1 6U - solid - M6.08x2.4 - Body",
+      "QA existing solid"
+    ],
+    "timeline": 4,
+    "groups": [
+      "GF01 QA blank - 2x1 6U - solid - M6.08x2.4"
+    ],
+    "unhealthy": [],
+    "sketches": [
+      {
+        "name": "GF01 QA blank - 2x1 6U - solid - M6.08x2.4 - Envelope",
+        "constrained": false
+      },
+      {
+        "name": "QA sentinel sketch",
+        "constrained": true
+      }
+    ]
+  },
+  "sentinelPreserved": true,
+  "route": "synthetic DOM click -> HTML event -> production request -> native command/import",
+  "singleUndoVerified": true,
+  "redoVerified": true
+}

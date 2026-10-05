@@ -3,6 +3,7 @@ const {fitDefaults,upgradeFit,pinBores,testPlan}=require('./GridfinityUIPreview/
 assert.deepEqual(pinBores(upgradeFit({pin:2})),[2,2,2.2,2.2]);
 assert.deepEqual(pinBores({...fitDefaults}),[2,2,2,2]);
 assert.equal(testPlan({...fitDefaults,testStart:NaN}).valid,false);
+assert.equal(testPlan({...fitDefaults,testType:'envelope',testSource:'standard',cols:2,rows:1,height:6,testPosts:true,rim:true,dovetailLid:true}).samples[0].h,51.4);
 assert.equal(testPlan({...fitDefaults,testStart:.8,testStep:.1}).valid,false);
 let c={...fitDefaults,testType:'spacing',testStart:1,testStep:1,testCount:3,channelColumns:3,channelRows:3,
  channelShape:'round',storedDiameter:6,storedClearance:.5,channelWidth:6,channelDepth:10};

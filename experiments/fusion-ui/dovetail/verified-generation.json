@@ -1,0 +1,146 @@
+[
+  {
+    "name": "GF01 Dovetail verification - 1x1 2U - open - M6.08x2.4 - dovetail lid - Body",
+    "seconds": 0.7051323000341654,
+    "heightParameter": "GF01_bin_height",
+    "overallHeightMM": 19.6,
+    "features": 13,
+    "parts": [
+      "GF01 Dovetail verification - 1x1 2U - open - M6.08x2.4 - dovetail lid - Body",
+      "GF01 Dovetail verification - 1x1 2U - open - M6.08x2.4 - dovetail lid - Dovetail lid"
+    ],
+    "interior": "open",
+    "channels": 0,
+    "slidingOverlapMM3": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "rearStopVerified": true,
+    "liftRetentionVerified": true,
+    "fixedPlateMM": 3,
+    "existingBodyUnchanged": true
+  },
+  {
+    "name": "GF01 Dovetail verification - 1x1 2U - open - M6.08x2.4 - dovetail lid - Body",
+    "seconds": 0.7411334000062197,
+    "heightParameter": "GF01_bin_height",
+    "overallHeightMM": 23.4,
+    "features": 16,
+    "parts": [
+      "GF01 Dovetail verification - 1x1 2U - open - M6.08x2.4 - dovetail lid - Body",
+      "GF01 Dovetail verification - 1x1 2U - open - M6.08x2.4 - dovetail lid - Dovetail lid with stacking lip"
+    ],
+    "interior": "open",
+    "channels": 0,
+    "slidingOverlapMM3": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "rearStopVerified": true,
+    "liftRetentionVerified": true,
+    "fixedPlateMM": 3,
+    "existingBodyUnchanged": true
+  },
+  {
+    "name": "GF01 Dovetail verification - 6x6 20U - divided - M6.08x2.4 - dovetail lid - Body",
+    "seconds": 2.684622600208968,
+    "heightParameter": "GF01_bin_height",
+    "overallHeightMM": 149.4,
+    "features": 16,
+    "parts": [
+      "GF01 Dovetail verification - 6x6 20U - divided - M6.08x2.4 - dovetail lid - Body",
+      "GF01 Dovetail verification - 6x6 20U - divided - M6.08x2.4 - dovetail lid - Dovetail lid with stacking lip"
+    ],
+    "interior": "divided",
+    "channels": 0,
+    "slidingOverlapMM3": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "rearStopVerified": true,
+    "liftRetentionVerified": true,
+    "fixedPlateMM": 3,
+    "existingBodyUnchanged": true
+  },
+  {
+    "name": "GF01 Dovetail verification - 1x6 2U - magnets - round 3x2 channels - M6.08x2.4 - dovetail lid - Body",
+    "seconds": 1.0120940001215786,
+    "heightParameter": "GF01_bin_height",
+    "overallHeightMM": 23.4,
+    "features": 16,
+    "parts": [
+      "GF01 Dovetail verification - 1x6 2U - magnets - round 3x2 channels - M6.08x2.4 - dovetail lid - Body",
+      "GF01 Dovetail verification - 1x6 2U - magnets - round 3x2 channels - M6.08x2.4 - dovetail lid - Dovetail lid with stacking lip"
+    ],
+    "interior": "magnets",
+    "channels": 6,
+    "slidingOverlapMM3": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "rearStopVerified": true,
+    "liftRetentionVerified": true,
+    "fixedPlateMM": 3,
+    "existingBodyUnchanged": true
+  },
+  {
+    "name": "GF01 Dovetail verification - 6x1 2U - magnets - rectangle 3x2 channels - M6.08x2.4 - dovetail lid - Body",
+    "seconds": 0.810349800158292,
+    "heightParameter": "GF01_bin_height",
+    "overallHeightMM": 19.6,
+    "features": 13,
+    "parts": [
+      "GF01 Dovetail verification - 6x1 2U - magnets - rectangle 3x2 channels - M6.08x2.4 - dovetail lid - Body",
+      "GF01 Dovetail verification - 6x1 2U - magnets - rectangle 3x2 channels - M6.08x2.4 - dovetail lid - Dovetail lid"
+    ],
+    "interior": "magnets",
+    "channels": 6,
+    "slidingOverlapMM3": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "rearStopVerified": true,
+    "liftRetentionVerified": true,
+    "fixedPlateMM": 3,
+    "existingBodyUnchanged": true
+  },
+  {
+    "name": "GF01 Dovetail verification - 2x2 2U - magnets - square 3x2 channels - dovetail lid - Body",
+    "seconds": 0.8510666999500245,
+    "heightParameter": "GF01_bin_height",
+    "overallHeightMM": 23.4,
+    "features": 16,
+    "parts": [
+      "GF01 Dovetail verification - 2x2 2U - magnets - square 3x2 channels - dovetail lid - Body",
+      "GF01 Dovetail verification - 2x2 2U - magnets - square 3x2 channels - dovetail lid - Dovetail lid with stacking lip"
+    ],
+    "interior": "magnets",
+    "channels": 6,
+    "slidingOverlapMM3": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "rearStopVerified": true,
+    "liftRetentionVerified": true,
+    "fixedPlateMM": 3,
+    "existingBodyUnchanged": true
+  }
+]

@@ -1,0 +1,101 @@
+[
+  {
+    "test": "test-bin-request.py",
+    "command": [
+      "C:\\Python313\\python.exe",
+      "D:\\Code Projects\\GridfinityWorkshop\\experiments\\fusion-ui\\test-bin-request.py"
+    ],
+    "exitCode": 0,
+    "seconds": 0.1504385001026094,
+    "stdout": "",
+    "stderr": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.001s\n\nOK\n"
+  },
+  {
+    "test": "test-channel-layout.js",
+    "command": [
+      "node",
+      "D:\\Code Projects\\GridfinityWorkshop\\experiments\\fusion-ui\\test-channel-layout.js"
+    ],
+    "exitCode": 0,
+    "seconds": 0.44262310001067817,
+    "stdout": "Round, square, rectangle, centering, exact-fit and overflow checks passed.\n",
+    "stderr": ""
+  },
+  {
+    "test": "test-fit-test-request.py",
+    "command": [
+      "C:\\Python313\\python.exe",
+      "D:\\Code Projects\\GridfinityWorkshop\\experiments\\fusion-ui\\test-fit-test-request.py"
+    ],
+    "exitCode": 0,
+    "seconds": 0.43311340012587607,
+    "stdout": "",
+    "stderr": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n"
+  },
+  {
+    "test": "test-fit-tests.js",
+    "command": [
+      "node",
+      "D:\\Code Projects\\GridfinityWorkshop\\experiments\\fusion-ui\\test-fit-tests.js"
+    ],
+    "exitCode": 0,
+    "seconds": 0.426402100129053,
+    "stdout": "Fit migration, bounded layouts, selection transfer and measured profile persistence passed.\n",
+    "stderr": ""
+  },
+  {
+    "test": "test-magazine-request.py",
+    "command": [
+      "C:\\Python313\\python.exe",
+      "D:\\Code Projects\\GridfinityWorkshop\\experiments\\fusion-ui\\test-magazine-request.py"
+    ],
+    "exitCode": 0,
+    "seconds": 0.15855429996736348,
+    "stdout": "",
+    "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.001s\n\nOK\n"
+  },
+  {
+    "test": "test-request.py",
+    "command": [
+      "C:\\Python313\\python.exe",
+      "D:\\Code Projects\\GridfinityWorkshop\\experiments\\fusion-ui\\test-request.py"
+    ],
+    "exitCode": 0,
+    "seconds": 0.14598340005613863,
+    "stdout": "",
+    "stderr": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n"
+  },
+  {
+    "test": "test-three-demo.js",
+    "command": [
+      "node",
+      "D:\\Code Projects\\GridfinityWorkshop\\experiments\\fusion-ui\\test-three-demo.js"
+    ],
+    "exitCode": 0,
+    "seconds": 0.7387563001830131,
+    "stdout": "Three.js geometry bounds, fixed floor, scoop limits, finite normals, invalid input, and replacement disposal passed. GPU validation remains separate.\n",
+    "stderr": ""
+  },
+  {
+    "test": "test-workshop-three.js",
+    "command": [
+      "node",
+      "D:\\Code Projects\\GridfinityWorkshop\\experiments\\fusion-ui\\test-workshop-three.js"
+    ],
+    "exitCode": 0,
+    "seconds": 2.4217702001333237,
+    "stdout": "45 shared preview geometry cases passed; invalid inputs and open cavity checked. GPU validation is separate.\n",
+    "stderr": ""
+  },
+  {
+    "test": "test-preview-state.js",
+    "command": [
+      "node",
+      "D:\\Code Projects\\GridfinityWorkshop\\.agents\\qa\\test-preview-state.js"
+    ],
+    "exitCode": 0,
+    "seconds": 0.5402519998606294,
+    "stdout": "Cached-state recovery and replaced geometry disposal passed.\n",
+    "stderr": ""
+  }
+]

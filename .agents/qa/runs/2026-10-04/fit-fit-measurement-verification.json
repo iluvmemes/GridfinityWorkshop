@@ -1,0 +1,293 @@
+{
+  "existingDesignsPreserved": true,
+  "cases": [
+    {
+      "name": "Fit verification - 2x1 6U - magnets - round 6x3 channels",
+      "parts": [
+        "Fit verification - 2x1 6U - magnets - round 6x3 channels - Buckle",
+        "Fit verification - 2x1 6U - magnets - round 6x3 channels - Body",
+        "Fit verification - 2x1 6U - magnets - round 6x3 channels - Lid"
+      ],
+      "seconds": 4.00990720000118,
+      "overallHeightMM": 45.7,
+      "newDocument": true,
+      "parameters": [
+        "CellsL",
+        "CellsW",
+        "HeightUnits",
+        "BuckleExtra",
+        "PinDiameter",
+        "PinAllowance",
+        "GripThickness"
+      ],
+      "channels": 18,
+      "independentBoresMeasured": true,
+      "channelCentersMeasured": true,
+      "spacingParameterEditVerified": true
+    },
+    {
+      "name": "Fit test verification - pin test",
+      "seconds": 1.5560897001996636,
+      "newDocument": true,
+      "samples": [
+        {
+          "value": 0.15,
+          "bore": 1.9,
+          "w": 14,
+          "d": 10,
+          "h": 8,
+          "label": "1.90",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "value": 0.2,
+          "bore": 1.95,
+          "w": 14,
+          "d": 10,
+          "h": 8,
+          "label": "1.95",
+          "x": 22,
+          "y": 0
+        },
+        {
+          "value": 0.25,
+          "bore": 2.0,
+          "w": 14,
+          "d": 10,
+          "h": 8,
+          "label": "2.00",
+          "x": 44,
+          "y": 0
+        }
+      ],
+      "parts": [
+        "Fit test 1 - pin 1.90 mm",
+        "Fit test 2 - pin 1.95 mm",
+        "Fit test 3 - pin 2.00 mm"
+      ],
+      "geometryMeasured": true
+    },
+    {
+      "name": "Fit test verification - magnet test",
+      "seconds": 1.5858220998197794,
+      "newDocument": true,
+      "samples": [
+        {
+          "value": 5.98,
+          "bore": 5.98,
+          "w": 14,
+          "d": 19,
+          "h": 4.4,
+          "label": "5.98",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "value": 6.03,
+          "bore": 6.03,
+          "w": 14,
+          "d": 19,
+          "h": 4.4,
+          "label": "6.03",
+          "x": 22,
+          "y": 0
+        },
+        {
+          "value": 6.08,
+          "bore": 6.08,
+          "w": 14,
+          "d": 19,
+          "h": 4.4,
+          "label": "6.08",
+          "x": 44,
+          "y": 0
+        }
+      ],
+      "parts": [
+        "Fit test 1 - magnet 5.98 mm",
+        "Fit test 2 - magnet 6.03 mm",
+        "Fit test 3 - magnet 6.08 mm"
+      ],
+      "geometryMeasured": true
+    },
+    {
+      "name": "Fit test verification - spacing test",
+      "seconds": 1.4345159998629242,
+      "newDocument": true,
+      "samples": [
+        {
+          "value": 1.0,
+          "gapX": 1.0,
+          "gapY": 1.0,
+          "w": 25.5,
+          "d": 31.5,
+          "h": 30.0,
+          "label": "1x1",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "value": 2.0,
+          "gapX": 2.0,
+          "gapY": 2.0,
+          "w": 27.5,
+          "d": 33.5,
+          "h": 30.0,
+          "label": "2x2",
+          "x": 33.5,
+          "y": 0
+        },
+        {
+          "value": 3.0,
+          "gapX": 3.0,
+          "gapY": 3.0,
+          "w": 29.5,
+          "d": 35.5,
+          "h": 30.0,
+          "label": "3x3",
+          "x": 69.0,
+          "y": 0
+        }
+      ],
+      "parts": [
+        "Fit test 1 - spacing 1x1 mm",
+        "Fit test 2 - spacing 2x2 mm",
+        "Fit test 3 - spacing 3x3 mm"
+      ],
+      "geometryMeasured": true
+    },
+    {
+      "name": "Fit test verification - spacing test",
+      "seconds": 1.4660282998811454,
+      "newDocument": true,
+      "samples": [
+        {
+          "value": 1.0,
+          "gapX": 1.0,
+          "gapY": 1.0,
+          "w": 25.5,
+          "d": 31.5,
+          "h": 30.0,
+          "label": "1x1",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "value": 2.0,
+          "gapX": 2.0,
+          "gapY": 2.0,
+          "w": 27.5,
+          "d": 33.5,
+          "h": 30.0,
+          "label": "2x2",
+          "x": 33.5,
+          "y": 0
+        },
+        {
+          "value": 3.0,
+          "gapX": 3.0,
+          "gapY": 3.0,
+          "w": 29.5,
+          "d": 35.5,
+          "h": 30.0,
+          "label": "3x3",
+          "x": 69.0,
+          "y": 0
+        }
+      ],
+      "parts": [
+        "Fit test 1 - spacing 1x1 mm",
+        "Fit test 2 - spacing 2x2 mm",
+        "Fit test 3 - spacing 3x3 mm"
+      ],
+      "geometryMeasured": true
+    },
+    {
+      "name": "Fit test verification - spacing test",
+      "seconds": 1.473430500132963,
+      "newDocument": true,
+      "samples": [
+        {
+          "value": 1.0,
+          "gapX": 1.0,
+          "gapY": 1.0,
+          "w": 25.5,
+          "d": 43.5,
+          "h": 30.0,
+          "label": "1x1",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "value": 2.0,
+          "gapX": 2.0,
+          "gapY": 2.0,
+          "w": 27.5,
+          "d": 45.5,
+          "h": 30.0,
+          "label": "2x2",
+          "x": 33.5,
+          "y": 0
+        },
+        {
+          "value": 3.0,
+          "gapX": 3.0,
+          "gapY": 3.0,
+          "w": 29.5,
+          "d": 47.5,
+          "h": 30.0,
+          "label": "3x3",
+          "x": 69.0,
+          "y": 0
+        }
+      ],
+      "parts": [
+        "Fit test 1 - spacing 1x1 mm",
+        "Fit test 2 - spacing 2x2 mm",
+        "Fit test 3 - spacing 3x3 mm"
+      ],
+      "geometryMeasured": true
+    },
+    {
+      "name": "Fit test verification - envelope test",
+      "seconds": 1.323092699982226,
+      "newDocument": true,
+      "samples": [
+        {
+          "label": "83.5x41.5",
+          "w": 83.5,
+          "d": 41.5,
+          "h": 45.7,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "parts": [
+        "Fit test 1 - envelope 83.5x41.5 mm"
+      ],
+      "geometryMeasured": true
+    },
+    {
+      "name": "Fit test verification - closure test",
+      "seconds": 4.261039200006053,
+      "newDocument": true,
+      "samples": [
+        {
+          "label": "Working closure",
+          "w": 83.5,
+          "d": 41.5,
+          "h": 28.7,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "parts": [
+        "Closure test - Fit test verification - 2x1 6U - open - Buckle",
+        "Closure test - Fit test verification - 2x1 6U - open - Lid",
+        "Closure test - Fit test verification - 2x1 6U - open - Body"
+      ],
+      "geometryMeasured": true
+    }
+  ]
+}

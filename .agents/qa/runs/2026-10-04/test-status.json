@@ -1,0 +1,67 @@
+[
+  {
+    "id": "START-01/02/03",
+    "status": "PASS",
+    "evidence": "Clean session, reload succeeded, four definitions and two Create controls, catalog launched."
+  },
+  {
+    "id": "UNIT-01/02/03",
+    "status": "PASS",
+    "evidence": "Nine suites; unit-results.json and syntax-results.json"
+  },
+  {
+    "id": "UI-01/02/03/04/05/06",
+    "status": "PASS",
+    "evidence": "32 catalog cases; catalog-ui-retest.json; preview-only counts remained 1 document, 0 bodies, 0 timeline entries."
+  },
+  {
+    "id": "UI-07",
+    "status": "NOT VERIFIED",
+    "evidence": "Mouse orbit/zoom and narrow native panel usability were not verified."
+  },
+  {
+    "id": "CAD-01/02/03/04/05/06/07",
+    "status": "PASS",
+    "evidence": "48 deep cases across seven suites"
+  },
+  {
+    "id": "CREATE-02/03/04/05",
+    "status": "PASS",
+    "evidence": "Create-button results saved per family."
+  },
+  {
+    "id": "SAFE-01",
+    "status": "PASS",
+    "evidence": "Deep geometry and tested Create paths preserved overlapping sentinel bodies."
+  },
+  {
+    "id": "SAFE-02",
+    "status": "PASS",
+    "evidence": "Standard, blank, baseplate and magazine single Undo/Redo passed; magazine used production native request rather than HTML click."
+  },
+  {
+    "id": "CREATE-01/06/07",
+    "status": "PASS",
+    "evidence": "Baseplate HTML Create passed; magazine and fit tests subsequently passed acknowledged HTML Create with browser completion receipts. See bridge-investigation/."
+  },
+  {
+    "id": "END-01/02",
+    "status": "PASS",
+    "evidence": "Fresh production reload/inspect and acknowledged Create passed; no duplicate controls, normal URLs restored and QA documents closed."
+  },
+  {
+    "id": "UI-BASEPLATE",
+    "status": "PASS",
+    "evidence": "15 native palette UI cases; baseplate-ui.json"
+  },
+  {
+    "id": "SAFE-03",
+    "status": "PASS",
+    "evidence": "Four invalid requests rejected without model changes or pending jobs; negative-requests.json"
+  },
+  {
+    "id": "QA-003",
+    "status": "CLOSED - UNCONFIRMED PRODUCT FINDING",
+    "evidence": "Harness readiness enforced; fresh lifecycle and HTML creation round trips passed. bridge-investigation/RESOLUTION.md"
+  }
+]

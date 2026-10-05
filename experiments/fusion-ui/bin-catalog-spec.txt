@@ -155,7 +155,7 @@ Grip dimension is thickness (2..4 mm), not reach. Pin range 1.8..2.5 mm.
 Storage: open, divided, round/square/rectangle channels; no side windows yet.
 Creation-time names identify recipe and role. Parameter edits do not update names.
 Native CAD checks passed; physical latch and press-fit checks remain print tests.
-Cartridge and magazine remain previews and are the next mechanical iterations.
+Cartridge generation is implemented below; magazine remains a preview.
 
 Fit controls and sixth family implemented (2026-10-03)
 ChannelGapX/Y are edge-to-edge separations, default 1 mm, range 1..30. Linked by
@@ -172,3 +172,46 @@ base-pocket printing orientation. Spacing tests use realistic stack depth and a
 2..5 by 2..5 array to include neighboring stacks. Keep the entire set within 6x6.
 Provide source-recipe copy, selected-result transfer and local printer/material fit
 profiles. Applying results changes future recipes, never existing user geometry.
+
+
+Cartridge generation implemented (2026-10-03)
+Overrides the initial provisional 8U minimum: native geometry passes at 4U,
+31.7 mm closed. Body Length 30..220 mm, Width 12..80 mm, HeightUnits 4..20.
+Closure envelope: Length + 12.2 mm by Width by HeightUnits*7 + 3.7 mm.
+Native template contains only Body, Lid, Buckle. Generation creates a new design
+and never cuts an existing user body. Pull-tab profile matches the clasp with
+2..4 mm grip thickness and 0..0.6 mm extra total buckle play. Shared/per-part
+pin allowances drive the four actual bore sketches; no hidden fit offsets.
+Open, divided and round/square/rectangle channel interiors are supported.
+Flat 2 mm floor; no feet/base retention holes. Channel spacing and pin profiles
+use the existing controls. Measured envelope metadata identifies template
+revision 1 for future magazine work, and records creation-time dimensions.
+Eight native CAD cases passed, including minimum and maximum sizes, all interiors,
+actual bores, floors, disjoint parts and native parameter edits. Physical latch
+engagement and magazine insertion/removal remain separate print validations.
+
+
+Magazine implemented (2026-10-03; supersedes earlier preview notes)
+Grid size 1..6 per axis; 1..48 requested seats; shared cartridge length/width and
+height; 0/90 degree orientation; 0.1..0.8 mm clearance per side. Capacity rejection
+matches centered UI placement. 2x1 holds two default cartridges at 0.3 mm clearance.
+Native floor at Z=7 mm, low indexing stops to Z=9 mm, closed-envelope clearance
+above the stops and openings at the closure ends. Guides retain at least 10 mm
+of exposed cartridge body. Loaded height = 7 + cartridgeHeight*7 + 3.7 mm.
+Cached standard feet and all base magnet fit modes, including 6.08 mm press fit.
+One target-scoped magazine body in a native undo transaction, six grouped features.
+Seven native cases passed actual-cartridge overlap, existing-body preservation,
+measured dimensions, stops, floor and hardware checks. Physical fit remains a
+print validation; this iteration does not force a keyed cartridge orientation.
+
+
+Standard dovetail lid implemented (2026-10-04)
+Standard family adds an optional sliding lid with fixed 3 mm plate thickness.
+A 2 mm 45-degree dovetail below the plate engages side rails; 0.3 mm horizontal
+clearance per side. Front withdrawal (-Y), rear stop seats the closed lid flush.
+Optional standard stacking lip sits above the plate on the lid itself. No latch.
+Two named bodies in the standard native command transaction, target-scoped cuts.
+Height remains parametric; closed height nominal + 5.6 mm, or + 9.4 mm with lip.
+Footprint, interior, magnets and lip are selected at creation. Stacking-lip lid
+printing requires support under plate overhangs. Six native geometry cases passed;
+physical sliding fit and large-lid stiffness await printed validation.

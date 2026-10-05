@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="palette.css">
 <script src="cell-profiles.js" defer></script>
 <script src="preview-drawing.js" defer></script>
-<script src="palette.js" defer></script>
+<script src="vendor/three-runtime.js" defer></script><script src="workshop-three.js?v=23" defer></script><script src="palette.js?v=23" defer></script>
 </head>
 <body>
 <div id="gf-workshop" aria-label="Gridfinity Workshop interface concept">
@@ -26,9 +26,9 @@
       <details><summary>Hardware dimensions</summary><div class="gw-fields"><label>Magnet hole diameter <span>mm</span><input id="gw-magnet-diameter" type="number" min="3" max="8" step="0.01" value="6.5"></label><label>Pocket depth <span>mm</span><input id="gw-magnet-depth" type="number" min="1" max="3" step="0.1" value="2.4"></label></div></details></section>
       <section><div class="gw-heading"><h3>Print layout</h3><label class="gw-switch"><input id="gw-splits" type="checkbox" checked> Show splits</label></div><div class="gw-fields"><label>Bed width <span>mm</span><input id="gw-bed-width" type="number" min="60" max="350" value="220"></label><label>Bed depth <span>mm</span><input id="gw-bed-depth" type="number" min="60" max="350" value="220"></label></div></section>
     </aside>
-    <main class="gw-view"><div class="gw-viewbar"><div class="gw-segment" aria-label="Preview view"><button data-view="assembled" aria-pressed="true">Assembled</button><button data-view="pieces" aria-pressed="false">Print pieces</button></div><span class="gw-small">Top view</span></div>
+    <main class="gw-view"><div class="gw-viewbar"><div class="gw-segment" aria-label="Preview view"><button data-view="assembled" aria-pressed="true">Assembled</button><button data-view="pieces" aria-pressed="false">Print pieces</button></div><button id="gw-view-mode">2D layout</button></div>
       <div class="gw-caption"><h2 id="gw-title">Drawer baseplate</h2><span id="gw-dimensions"></span></div>
-      <div id="gw-drawing" class="gw-drawing"></div>
+      <div id="gw-three" style="height:390px;touch-action:none;overflow:hidden;border-radius:10px"></div><div style="display:flex;gap:12px;align-items:center"><button id="gw-fit-view">Fit view</button><span id="gw-three-status" class="gw-small"></span></div><div id="gw-drawing" class="gw-drawing" hidden></div>
       <div class="gw-legend"><span><i class="gw-legend-material"></i>Solid material</span><span><i class="gw-legend-opening"></i>Through opening</span><span><i class="gw-legend-pad"></i>Padding</span><span><i class="gw-legend-edge"></i>Drawer wall</span><span><i class="gw-legend-seam"></i>Print seam</span></div>
       <div class="gw-piece-summary" aria-live="polite"><strong id="gw-piece-count"></strong><span id="gw-piece-detail"></span></div><div id="gw-piece-buttons" class="gw-piece-buttons" aria-label="Select printable piece"></div>
       <div class="gw-preview-note">Change dimensions or alignment to explore the fit.</div>

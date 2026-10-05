@@ -2,8 +2,9 @@
 import json
 from pathlib import Path
 import adsk.core
-from . import bin_generation,clasp_generation,fit_test_generation
+from . import bin_generation,clasp_generation,cartridge_generation,magazine_generation,fit_test_generation
 from .bin_request import validate
+from .magazine_request import validate as validate_magazine
 from .fit_test_request import validate as validate_test
 
 COMMAND_ID = 'GridfinityWorkshop_BinCatalog_Show'
@@ -26,6 +27,14 @@ class HTMLHandler(adsk.core.HTMLEventHandler):
             elif args.action == 'createBin':
                 request_creation(json.loads(args.data))
                 args.returnData = json.dumps({'ok': True, 'queued': True})
+            elif args.action == 'threePreview':
+                from . import three_preview
+                three_preview.show()
+                args.returnData=json.dumps({'ok':True})
+            elif args.action == 'scoopPreview':
+                from . import scoop_preview
+                result=scoop_preview.show(json.loads(args.data).get('mode','solid'))
+                args.returnData=json.dumps({'ok':True,'preview':result})
             else:
                 args.returnData = json.dumps({'ok': False, 'error': 'Unsupported catalog action.'})
         except Exception as error:
@@ -48,7 +57,7 @@ def start():
     if ui.commandDefinitions.itemById(COMMAND_ID):
         return
     command = ui.commandDefinitions.addButtonDefinition(COMMAND_ID, 'Gridfinity Bins',
-        'Explore standard bins, clasp bins, cartridges, magazines and custom blanks. Create standard bins, clasp designs and custom blanks; explore cartridges and magazines, or print fit tests.',
+        'Explore standard bins, clasp bins, cartridges, magazines and custom blanks. Create standard bins, clasp designs, cartridges, magazines and custom blanks, or print fit tests.',
         str(Path(__file__).parent/'catalog-resources'))
     handler = CreatedHandler()
     command.commandCreated.add(handler)
@@ -67,7 +76,7 @@ def show():
     palette = ui.palettes.itemById(PALETTE_ID)
     if not palette:
         palette = ui.palettes.add(PALETTE_ID, 'Gridfinity Workshop — Bin catalog',
-            (Path(__file__).parent/'catalog.html').resolve().as_uri() + '?v=11', False, True, True, 1000, 780, True)
+            (Path(__file__).parent/'catalog.html').resolve().as_uri() + '?v=23', False, True, True, 1000, 780, True)
         palette.setMinimumSize(390, 540)
         palette.dockingOption = adsk.core.PaletteDockingOptions.PaletteDockOptionsToVerticalOnly
         palette.dockingState = adsk.core.PaletteDockingStates.PaletteDockStateRight
@@ -78,6 +87,8 @@ def show():
     return palette
 
 def stop():
+    from . import three_preview
+    three_preview.stop()
     global _pending
     _pending=None
     ui = adsk.core.Application.get().userInterface
@@ -106,16 +117,16 @@ def status(phase,message,result=None):
 def request_creation(data):
     global _pending,_last_creation
     if _pending is not None:raise ValueError('A bin is already being created.')
-    settings=validate_test(data) if isinstance(data,dict) and data.get('family')=='tests' else validate(data)
+    settings=validate_test(data) if isinstance(data,dict) and data.get('family')=='tests' else validate_magazine(data) if isinstance(data,dict) and data.get('family')=='magazine' else validate(data)
     app=adsk.core.Application.get()
     if app.userInterface.activeCommand!='SelectCommand':raise ValueError('Finish the active Fusion command first.')
     if not app.activeDocument:raise ValueError('Open a Fusion design first.')
     _pending=dict(settings=settings,document=app.activeDocument)
     status('creating','Creating geometry...')
-    if settings['family'] in ('clasp','tests'):
+    if settings['family'] in ('clasp','cartridge','tests'):
         # HTMLEvent is outside Command events: archive import can open its own design.
         try:
-            _last_creation=(clasp_generation if settings['family']=='clasp' else fit_test_generation).generate(settings)
+            _last_creation={'clasp':clasp_generation,'cartridge':cartridge_generation,'tests':fit_test_generation}[settings['family']].generate(settings)
             status('complete',f"Created new design in {_last_creation['seconds']:.2f} s",_last_creation)
         finally:_pending=None
         return
@@ -131,7 +142,7 @@ class GenerateExecute(adsk.core.CommandEventHandler):
             if not _pending:raise ValueError('Choose a bin in the catalog first.')
             app=adsk.core.Application.get()
             if app.activeDocument!=_pending['document']:raise ValueError('The active design changed; try Create again.')
-            _last_creation=bin_generation.generate(_pending['settings'])
+            _last_creation=(magazine_generation if _pending['settings']['family']=='magazine' else bin_generation).generate(_pending['settings'])
             status('complete',f"Created bin in {_last_creation['seconds']:.2f} s",_last_creation)
             app.activeViewport.fit()
         except Exception as error:

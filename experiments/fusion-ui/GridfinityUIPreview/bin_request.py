@@ -5,15 +5,24 @@ from .fit_settings import channels,pins
 
 
 def validate(data):
-    if not isinstance(data,dict) or data.get('family') not in ('standard','blank','clasp'):
-        raise ValueError('Choose Standard bin, Clasp bin or Custom blank. Cartridge and magazine are previews.')
+    if not isinstance(data,dict) or data.get('family') not in ('standard','blank','clasp','cartridge'):
+        raise ValueError('Choose Standard bin, Clasp bin, Cartridge or Custom blank. Magazine is a preview.')
     c=dict(data)
+    c.setdefault('dovetailLid',False)
+    if type(c['dovetailLid']) is not bool:raise ValueError('Dovetail lid must be on or off.')
+    if c['family']!='standard':c['dovetailLid']=False
     clasp=c['family']=='clasp'
-    for key,lo,hi in [('cols',2 if clasp else 1,6),('rows',1,6),('height',6 if clasp else 2,20)]:
+    cartridge=c['family']=='cartridge'
+    closure=clasp or cartridge
+    if cartridge:
+        c['cartLength']=number(c,'cartLength',30,220)
+        c['cartWidth']=number(c,'cartWidth',12,80)
+        c.update(cols=1,rows=1,magnet='off',scoop=False,label=False)
+    for key,lo,hi in [('cols',2 if clasp else 1,6),('rows',1,6),('height',6 if clasp else 4 if cartridge else 2,20)]:
         c[key]=number(c,key,lo,hi,True)
     if c.get('interior') not in (('open','divided','magnets') if c['family']!='blank' else ('solid','open')):
         raise ValueError('Choose a supported interior.')
-    if clasp:
+    if closure:
         for key,lo,hi in [('buckle',0,.6),('grip',2,4)]:c[key]=number(c,key,lo,hi)
         pins(c)
         c['rim']=False
@@ -28,11 +37,13 @@ def validate(data):
         c['diameter']=number(c,'diameter',3,8)
         c['magnetDepth']=number(c,'magnetDepth',1,3)
     c['widthMM']=c['cols']*42-.5;c['depthMM']=c['rows']*42-.5
-    c['heightMM']=c['height']*7;c['overallMM']=c['heightMM']+(3.7 if clasp else 3.8 if c['rim'] else 0)
+    if cartridge:c['widthMM']=c['cartLength']+12.2;c['depthMM']=c['cartWidth']
+    c['heightMM']=c['height']*7;c['overallMM']=c['heightMM']+(3.7 if closure else 3.8 if c['rim'] else 0)
+    if c['dovetailLid']:c['overallMM']+=5.6
     c['title']=str(c.get('title','Bin'))[:48]
     c['cavities']=[]
     # A 2 mm native floor above the 5 mm feet. Walls match the preview estimate.
-    w,d=c['widthMM']-(12.2 if clasp else 0),c['depthMM']
+    w,d=c['widthMM']-(12.2 if closure else 0),c['depthMM']
     if c['interior'] in ('open','divided'):
         nx=number(c,'divX',1,8,True) if c['interior']=='divided' else 1
         ny=number(c,'divY',1,8,True) if c['interior']=='divided' else 1

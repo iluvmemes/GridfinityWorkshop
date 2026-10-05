@@ -1,0 +1,25 @@
+{
+  "productionInspectPassed": true,
+  "family": "clasp",
+  "commands": [
+    "GridfinityWorkshop_UIPreview_Show",
+    "GridfinityWorkshop_CreateCachedBaseplate",
+    "GridfinityWorkshop_BinCatalog_Show",
+    "GridfinityWorkshop_BinCatalog_Create"
+  ],
+  "createControls": [
+    "GridfinityWorkshop_UIPreview_Show",
+    "GridfinityWorkshop_BinCatalog_Show"
+  ],
+  "palettes": [
+    {
+      "id": "GridfinityWorkshop_BinCatalog_Palette",
+      "url": "file:///D:/Code%20Projects/GridfinityWorkshop/experiments/fusion-ui/GridfinityUIPreview/catalog.html?v=23"
+    },
+    {
+      "id": "GridfinityWorkshop_UIPreview_Palette",
+      "url": "file:///D:/Code%20Projects/GridfinityWorkshop/experiments/fusion-ui/GridfinityUIPreview/palette.html"
+    }
+  ],
+  "remainingDocuments": []
+}

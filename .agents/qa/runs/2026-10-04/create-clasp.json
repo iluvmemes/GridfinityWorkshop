@@ -1,0 +1,140 @@
+{
+  "family": "clasp",
+  "result": {
+    "name": "QA clasp - 2x1 6U - open - M6.08x2.4",
+    "parts": [
+      "QA clasp - 2x1 6U - open - M6.08x2.4 - Lid",
+      "QA clasp - 2x1 6U - open - M6.08x2.4 - Body",
+      "QA clasp - 2x1 6U - open - M6.08x2.4 - Buckle"
+    ],
+    "seconds": 5.5552765999455005,
+    "overallHeightMM": 45.7,
+    "newDocument": true,
+    "parameters": [
+      "CellsL",
+      "CellsW",
+      "HeightUnits",
+      "BuckleExtra",
+      "PinDiameter",
+      "PinAllowance",
+      "GripThickness"
+    ],
+    "channels": 0
+  },
+  "before": {
+    "document": "QA E2E clasp",
+    "bodies": [
+      "QA existing solid"
+    ],
+    "timeline": 3,
+    "groups": [],
+    "unhealthy": [],
+    "sketches": [
+      {
+        "name": "QA sentinel sketch",
+        "constrained": true
+      }
+    ]
+  },
+  "after": {
+    "document": "QA clasp - 2x1 6U - open - M6.08x2.4",
+    "bodies": [
+      "QA clasp - 2x1 6U - open - M6.08x2.4 - Lid",
+      "QA clasp - 2x1 6U - open - M6.08x2.4 - Body",
+      "QA clasp - 2x1 6U - open - M6.08x2.4 - Buckle"
+    ],
+    "timeline": 1,
+    "groups": [
+      "Clasp enclosure - native template and storage"
+    ],
+    "unhealthy": [],
+    "sketches": [
+      {
+        "name": "Lid outline",
+        "constrained": true
+      },
+      {
+        "name": "Skirt",
+        "constrained": true
+      },
+      {
+        "name": "Lid hinge cheeks",
+        "constrained": true
+      },
+      {
+        "name": "Lid hinge knuckle",
+        "constrained": true
+      },
+      {
+        "name": "Lid latch lug",
+        "constrained": true
+      },
+      {
+        "name": "Lid latch lip",
+        "constrained": true
+      },
+      {
+        "name": "Body outline",
+        "constrained": true
+      },
+      {
+        "name": "Foot top",
+        "constrained": true
+      },
+      {
+        "name": "Foot waist",
+        "constrained": true
+      },
+      {
+        "name": "Tongue",
+        "constrained": true
+      },
+      {
+        "name": "Hinge ear",
+        "constrained": true
+      },
+      {
+        "name": "Latch post",
+        "constrained": true
+      },
+      {
+        "name": "Catch bar",
+        "constrained": true
+      },
+      {
+        "name": "End block",
+        "constrained": true
+      },
+      {
+        "name": "Magnet channel",
+        "constrained": true
+      },
+      {
+        "name": "Window",
+        "constrained": true
+      },
+      {
+        "name": "Base magnet socket",
+        "constrained": true
+      },
+      {
+        "name": "End pocket",
+        "constrained": true
+      },
+      {
+        "name": "Clasp - Compartment seed",
+        "constrained": true
+      },
+      {
+        "name": "Buckle profile",
+        "constrained": true
+      },
+      {
+        "name": "Buckle pull tab",
+        "constrained": true
+      }
+    ]
+  },
+  "sentinelPreserved": true,
+  "route": "synthetic DOM click -> HTML event -> production request -> native command/import"
+}

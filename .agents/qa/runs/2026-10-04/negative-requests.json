@@ -1,0 +1,22 @@
+[
+  {
+    "case": "bin oversized",
+    "pass": true,
+    "message": "cols must be between 1 and 6 and a whole number."
+  },
+  {
+    "case": "invalid baseplate",
+    "pass": true,
+    "message": "Choose a sizing mode and plate style."
+  },
+  {
+    "case": "magazine overcapacity",
+    "pass": true,
+    "message": "Only 2 cartridge seats fit; enlarge the grid, rotate, or reduce quantity."
+  },
+  {
+    "case": "invalid pin bore",
+    "pass": true,
+    "message": "testStart must be between 0 and 1."
+  }
+]

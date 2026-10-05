@@ -4,3 +4,14 @@
 .card{padding:6px 5px 10px;gap:2px;overflow:hidden}.card img{display:block;width:100%;max-width:150px;height:94px;object-fit:contain}.card span{min-height:18px}@media(max-width:700px){.card img{height:57px}.card{padding:4px 2px 7px}.card span{line-height:1.2;min-height:24px}}
 
 @media(max-width:700px){nav{grid-template-columns:repeat(3,minmax(0,1fr))}.card img{height:42px}}
+
+.scoop-demo{border-color:#b9d5e5;background:#f8fcff}.scoop-demo .note{margin-top:10px}.card img{mix-blend-mode:multiply}
+
+/* Quiet color surrounds the native model outlines; selection remains explicit. */
+.card{border-color:#d5e1e9;background:linear-gradient(155deg,#fff,#f8fbfd);box-shadow:0 2px 5px #203c5310;transition:border-color .15s,box-shadow .15s,background .15s}
+.card img{mix-blend-mode:normal}
+.card:hover{border-color:#8fb7cd;box-shadow:0 3px 9px #203c5320}
+.card[aria-pressed=true]{background:linear-gradient(145deg,#f5fcff,#e1f0f8);border-color:#3185b2;box-shadow:inset 0 3px 0 #3185b2,0 3px 9px #203c5318}
+.card span{font-weight:600;color:#33566e}
+
+.three-canvas{height:360px;min-height:240px;position:relative;touch-action:none;border:1px solid #dbe6ed;border-radius:10px;overflow:hidden;margin-top:12px}.three-canvas canvas{display:block}#preview-3d-controls{align-items:center}#preview-3d-status{margin:8px 0 16px}

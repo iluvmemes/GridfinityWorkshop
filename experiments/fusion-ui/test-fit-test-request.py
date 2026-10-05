@@ -16,4 +16,6 @@ class FitTests(unittest.TestCase):
     def test_envelope_closed_height(self):
         c=validate(dict(BASE,testType='envelope',cols=6,rows=6,height=6,testPosts=True,testSource='clasp'))
         self.assertEqual(c['samples'][0]['w'],251.5);self.assertEqual(c['samples'][0]['h'],45.7)
+        c=validate(dict(BASE,testType='envelope',cols=2,rows=1,height=6,testPosts=True,testSource='standard',rim=True,dovetailLid=True))
+        self.assertAlmostEqual(c['samples'][0]['h'],51.4)
 if __name__=='__main__':unittest.main()

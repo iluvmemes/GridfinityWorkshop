@@ -1,0 +1,8 @@
+{
+  "fusionVersion": "2705.1.25",
+  "gitHead": "78ae6ab79e2ef64d5d73bf03a684ae76c5997430",
+  "initialDocuments": 0,
+  "workingTree": "dirty; includes prior user work",
+  "platform": "Windows",
+  "mechanism": "Fusion MCP + native HTML palettes + Python/Node"
+}

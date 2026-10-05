@@ -17,7 +17,7 @@ function testPlan(c){
  if(!['pin','closure','magnet','spacing','envelope'].includes(kind))fail('Choose a fit test.');
  if(['pin','closure'].includes(kind)&&c.testSource!=='clasp')fail('Pin and closure tests apply to the Clasp bin recipe.');
  if(kind==='closure')samples.push({label:'Working closure',w:83.5,d:41.5,h:28.7});
- else if(kind==='envelope')samples.push({label:`${c.cols*42-.5} x ${c.rows*42-.5}`,w:c.cols*42-.5,d:c.rows*42-.5,h:c.testPosts?c.height*7+(c.testSource==='clasp'?3.7:c.rim?3.8:0):3});
+ else if(kind==='envelope')samples.push({label:`${c.cols*42-.5} x ${c.rows*42-.5}`,w:c.cols*42-.5,d:c.rows*42-.5,h:c.testPosts?c.height*7+(c.testSource==='clasp'?3.7:(c.rim?3.8:0)+(c.testSource==='standard'&&c.dovetailLid?5.6:0)):3});
  else{
   if(!Number.isFinite(c.testStart))fail('Enter a finite starting value.');
   if(!Number.isInteger(c.testCount)||c.testCount<1||c.testCount>7||!Number.isFinite(c.testStep)||c.testStep<.01||c.testStep>10)fail('Use 1-7 samples and a step from 0.01 to 10 mm.');
@@ -48,7 +48,7 @@ function fitVisibility(c){
  const visible={'test-fields':tests,'test-range':tests&&!['closure','envelope'].includes(kind),'test-spacing':tests&&kind==='spacing','test-posts':tests&&kind==='envelope','test-selection':tests&&kind!=='envelope','pin-fields':closure||(tests&&kind==='pin'),'pin-overrides':c.pinOverrides,'height-fields':!tests||kind==='envelope','height-note':!tests||kind==='envelope'};
  for(const [id,show] of Object.entries(visible))$('#'+id).hidden=!show;
  document.querySelector('[data-view="parts"]').hidden=tests;
- if(tests)state.view='layout';
+ if(tests&&state.view==='parts')state.view='3d';
  $('#channelGapY').disabled=c.channelGapLinked;if(c.channelGapLinked)$('#channelGapY').value=c.channelGapX;
  $('#pin-summary').textContent=['Body','Lid hinge','Lid latch','Buckle'].map((name,i)=>`${name}: ${fmt(pinBores(c)[i])} mm`).join(' | ');
  $('#testPinTarget').parentElement.hidden=kind!=='pin';$('#testSelected').parentElement.hidden=kind==='closure';

@@ -120,19 +120,19 @@ def generate(data):
         raise
 
 
-def configure_pins(design,c):
+def configure_pins(design,c,model_ids=('d24','d80','d93','d121')):
     def add(name,expr,comment):
         p=design.userParameters.itemByName(name)
         if p:p.expression=expr
         else:design.userParameters.add(name,E(expr),'mm',comment)
     add('PinDiameter',f"{c['pinDiameter']} mm",'Physical pin diameter.')
     add('PinAllowance',f"{c['pinAllowance']} mm",'Added to the full diameter, not per side.')
-    for key,param,bore,model in [('bodyPinAllowance','BodyPinAllowance','BodyPinBore','d24'),
+    for index,(key,param,bore,model) in enumerate([('bodyPinAllowance','BodyPinAllowance','BodyPinBore','d24'),
         ('lidPinAllowance','LidPinAllowance','LidHingeBore','d80'),
         ('lidLatchAllowance','LidLatchAllowance','LidLatchBore','d93'),
-        ('bucklePinAllowance','BucklePinAllowance','BucklePinBore','d121')]:
+        ('bucklePinAllowance','BucklePinAllowance','BucklePinBore','d121')]):
         add(param,f"{c[key]} mm" if c['pinOverrides'] else 'PinAllowance','Per-part full-diameter allowance.')
         add(bore,'PinDiameter + '+param,'Resulting bore diameter; keep within 1.8..2.7 mm.')
-        design.allParameters.itemByName(model).expression=bore
+        design.allParameters.itemByName(model_ids[index]).expression=bore
     design.userParameters.itemByName('PinHole').expression='BodyPinBore'
     design.userParameters.itemByName('PinHole').comment='Legacy alias for BodyPinBore. Edit PinDiameter / PinAllowance.'

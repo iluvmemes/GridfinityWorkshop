@@ -1,0 +1,87 @@
+{
+  "family": "tests",
+  "result": {
+    "name": "QA tests - pin test",
+    "seconds": 1.4688538999762386,
+    "newDocument": true,
+    "samples": [
+      {
+        "value": 0.15,
+        "bore": 1.9,
+        "w": 14,
+        "d": 10,
+        "h": 8,
+        "label": "1.90",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "value": 0.2,
+        "bore": 1.95,
+        "w": 14,
+        "d": 10,
+        "h": 8,
+        "label": "1.95",
+        "x": 22,
+        "y": 0
+      },
+      {
+        "value": 0.25,
+        "bore": 2.0,
+        "w": 14,
+        "d": 10,
+        "h": 8,
+        "label": "2.00",
+        "x": 44,
+        "y": 0
+      }
+    ],
+    "parts": [
+      "Fit test 1 - pin 1.90 mm",
+      "Fit test 2 - pin 1.95 mm",
+      "Fit test 3 - pin 2.00 mm"
+    ]
+  },
+  "before": {
+    "document": "QA E2E tests",
+    "bodies": [
+      "QA existing solid"
+    ],
+    "timeline": 3,
+    "groups": [],
+    "unhealthy": [],
+    "sketches": [
+      {
+        "name": "QA sentinel sketch",
+        "constrained": true
+      }
+    ]
+  },
+  "after": {
+    "document": "QA tests - pin test",
+    "bodies": [
+      "Fit test 1 - pin 1.90 mm",
+      "Fit test 2 - pin 1.95 mm",
+      "Fit test 3 - pin 2.00 mm"
+    ],
+    "timeline": 12,
+    "groups": [],
+    "unhealthy": [],
+    "sketches": [
+      {
+        "name": "Sample marking - 1.90",
+        "constrained": false
+      },
+      {
+        "name": "Sample marking - 1.95",
+        "constrained": false
+      },
+      {
+        "name": "Sample marking - 2.00",
+        "constrained": false
+      }
+    ]
+  },
+  "sentinelPreserved": true,
+  "route": "synthetic DOM click -> HTML event -> production request -> native command/import"
+}
