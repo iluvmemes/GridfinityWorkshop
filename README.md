@@ -91,4 +91,4 @@ Reusable Fusion E2E plans, runners and evidence are in [.agents/qa](.agents/qa/R
 
 Gridfinity Workshop continues under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0](LICENSE.md), retaining the original project's attribution and license.
 
-Baseplate drawer layouts accept dimensions up to 2500 mm per axis (or grids up to 60 cells per axis). Each printed piece remains limited to 6×6 cells and the selected print bed; padding is applied only at the outer drawer edges. Bin sizes remain limited to 6×6.
+Baseplate drawer layouts accept dimensions up to 2500 mm per axis (or grids up to 60 cells per axis). Print layout has independent maximum plate width and height controls in cells, defaulting to 5×5 (adjustable from 1 to 6 per axis). Each printed piece respects both those limits and the selected print bed; padding is applied only at the outer drawer edges. Bin sizes remain limited to 6×6.

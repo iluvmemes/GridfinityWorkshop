@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="palette.css">
 <script src="cell-profiles.js" defer></script>
 <script src="preview-drawing.js" defer></script>
-<script src="vendor/three-runtime.js" defer></script><script src="workshop-three.js?v=23" defer></script><script src="palette.js?v=26" defer></script>
+<script src="vendor/three-runtime.js" defer></script><script src="workshop-three.js?v=23" defer></script><script src="palette.js?v=27" defer></script>
 </head>
 <body>
 <div id="gf-workshop" aria-label="Gridfinity Workshop baseplate interface">
@@ -24,7 +24,7 @@
       <section><h3>Plate & mounting</h3><div class="gw-segment" aria-label="Plate style"><button data-style="skeleton" aria-pressed="true">Skeletonized</button><button data-style="solid" aria-pressed="false">Solid</button></div><div class="gw-checks"><label><input id="gw-magnets" type="checkbox" checked> Magnet pockets</label><label><input id="gw-screws" type="checkbox"> Screw holes</label></div>
       <div class="gw-checks"><label><input id="gw-press-fit" type="checkbox"> Press fit — Ø6.08 mm</label></div>
       <details><summary>Hardware dimensions</summary><div class="gw-fields"><label>Magnet hole diameter <span>mm</span><input id="gw-magnet-diameter" type="number" min="3" max="8" step="0.01" value="6.5"></label><label>Pocket depth <span>mm</span><input id="gw-magnet-depth" type="number" min="1" max="3" step="0.1" value="2.4"></label></div></details></section>
-      <section><div class="gw-heading"><h3>Print layout</h3><label class="gw-switch"><input id="gw-splits" type="checkbox" checked> Show splits</label></div><div class="gw-fields"><label>Bed width <span>mm</span><input id="gw-bed-width" type="number" min="60" max="350" value="220"></label><label>Bed depth <span>mm</span><input id="gw-bed-depth" type="number" min="60" max="350" value="220"></label></div></section>
+      <section><div class="gw-heading"><h3>Print layout</h3><label class="gw-switch"><input id="gw-splits" type="checkbox" checked> Show splits</label></div><div class="gw-fields"><label>Max plate width <span>cells</span><input id="gw-max-columns" type="number" min="1" max="6" step="1" value="5"></label><label>Max plate height <span>cells, front to back</span><input id="gw-max-rows" type="number" min="1" max="6" step="1" value="5"></label><label>Bed width <span>mm</span><input id="gw-bed-width" type="number" min="60" max="350" value="220"></label><label>Bed depth <span>mm</span><input id="gw-bed-depth" type="number" min="60" max="350" value="220"></label></div></section>
     </aside>
     <main class="gw-view"><div class="gw-viewbar"><div class="gw-segment" aria-label="Preview view"><button data-view="assembled" aria-pressed="true">Assembled</button><button data-view="pieces" aria-pressed="false">Print pieces</button></div><button id="gw-view-mode">2D layout</button></div>
       <div class="gw-caption"><h2 id="gw-title">Drawer baseplate</h2><span id="gw-dimensions"></span></div>

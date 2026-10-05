@@ -7,7 +7,7 @@ request = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(request)
 DEFAULT = dict(mode='grid',style='skeleton',columns=6,rows=6,anchor=4,
                magnets=True,screws=False,magnetDiameter=6.08,magnetDepth=2.4,
-               bedWidth=220,bedDepth=220)
+               bedWidth=220,bedDepth=220,maxPlateColumns=6,maxPlateRows=6)
 
 class RequestTests(unittest.TestCase):
     def test_invalid_inputs(self):
@@ -72,6 +72,20 @@ class RequestTests(unittest.TestCase):
             for p in c['pieces']:
                 self.assertLessEqual(p['columns'],6);self.assertLessEqual(p['rows'],6)
                 self.assertLessEqual(p['x1']-p['x0'],bed);self.assertLessEqual(p['y1']-p['y0'],bed)
+
+    def test_plate_cell_limits(self):
+        base=dict(DEFAULT,columns=29,rows=12,bedWidth=350,bedDepth=350)
+        base.pop('maxPlateColumns');base.pop('maxPlateRows')
+        result=request.validate(base)
+        self.assertEqual((result['chunkX'],result['chunkY']),(5,5))
+        self.assertEqual(len(result['pieces']),18)
+        for width,height in ((2,5),(5,2),(1,1),(6,6)):
+            result=request.validate(dict(base,maxPlateColumns=width,maxPlateRows=height))
+            self.assertEqual(sum(p['columns']*p['rows'] for p in result['pieces']),348)
+            self.assertTrue(all(p['columns']<=width and p['rows']<=height for p in result['pieces']))
+        for value in (0,7,2.5,True,None):
+            for key in ('maxPlateColumns','maxPlateRows'):
+                with self.assertRaises(ValueError):request.validate(dict(base,**{key:value}))
 
 if __name__=='__main__':
     unittest.main()

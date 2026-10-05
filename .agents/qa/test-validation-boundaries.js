@@ -1,7 +1,7 @@
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict'),path=require('node:path');
 const root=path.resolve(__dirname,'../../workshop');
 const palette=fs.readFileSync(path.join(root,'palette.js'),'utf8');
-const values={width:125,depth:83.5,clearance:0,'bed-width':70,'bed-depth':100,'magnet-diameter':0};
+const values={'max-columns':6,'max-rows':6,width:125,depth:83.5,clearance:0,'bed-width':70,'bed-depth':100,'magnet-diameter':0};
 const ctx={state:{style:'solid',mode:'fit',anchor:4},num:id=>values[id],q:()=>({checked:false}),all:()=>[]};vm.createContext(ctx);
 vm.runInContext(palette.slice(palette.indexOf('function bedChunk('),palette.indexOf('function render(')),ctx);
 let result=vm.runInContext('calculate()',ctx);
@@ -19,6 +19,13 @@ for(const [bed,count] of [[220,24],[256,18],[350,10]]){
  values['bed-width']=values['bed-depth']=bed;result=vm.runInContext('calculate()',ctx);
  assert.equal(result.pieces.length,count);assert.equal(result.nx*result.ny,348);
  assert.ok(result.pieces.every(p=>p.cols<=6&&p.rows<=6&&p.x1-p.x0<=bed+1e-8&&p.y1-p.y0<=bed+1e-8));
+}
+for(const [cols,rows] of [[5,5],[2,5],[5,2],[1,1]]){
+ values['max-columns']=cols;values['max-rows']=rows;
+ result=vm.runInContext('calculate()',ctx);
+ assert.ok(result.pieces.every(p=>p.cols<=cols&&p.rows<=rows));
+ assert.equal(result.pieces.reduce((n,p)=>n+p.cols*p.rows,0),348);
+ if(cols===5&&rows===5)assert.equal(result.pieces.length,18);
 }
 const catalog=fs.readFileSync(path.join(root,'catalog.js'),'utf8'),nodes={};
 const c={cols:1,rows:1,height:6,drawer:85,interior:'magnets',dovetailLid:true,lidRetention:'magnet',lidMagnetSize:'6',lidMagnetFit:'press',scoop:false,label:false,rim:false,channelShape:'round',storedDiameter:6,storedClearance:.5,channelColumns:5,channelRows:5,channelGapX:1};

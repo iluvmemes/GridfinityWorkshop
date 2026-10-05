@@ -25,6 +25,10 @@ def validate(data):
     depth = number(data, 'magnetDepth', 1, 3) if data['magnets'] else 2.4
     if style == 'skeleton' and data['magnets'] and diameter > 6.5:
         raise ValueError('Skeletonized plates support magnet holes up to 6.5 mm. Choose Solid for larger holes.')
+    limits = dict(maxPlateColumns=5, maxPlateRows=5)
+    limits.update(data)
+    max_columns = number(limits, 'maxPlateColumns', 1, 6, True)
+    max_rows = number(limits, 'maxPlateRows', 1, 6, True)
     bed_w = number(data, 'bedWidth', 60, 350)
     bed_d = number(data, 'bedDepth', 60, 350)
     clearance = 0
@@ -40,9 +44,9 @@ def validate(data):
         raise ValueError('The available space must fit between 1 and 60 full cells per axis.')
     extra_x, extra_y = width-(cols*42-.5), depth_mm-(rows*42-.5)
     left, back = extra_x*(anchor%3)/2, extra_y*(anchor//3)/2
-    def chunk_size(count, leading, trailing, bed):
+    def chunk_size(count, leading, trailing, bed, maximum):
         # Padding belongs only to the outer pieces; the last cell is 0.5 mm shorter.
-        for stride in range(min(count, 6), 0, -1):
+        for stride in range(min(count, maximum), 0, -1):
             spans = [min(stride, count-start)*42
                      + (leading if start == 0 else 0)
                      + (trailing-.5 if start+stride >= count else 0)
@@ -50,8 +54,8 @@ def validate(data):
             if max(spans) <= bed + 1e-8:
                 return stride
         raise ValueError('The print bed is too small for one cell with this padding.')
-    chunk_x = chunk_size(cols, left, extra_x-left, bed_w)
-    chunk_y = chunk_size(rows, back, extra_y-back, bed_d)
+    chunk_x = chunk_size(cols, left, extra_x-left, bed_w, max_columns)
+    chunk_y = chunk_size(rows, back, extra_y-back, bed_d, max_rows)
     pieces = []
     for y in range(0, rows, chunk_y):
         for x in range(0, cols, chunk_x):
@@ -63,4 +67,5 @@ def validate(data):
     return dict(data, columns=cols, rows=rows, widthMM=width, depthMM=depth_mm,
                 left=left, right=extra_x-left, back=back, front=extra_y-back,
                 clearance=clearance, pieces=pieces, chunkX=chunk_x, chunkY=chunk_y,
+                maxPlateColumns=max_columns, maxPlateRows=max_rows,
                 magnetDiameter=diameter, magnetDepth=depth)
