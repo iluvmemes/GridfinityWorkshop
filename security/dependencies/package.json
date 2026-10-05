@@ -4,6 +4,6 @@
   "private": true,
   "description": "Security inventory for the offline Three.js bundle; not a Fusion runtime installer.",
   "dependencies": {
-    "three": "0.180.0"
+    "three": "0.186.1"
   }
 }
