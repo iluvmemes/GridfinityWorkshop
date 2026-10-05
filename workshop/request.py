@@ -21,8 +21,8 @@ def validate(data):
     for key in ('magnets', 'screws'):
         if type(data.get(key)) is not bool:
             raise ValueError(f'{key} must be on or off.')
-    diameter = number(data, 'magnetDiameter', 3, 8)
-    depth = number(data, 'magnetDepth', 1, 3)
+    diameter = number(data, 'magnetDiameter', 3, 8) if data['magnets'] else 6.08
+    depth = number(data, 'magnetDepth', 1, 3) if data['magnets'] else 2.4
     if style == 'skeleton' and data['magnets'] and diameter > 6.5:
         raise ValueError('Skeletonized plates support magnet holes up to 6.5 mm. Choose Solid for larger holes.')
     bed_w = number(data, 'bedWidth', 60, 350)
@@ -40,13 +40,18 @@ def validate(data):
         raise ValueError('The available space must fit between 1 and 6 full cells per axis.')
     extra_x, extra_y = width-(cols*42-.5), depth_mm-(rows*42-.5)
     left, back = extra_x*(anchor%3)/2, extra_y*(anchor//3)/2
-    chunk_x, chunk_y = cols, rows
-    while chunk_x > 1 and chunk_x*42-(.5 if chunk_x == cols else 0)+extra_x > bed_w:
-        chunk_x -= 1
-    while chunk_y > 1 and chunk_y*42-(.5 if chunk_y == rows else 0)+extra_y > bed_d:
-        chunk_y -= 1
-    if chunk_x*42-(.5 if chunk_x == cols else 0)+extra_x > bed_w or chunk_y*42-(.5 if chunk_y == rows else 0)+extra_y > bed_d:
+    def chunk_size(count, leading, trailing, bed):
+        # Padding belongs only to the outer pieces; the last cell is 0.5 mm shorter.
+        for stride in range(count, 0, -1):
+            spans = [min(stride, count-start)*42
+                     + (leading if start == 0 else 0)
+                     + (trailing-.5 if start+stride >= count else 0)
+                     for start in range(0, count, stride)]
+            if max(spans) <= bed + 1e-8:
+                return stride
         raise ValueError('The print bed is too small for one cell with this padding.')
+    chunk_x = chunk_size(cols, left, extra_x-left, bed_w)
+    chunk_y = chunk_size(rows, back, extra_y-back, bed_d)
     pieces = []
     for y in range(0, rows, chunk_y):
         for x in range(0, cols, chunk_x):

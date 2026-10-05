@@ -76,7 +76,7 @@ def show():
     palette = ui.palettes.itemById(PALETTE_ID)
     if not palette:
         palette = ui.palettes.add(PALETTE_ID, 'Gridfinity Workshop — Bin catalog',
-            (Path(__file__).parent/'catalog.html').resolve().as_uri() + '?v=24', False, True, True, 1000, 780, True)
+            (Path(__file__).parent/'catalog.html').resolve().as_uri() + '?v=25', False, True, True, 1000, 780, True)
         palette.setMinimumSize(390, 540)
         palette.dockingOption = adsk.core.PaletteDockingOptions.PaletteDockOptionsToVerticalOnly
         palette.dockingState = adsk.core.PaletteDockingStates.PaletteDockStateRight

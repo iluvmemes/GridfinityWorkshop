@@ -37,5 +37,29 @@ class RequestTests(unittest.TestCase):
             self.assertAlmostEqual(s['back']+s['front'],21.5)
             self.assertEqual(len(s['pieces']),2)
 
+    def test_centered_padding_split(self):
+        c=dict(DEFAULT,mode='fit',width=125,depth=83.5,clearance=0,bedWidth=70,bedDepth=100)
+        result=request.validate(c)
+        self.assertEqual([p['x1']-p['x0'] for p in result['pieces']],[62.75,62.25])
+        for anchor in range(9):
+            for bed in (60,70,84,100,125):
+                c.update(anchor=anchor,bedWidth=bed,bedDepth=bed)
+                # All singleton edge pieces must fit for any partition to be possible.
+                left=41.5*(anchor%3)/2
+                feasible=max(42+left,41.5+41.5-left)<=bed
+                if not feasible:
+                    with self.assertRaises(ValueError):request.validate(c)
+                    continue
+                result=request.validate(c)
+                self.assertTrue(all(p['x1']-p['x0']<=bed and p['y1']-p['y0']<=bed for p in result['pieces']))
+                self.assertAlmostEqual(sum((p['x1']-p['x0'])*(p['y1']-p['y0']) for p in result['pieces']),125*83.5)
+
+    def test_unused_magnet_fields(self):
+        for value in (None,0,'',float('nan'),99):
+            c=dict(DEFAULT,magnets=False,magnetDiameter=value,magnetDepth=value)
+            result=request.validate(c)
+            self.assertEqual((result['magnetDiameter'],result['magnetDepth']),(6.08,2.4))
+            with self.assertRaises(ValueError):request.validate(dict(c,magnets=True))
+
 if __name__=='__main__':
     unittest.main()
