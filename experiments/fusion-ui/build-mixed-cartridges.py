@@ -9,7 +9,7 @@ ROOT=Path(r'D:\Code Projects\GridfinityWorkshop\outputs\magnet-cartridge-set-asc
 def run(_context):
     app=adsk.core.Application.get();previous=app.activeDocument
     originals=[(doc,doc.name,doc.isModified) for doc in app.documents]
-    m=next(m for n,m in list(sys.modules.items()) if n.startswith('__main__') and str(getattr(m,'__file__','')).replace('\\','/').endswith('/GridfinityUIPreview/GridfinityUIPreview.py'))
+    m=next(m for n,m in list(sys.modules.items()) if n.startswith('__main__') and str(getattr(m,'__file__','')).replace('\\','/').endswith('/workshop/app.py'))
     pkg=m.generation.__package__;g=importlib.reload(importlib.import_module(pkg+'.cartridge_generation'))
     b=importlib.import_module(pkg+'.bin_generation');mgr=adsk.fusion.TemporaryBRepManager.get()
     plan=json.loads((ROOT/'channel-layout.json').read_text(encoding='utf-8'))

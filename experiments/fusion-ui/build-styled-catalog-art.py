@@ -2,7 +2,7 @@
 import base64
 from pathlib import Path
 
-ROOT=Path(__file__).parent/'GridfinityUIPreview'/'catalog-art'
+ROOT=Path(__file__).resolve().parents[2]/'workshop'/'catalog-art'
 PALETTE={
     'standard':('Standard bin','#235b80','#dceef9'),
     'clasp':('Clasp bin','#345b70','#e6edf3'),

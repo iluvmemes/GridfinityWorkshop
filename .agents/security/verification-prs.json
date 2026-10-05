@@ -1,0 +1,16 @@
+[
+  {
+    "target": "master",
+    "branch": "codex/security-inventory-main",
+    "sha": "36abb7f657c3e05fa0bd0c1693c9646182e6e325",
+    "number": 2,
+    "url": "https://github.com/iluvmemes/GridfinityWorkshop/pull/2"
+  },
+  {
+    "target": "feature/lid-generation",
+    "branch": "codex/security-inventory-development",
+    "sha": "0e0a06d356516c8dbde3d1b3749b4767dbefecb3",
+    "number": 3,
+    "url": "https://github.com/iluvmemes/GridfinityWorkshop/pull/3"
+  }
+]

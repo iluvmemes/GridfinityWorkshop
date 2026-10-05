@@ -2,7 +2,7 @@
 import importlib.util
 from pathlib import Path
 import unittest
-spec = importlib.util.spec_from_file_location('request', Path(__file__).parent/'GridfinityUIPreview/request.py')
+spec = importlib.util.spec_from_file_location('request', Path(__file__).resolve().parents[2]/'workshop/request.py')
 request = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(request)
 DEFAULT = dict(mode='grid',style='skeleton',columns=6,rows=6,anchor=4,

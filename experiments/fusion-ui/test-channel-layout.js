@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict');
-const {planMagnetChannels:plan}=require('./GridfinityUIPreview/channel-layout.js');
+const {planMagnetChannels:plan}=require('../../workshop/channel-layout.js');
 const base={channelShape:'round',storedDiameter:6,storedClearance:.5,channelWidth:6,channelDepth:10,channelColumns:8,channelRows:4};
 for(const shape of ['round','square','rectangle']){
  const c={...base,channelShape:shape,channelRows:3};const p=plan(c,{w:83.5,d:41.5},'clasp');

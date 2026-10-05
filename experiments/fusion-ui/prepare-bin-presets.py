@@ -3,7 +3,7 @@ import sys,types,importlib,json
 from pathlib import Path
 import adsk.core,adsk.fusion
 ROOT=Path(r'D:\Code Projects\GridfinityWorkshop')
-OUT=ROOT/'experiments/fusion-ui/GridfinityUIPreview/presets'
+OUT=ROOT/'workshop/presets'
 
 def run(_context: str):
     app=adsk.core.Application.get()

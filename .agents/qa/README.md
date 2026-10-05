@@ -1,6 +1,6 @@
 # Gridfinity Workshop end-to-end QA
 
-Scope: installed experimental Fusion add-in in experiments/fusion-ui/GridfinityUIPreview; all six bin families and baseplates. Maximum grid size 6x6. Use Fusion MCP and its documented API, not desktop automation. Never modify user documents. Create named disposable QA designs and close only those designs without saving.
+Scope: main Fusion add-in at GridfinityWorkshop.py, with runtime in workshop/; all six bin families and baseplates. Maximum grid size 6x6. Use Fusion MCP and its documented API, not desktop automation. Never modify user documents. Create named disposable QA designs and close only those designs without saving.
 
 ## Repeatable sequence
 1. Record git revision/dirty state, Fusion version, open documents and command state. Reload add-in via Scripts API; inspect Create menu controls/icons for duplicates. Launch both palette commands with a blank QA design.
@@ -25,7 +25,7 @@ Store this plan, reusable runners, screenshots and dated run results here under 
 ## Running the saved tools
 - `python .agents/qa/run-unit.py [output-directory]` executes all eight existing suites plus the new preview-state regression. Outputs command lines, stdout, stderr and exit codes.
 - `python .agents/qa/build-harnesses.py` rebuilds the QA-only palette HTML with a base URL pointing to the production assets. The application JS is unchanged; the harness adds narrowly scoped qaSuite/qaCreate bridge actions. Synthetic Create clicks are deferred until after the bridge callback returns.
-- Through Fusion MCP, create a disposable anchor and retain it as `sys._gf_qa_anchor`. Set `sys._gf_qa_out` to the dated run folder (optional; default is the initial 2026-10-04 run).
+- Through Fusion MCP, create a disposable anchor and retain it as `sys._gf_qa_anchor`. Set `sys._gf_qa_out` to the dated run folder (optional; default is runs/local).
 - Load `fusion-suites.py` using `exec(Path(...).read_text(encoding='utf-8-sig'), namespace)` and call `namespace['run_suite'](name)` once per MCP call. Names: cartridge, magazine, dovetail, fit, clasp, baseplate, bin. Existing assertions are reused; fresh output paths are redirected here. Keep the anchor open; no user documents are required.
 - Open the catalog using its registered command. Assign its palette.htmlFileURL to catalog-harness.html; wait for load, then sendInfoToHTML('qaSuite','{}'). Read catalog._last_response in a later MCP call; save the `qa.results` array. Expect 32 cases. Record model counts before/after to prove preview isolation.
 - Equivalent baseplate harness action runs 15 cases. Read the add-in root module's _last_response.
@@ -41,3 +41,9 @@ If the MCP transport starts returning empty output or `Stack overflow` in `_NsSa
 The earlier reload finding was not established as an add-in defect. A traced production handler received inspect correctly; after removing instrumentation, normal inspect, hide/reopen, fresh stop/start, and acknowledged magazine/fit-test Create round trips passed. Browser receipts confirmed creating -> complete and re-enabled Create. No production event-handler change was needed.
 The old harness replaced HTML and assumed the next bridge action was ready, then inspected shared last-response/result fields without a page acknowledgement. That cannot distinguish delayed/stale QA state from an actual creation failure. v6 adds qaPing with page URL/version and qaReceipt with bounded status history; fusion-create-e2e.py enforces the handshake. Never infer readiness from a visible panel or elapsed time. If the response has not arrived, wait/poll in another MCP call; do not call prepare or count it as a product failure.
 Evidence: runs/2026-10-04/bridge-investigation/RESOLUTION.md. Real pointer gestures remain separate manual coverage.
+
+## Main add-in / release checks
+
+Run `python scripts/build-release.py` to produce an installable ZIP, and `python .agents/qa/test-release.py` to verify isolated extraction, syntax, presets and local asset references. The same checks run in the release workflow. The main entry point is `GridfinityWorkshop.py`; disable the retired `GridfinityUIPreview` registration.
+
+Integration evidence: `runs/2026-10-05-integration/`. Keep screenshot/model presentation changes separate from Undo checks: even changing body visibility can add an undo entry. Rerun creation in a clean disposable document when needed.

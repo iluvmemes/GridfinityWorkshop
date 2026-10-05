@@ -7,7 +7,7 @@ import adsk.core,adsk.fusion
 def run(_context: str):
     app=adsk.core.Application.get();previous=app.activeDocument
     module=next(m for n,m in list(sys.modules.items()) if n.startswith('__main__') and
-        str(getattr(m,'__file__','')).replace('\\','/').endswith('/GridfinityUIPreview/GridfinityUIPreview.py'))
+        str(getattr(m,'__file__','')).replace('\\','/').endswith('/workshop/app.py'))
     generator=importlib.import_module(module.generation.__package__+'.clasp_generation')
     cfg=dict(family='clasp',title='Clasp verification',cols=2,rows=1,height=6,interior='open',rim=False,
              scoop=False,label=False,buckle=.2,pin=2,grip=2,magnet='press',diameter=6.08,magnetDepth=2.4,

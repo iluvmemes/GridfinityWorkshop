@@ -10,6 +10,11 @@ window.addEventListener('load',()=>{
   for(const family of Object.keys(families))await record('family-'+family,()=>{click('[data-family="'+family+'"]');click('[data-view="3d"]');});
   click('[data-family="standard"]');
   for(const [id,changes] of [['small',{cols:1,rows:1,height:2}],['large',{cols:6,rows:6,height:20}],['divided',{cols:2,rows:2,height:6,interior:'divided',divX:3,divY:2}],['scoop',{scoop:true}],['label',{label:true}],['lid',{scoop:false,label:false,dovetailLid:true}],['channels',{dovetailLid:false,interior:'magnets',channelColumns:4,channelRows:3}],['square',{channelShape:'square'}],['rectangle',{channelShape:'rectangle'}],['spacing',{channelGapX:3}],['press-fit',{magnet:'press'}]])await record(id,()=>Object.entries(changes).forEach(([k,v])=>set(k,v)));
+  await record('retention-setup',()=>{set('interior','open');set('dovetailLid',true);});
+  for(const mode of ['none','bump','magnet','both'])await record('retention-'+mode,()=>set('lidRetention',mode));
+  await record('retention-3-clearance',()=>{set('lidMagnetSize','3');set('lidMagnetFit','clearance');});
+  await record('retention-6-press',()=>{set('lidMagnetSize','6');set('lidMagnetFit','press');});
+  await record('retention-reset',()=>{set('lidRetention','none');set('dovetailLid',false);set('interior','magnets');});
   await record('invalid-channels',()=>set('channelColumns',48),false);
   await record('recover-channels',()=>set('channelColumns',4));
   await record('parts',()=>click('[data-view="parts"]'));

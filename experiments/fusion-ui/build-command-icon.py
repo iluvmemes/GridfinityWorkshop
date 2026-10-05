@@ -3,7 +3,7 @@ from pathlib import Path
 import math
 from PIL import Image, ImageDraw
 
-OUT = Path(__file__).parent / 'GridfinityUIPreview' / 'resources'
+OUT = Path(__file__).resolve().parents[2] / 'workshop' / 'resources'
 OUT.mkdir(exist_ok=True)
 
 def skeleton():

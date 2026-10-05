@@ -1,0 +1,53 @@
+{
+  "name": "GF01 Retention QA - 1x1 2U - open - dovetail lid - magnet retention - Body",
+  "seconds": 0.7502623999025673,
+  "heightParameter": "GF01_bin_height",
+  "overallHeightMM": 19.6,
+  "features": 17,
+  "parts": [
+    "GF01 Retention QA - 1x1 2U - open - dovetail lid - magnet retention - Body",
+    "GF01 Retention QA - 1x1 2U - open - dovetail lid - magnet retention - Dovetail lid"
+  ],
+  "interior": "open",
+  "channels": 0,
+  "case": 4,
+  "mode": "magnet",
+  "closedOverlapMM3": 0.0,
+  "slideOffsetsMM": [
+    0,
+    -0.25,
+    -0.5,
+    -0.75,
+    -1,
+    -1.25,
+    -1.5,
+    -1.75,
+    -2,
+    -2.5,
+    -3,
+    -20.75,
+    -43.5
+  ],
+  "slideOverlapMM3": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "magnetPocketCounts": [
+    2,
+    2
+  ],
+  "fixedPlateMM": 3,
+  "heightEditPassed": true,
+  "sentinelPreserved": true
+}

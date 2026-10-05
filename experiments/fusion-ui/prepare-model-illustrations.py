@@ -6,7 +6,7 @@ import importlib,json,math,sys
 from pathlib import Path
 import adsk.core,adsk.fusion
 
-ROOT=Path(__file__).parent/'GridfinityUIPreview'
+ROOT=Path(__file__).resolve().parents[2]/'workshop'
 P=adsk.core.Point3D.create
 V=adsk.core.Vector3D.create
 
@@ -39,7 +39,7 @@ def camera(app,bodies):
 def run(_context):
     app=adsk.core.Application.get();original=app.activeDocument
     originals=[(d,d.name,d.isModified) for d in app.documents]
-    module=next(m for n,m in list(sys.modules.items()) if n.startswith('__main__') and str(getattr(m,'__file__','')).replace('\\','/').endswith('/GridfinityUIPreview/GridfinityUIPreview.py'))
+    module=next(m for n,m in list(sys.modules.items()) if n.startswith('__main__') and str(getattr(m,'__file__','')).replace('\\','/').endswith('/workshop/app.py'))
     pkg=module.generation.__package__
     bins=importlib.import_module(pkg+'.bin_generation')
     configs=module.catalog._last_response['report']['state']['configs']

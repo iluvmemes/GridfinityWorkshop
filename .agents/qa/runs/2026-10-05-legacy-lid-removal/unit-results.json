@@ -1,0 +1,123 @@
+[
+  {
+    "test": "test-bin-request.py",
+    "command": [
+      "C:\\Python313\\python.exe",
+      "D:\\Code Projects\\GridfinityWorkshop\\experiments\\fusion-ui\\test-bin-request.py"
+    ],
+    "exitCode": 0,
+    "seconds": 0.330733000067994,
+    "stdout": "",
+    "stderr": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.001s\n\nOK\n"
+  },
+  {
+    "test": "test-channel-layout.js",
+    "command": [
+      "node",
+      "D:\\Code Projects\\GridfinityWorkshop\\experiments\\fusion-ui\\test-channel-layout.js"
+    ],
+    "exitCode": 0,
+    "seconds": 0.7827681000344455,
+    "stdout": "Round, square, rectangle, centering, exact-fit and overflow checks passed.\n",
+    "stderr": ""
+  },
+  {
+    "test": "test-fit-test-request.py",
+    "command": [
+      "C:\\Python313\\python.exe",
+      "D:\\Code Projects\\GridfinityWorkshop\\experiments\\fusion-ui\\test-fit-test-request.py"
+    ],
+    "exitCode": 0,
+    "seconds": 0.17094949982129037,
+    "stdout": "",
+    "stderr": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n"
+  },
+  {
+    "test": "test-fit-tests.js",
+    "command": [
+      "node",
+      "D:\\Code Projects\\GridfinityWorkshop\\experiments\\fusion-ui\\test-fit-tests.js"
+    ],
+    "exitCode": 0,
+    "seconds": 0.6852086000144482,
+    "stdout": "Fit migration, bounded layouts, selection transfer and measured profile persistence passed.\n",
+    "stderr": ""
+  },
+  {
+    "test": "test-magazine-request.py",
+    "command": [
+      "C:\\Python313\\python.exe",
+      "D:\\Code Projects\\GridfinityWorkshop\\experiments\\fusion-ui\\test-magazine-request.py"
+    ],
+    "exitCode": 0,
+    "seconds": 0.1943987999111414,
+    "stdout": "",
+    "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.001s\n\nOK\n"
+  },
+  {
+    "test": "test-request.py",
+    "command": [
+      "C:\\Python313\\python.exe",
+      "D:\\Code Projects\\GridfinityWorkshop\\experiments\\fusion-ui\\test-request.py"
+    ],
+    "exitCode": 0,
+    "seconds": 0.1754908999428153,
+    "stdout": "",
+    "stderr": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n"
+  },
+  {
+    "test": "test-three-demo.js",
+    "command": [
+      "node",
+      "D:\\Code Projects\\GridfinityWorkshop\\experiments\\fusion-ui\\test-three-demo.js"
+    ],
+    "exitCode": 0,
+    "seconds": 0.6495604000519961,
+    "stdout": "Three.js geometry bounds, fixed floor, scoop limits, finite normals, invalid input, and replacement disposal passed. GPU validation remains separate.\n",
+    "stderr": ""
+  },
+  {
+    "test": "test-workshop-three.js",
+    "command": [
+      "node",
+      "D:\\Code Projects\\GridfinityWorkshop\\experiments\\fusion-ui\\test-workshop-three.js"
+    ],
+    "exitCode": 0,
+    "seconds": 2.5191704002209008,
+    "stdout": "45 shared preview geometry cases passed; invalid inputs and open cavity checked. GPU validation is separate.\n",
+    "stderr": ""
+  },
+  {
+    "test": "test-lid-retention.js",
+    "command": [
+      "node",
+      "D:\\Code Projects\\GridfinityWorkshop\\.agents\\qa\\test-lid-retention.js"
+    ],
+    "exitCode": 0,
+    "seconds": 0.8452351000159979,
+    "stdout": "Retention preview hardware, finite meshes, collision rejection and mode separation passed.\n",
+    "stderr": ""
+  },
+  {
+    "test": "test-lid-retention.py",
+    "command": [
+      "C:\\Python313\\python.exe",
+      "D:\\Code Projects\\GridfinityWorkshop\\.agents\\qa\\test-lid-retention.py"
+    ],
+    "exitCode": 0,
+    "seconds": 0.6704273000359535,
+    "stdout": "",
+    "stderr": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n"
+  },
+  {
+    "test": "test-preview-state.js",
+    "command": [
+      "node",
+      "D:\\Code Projects\\GridfinityWorkshop\\.agents\\qa\\test-preview-state.js"
+    ],
+    "exitCode": 0,
+    "seconds": 1.2728168000467122,
+    "stdout": "Cached-state recovery and replaced geometry disposal passed.\n",
+    "stderr": ""
+  }
+]

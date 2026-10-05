@@ -53,7 +53,7 @@ data = {
     'floor': path_from_curves(profiles['Socket floor']['curves']),
     'magnetCenters': [list(point(c['centerMM'])) for c in profiles['Magnet pockets']['curves']],
 }
-(HERE / 'GridfinityUIPreview' / 'cell-profiles.js').write_text(
+(HERE.parents[1] / 'workshop' / 'cell-profiles.js').write_text(
     '// Derived from captured Fusion sections; do not hand-edit the outlines.\n'
     'const GRIDFINITY_CELL_PROFILES = Object.freeze(' + json.dumps(data, indent=2) + ');\n',
     encoding='utf-8',

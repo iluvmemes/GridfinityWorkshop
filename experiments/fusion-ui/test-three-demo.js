@@ -1,7 +1,7 @@
 // Geometry checks use real Three.js with a stub renderer; GPU rendering is
 // checked separately inside Fusion. No browser or CAD geometry is created here.
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
-const root=__dirname+'/GridfinityUIPreview/';
+const root=__dirname+'/../../workshop/';
 const nodes={};for(const id of ['cols','rows','height','radius','scoop','rim','canvas','reset','error','status','dimensions','height-label','radius-label','scoop-note'])nodes[id]={value:({cols:2,rows:2,height:6,radius:25})[id],checked:true,textContent:'',addEventListener(){},appendChild(){},getBoundingClientRect(){return{width:640,height:500}}};
 let rendered=null,disposed=0;
 const context={window:{devicePixelRatio:1,addEventListener(){}},document:{getElementById:id=>nodes[id],querySelectorAll:()=>[]},console,performance,AbortController,ResizeObserver:class{observe(){}},requestAnimationFrame:()=>1,cancelAnimationFrame(){}};

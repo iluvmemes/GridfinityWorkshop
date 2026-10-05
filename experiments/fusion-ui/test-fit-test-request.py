@@ -1,6 +1,6 @@
 import importlib,sys,types,unittest
 from pathlib import Path
-package=types.ModuleType('_fit_request_test');package.__path__=[str(Path(__file__).parent/'GridfinityUIPreview')];sys.modules[package.__name__]=package
+package=types.ModuleType('_fit_request_test');package.__path__=[str(Path(__file__).resolve().parents[2]/'workshop')];sys.modules[package.__name__]=package
 validate=importlib.import_module(package.__name__+'.fit_test_request').validate
 BASE=dict(family='tests',testType='pin',testStart=.15,testStep=.05,testCount=5,pinDiameter=1.75,pinAllowance=.25,pinOverrides=False)
 class FitTests(unittest.TestCase):

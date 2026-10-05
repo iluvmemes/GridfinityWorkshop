@@ -7,7 +7,7 @@ from pathlib import Path
 OUT=Path(r'D:\Code Projects\GridfinityWorkshop\.agents\qa\runs\2026-10-04\bridge-investigation')
 OUT.mkdir(parents=True,exist_ok=True)
 def catalog():
- return next(m for n,m in list(sys.modules.items()) if str(getattr(m,'__file__','')).replace('\\','/').endswith('/GridfinityUIPreview/catalog.py'))
+ return next(m for n,m in list(sys.modules.items()) if str(getattr(m,'__file__','')).replace('\\','/').endswith('/workshop/catalog.py'))
 def log(kind,**details):
  with (OUT/'events.jsonl').open('a',encoding='utf8') as f:f.write(json.dumps(dict(kind=kind,time=time.time(),**details),default=str)+'\n')
 class Observer(adsk.core.HTMLEventHandler):

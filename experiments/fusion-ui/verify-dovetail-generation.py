@@ -6,7 +6,7 @@ import adsk.core,adsk.fusion
 def run(_context):
     app=adsk.core.Application.get();previous=app.activeDocument
     originals=[(doc,doc.name,doc.isModified) for doc in app.documents]
-    m=next(m for n,m in list(sys.modules.items()) if n.startswith('__main__') and str(getattr(m,'__file__','')).replace('\\','/').endswith('/GridfinityUIPreview/GridfinityUIPreview.py'))
+    m=next(m for n,m in list(sys.modules.items()) if n.startswith('__main__') and str(getattr(m,'__file__','')).replace('\\','/').endswith('/workshop/app.py'))
     g=importlib.import_module(m.generation.__package__+'.bin_generation')
     cfg=dict(family='standard',title='Dovetail verification',cols=1,rows=1,height=2,interior='open',rim=False,
         dovetailLid=True,scoop=False,label=False,magnet='press',magnetDepth=2.4,divX=2,divY=2,

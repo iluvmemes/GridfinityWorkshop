@@ -7,7 +7,7 @@ import adsk.core,adsk.fusion
 def run(_context: str):
     app=adsk.core.Application.get();previous=app.activeDocument
     module=next(m for n,m in list(sys.modules.items()) if n.startswith('__main__') and
-        str(getattr(m,'__file__','')).replace('\\','/').endswith('/GridfinityUIPreview/GridfinityUIPreview.py'))
+        str(getattr(m,'__file__','')).replace('\\','/').endswith('/workshop/app.py'))
     pkg=module.generation.__package__;clasp=importlib.import_module(pkg+'.clasp_generation');tests=importlib.import_module(pkg+'.fit_test_generation')
     protected=[(doc,doc.isModified,[(b,b.volume) for comp in adsk.fusion.Design.cast(doc.products.itemByProductType('DesignProductType')).allComponents for b in comp.bRepBodies]) for doc in app.documents]
     c=dict(family='clasp',title='Fit verification',cols=2,rows=1,height=6,interior='magnets',rim=False,scoop=False,label=False,

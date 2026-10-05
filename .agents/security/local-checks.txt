@@ -1,0 +1,10 @@
+test-bin-request.py 0
+test-channel-layout.js 0
+test-fit-test-request.py 0
+test-fit-tests.js 0
+test-magazine-request.py 0
+test-request.py 0
+test-three-demo.js 0
+test-workshop-three.js 0
+test-preview-state.js 0
+PASS: Python syntax, immutable action references, dependency inventory and available local regression suites.

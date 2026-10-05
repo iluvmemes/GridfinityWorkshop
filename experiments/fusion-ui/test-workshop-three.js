@@ -1,5 +1,5 @@
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
-const dir=__dirname+'/GridfinityUIPreview/';
+const dir=__dirname+'/../../workshop/';
 const ctx={window:{},console,AbortController};vm.createContext(ctx);
 for(const file of ['vendor/three-runtime.js','cell-profiles.js','workshop-three.js'])vm.runInContext(fs.readFileSync(dir+file,'utf8'),ctx);
 ctx.window.planMagnetChannels=require(dir+'channel-layout.js').planMagnetChannels;

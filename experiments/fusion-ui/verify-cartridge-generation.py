@@ -7,7 +7,7 @@ def run(_context):
     app=adsk.core.Application.get();previous=app.activeDocument
     originals=[(doc,doc.name,doc.isModified) for doc in app.documents]
     module=next(m for n,m in list(sys.modules.items()) if n.startswith('__main__') and
-        str(getattr(m,'__file__','')).replace('\\','/').endswith('/GridfinityUIPreview/GridfinityUIPreview.py'))
+        str(getattr(m,'__file__','')).replace('\\','/').endswith('/workshop/app.py'))
     g=importlib.import_module(module.generation.__package__+'.cartridge_generation')
     cfg=dict(family='cartridge',title='Cartridge verification',cartLength=68,cartWidth=17.5,height=8,
         interior='open',buckle=.2,grip=2,magnet='off',pinDiameter=1.75,pinAllowance=.25,pinOverrides=True,

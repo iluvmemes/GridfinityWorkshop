@@ -57,6 +57,6 @@ def run(_context):
     d.computeAll()
     issues=[(c.name,f.name,f.errorOrWarningMessage) for c in d.allComponents for f in c.features if int(f.healthState)!=0]
     assert not issues,issues
-    path=Path(r'D:\Code Projects\GridfinityWorkshop\experiments\fusion-ui\GridfinityUIPreview\presets\cartridge-template.f3d')
+    path=Path(r'D:\Code Projects\GridfinityWorkshop\workshop\presets\cartridge-template.f3d')
     assert d.exportManager.execute(d.exportManager.createFusionArchiveExportOptions(str(path)))
     print({'template':str(path),'fullyConstrainedGrip':s.isFullyConstrained,'parts':sum(c.bRepBodies.count for c in d.allComponents)})

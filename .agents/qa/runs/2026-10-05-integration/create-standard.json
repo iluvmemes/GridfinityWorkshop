@@ -1,0 +1,78 @@
+{
+  "family": "standard",
+  "result": {
+    "name": "GF01 QA standard - 2x1 6U - open - M6.08x2.4 - dovetail lid - Body",
+    "seconds": 1.0703942000400275,
+    "heightParameter": "GF01_bin_height",
+    "overallHeightMM": 51.4,
+    "features": 16,
+    "parts": [
+      "GF01 QA standard - 2x1 6U - open - M6.08x2.4 - dovetail lid - Body",
+      "GF01 QA standard - 2x1 6U - open - M6.08x2.4 - dovetail lid - Dovetail lid with stacking lip"
+    ],
+    "interior": "open",
+    "channels": 0
+  },
+  "before": {
+    "document": "QA E2E standard",
+    "bodies": [
+      "QA existing solid"
+    ],
+    "timeline": 3,
+    "groups": [],
+    "unhealthy": [],
+    "sketches": [
+      {
+        "name": "QA sentinel sketch",
+        "constrained": true
+      }
+    ]
+  },
+  "after": {
+    "document": "QA E2E standard",
+    "bodies": [
+      "QA existing solid",
+      "GF01 QA standard - 2x1 6U - open - M6.08x2.4 - dovetail lid - Body",
+      "GF01 QA standard - 2x1 6U - open - M6.08x2.4 - dovetail lid - Dovetail lid with stacking lip"
+    ],
+    "timeline": 4,
+    "groups": [
+      "GF01 QA standard - 2x1 6U - open - M6.08x2.4 - dovetail lid"
+    ],
+    "unhealthy": [],
+    "sketches": [
+      {
+        "name": "QA sentinel sketch",
+        "constrained": true
+      },
+      {
+        "name": "GF01 QA standard - 2x1 6U - open - M6.08x2.4 - dovetail lid - Envelope",
+        "constrained": false
+      },
+      {
+        "name": "GF01 QA standard - 2x1 6U - open - M6.08x2.4 - dovetail lid - Compartments",
+        "constrained": false
+      },
+      {
+        "name": "GF01 QA standard - 2x1 6U - open - M6.08x2.4 - dovetail lid - Dovetail collar",
+        "constrained": false
+      },
+      {
+        "name": "GF01 QA standard - 2x1 6U - open - M6.08x2.4 - dovetail lid - Female dovetail tool profile",
+        "constrained": false
+      },
+      {
+        "name": "GF01 QA standard - 2x1 6U - open - M6.08x2.4 - dovetail lid - Male dovetail profile",
+        "constrained": false
+      },
+      {
+        "name": "GF01 QA standard - 2x1 6U - open - M6.08x2.4 - dovetail lid - Fixed 3 mm lid plate",
+        "constrained": false
+      }
+    ]
+  },
+  "sentinelPreserved": true,
+  "route": "synthetic DOM click -> HTML event -> production request -> native command/import",
+  "singleUndoVerified": true,
+  "redoVerified": true
+}

@@ -1,7 +1,7 @@
 """Pure layout validation: python experiments/fusion-ui/test-magazine-request.py."""
 import importlib,sys,types,unittest
 from pathlib import Path
-p=types.ModuleType('_magazine_tests');p.__path__=[str(Path(__file__).parent/'GridfinityUIPreview')];sys.modules[p.__name__]=p
+p=types.ModuleType('_magazine_tests');p.__path__=[str(Path(__file__).resolve().parents[2]/'workshop')];sys.modules[p.__name__]=p
 validate=importlib.import_module(p.__name__+'.magazine_request').validate
 DEFAULT=dict(family='magazine',title='Magazine',cols=2,rows=1,height=4,cartLength=68,cartWidth=17.5,
     cartridgeHeight=8,slot=.3,quantity=2,orientation='0',magnet='press',magnetDepth=2.4)

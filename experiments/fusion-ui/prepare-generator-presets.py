@@ -5,7 +5,7 @@ import adsk.core
 import adsk.fusion
 
 ROOT = Path(r'D:\Code Projects\GridfinityWorkshop')
-OUT = ROOT / 'experiments/fusion-ui/GridfinityUIPreview/presets'
+OUT = ROOT / 'workshop/presets'
 
 
 def run(_context: str):

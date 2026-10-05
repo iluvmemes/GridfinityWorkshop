@@ -1,6 +1,6 @@
 """Generate scalable isometric artwork for the five bin catalog selectors."""
 from pathlib import Path
-OUT=Path(__file__).parent/'GridfinityUIPreview'/'catalog-art'
+OUT=Path(__file__).resolve().parents[2]/'workshop'/'catalog-art'
 OUT.mkdir(exist_ok=True)
 
 def artwork(kind):

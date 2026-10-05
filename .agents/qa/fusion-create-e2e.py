@@ -5,10 +5,10 @@ execute RedoCommand; check_redo; cleanup. Imported designs close via cleanup.
 """
 from pathlib import Path
 import adsk.core,adsk.fusion,sys,json,time
-OUT=Path(getattr(sys,'_gf_qa_out',r'D:\Code Projects\GridfinityWorkshop\.agents\qa\runs\2026-10-04'))
+OUT=Path(getattr(sys,'_gf_qa_out',r'D:\Code Projects\GridfinityWorkshop\.agents\qa\runs\local'))
 OUT.mkdir(parents=True,exist_ok=True)
 def module():
- return next(m for n,m in list(sys.modules.items()) if n.startswith('__main__') and str(getattr(m,'__file__','')).replace('\\','/').endswith('/GridfinityUIPreview/GridfinityUIPreview.py'))
+ return next(m for n,m in list(sys.modules.items()) if n.startswith('__main__') and str(getattr(m,'__file__','')).replace('\\','/').endswith('/workshop/app.py'))
 def measure():
  a=adsk.core.Application.get();d=adsk.fusion.Design.cast(a.activeProduct)
  return dict(document=a.activeDocument.name,bodies=[b.name for c in d.allComponents for b in c.bRepBodies],timeline=d.timeline.count,groups=[g.name for g in d.timeline.timelineGroups],unhealthy=[f.name for c in d.allComponents for f in c.features if not f.isSuppressed and int(f.healthState)!=0],sketches=[{'name':s.name,'constrained':s.isFullyConstrained} for c in d.allComponents for s in c.sketches])

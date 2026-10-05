@@ -1,0 +1,26 @@
+from pathlib import Path
+import sys,json
+sys.path.insert(0,str(Path('.agents/security').resolve()))
+from harden import api,REPO,OUT
+files={}
+for name in ['package.json','package-lock.json']:
+    files['security/dependencies/'+name]=Path('.github/dependencies',name).read_text(encoding='utf8')
+    files['.github/dependencies/'+name]=None
+for name in ['.github/dependabot.yml','.github/scripts/security_checks.py','SECURITY.md']:
+    files[name]=Path(name).read_text(encoding='utf8').replace('.github/dependencies','security/dependencies')
+files['SECURITY.md']+='''\n## Availability and releases\n\nCopilot Autofix is available with CodeQL on public repositories. Premium organization-only AI scanning and agentic remediation are not configured for this personal repository. GitHub did not enable non-provider secret patterns or validity checks when requested; supported-provider secret scanning and push protection remain enabled.\n\nProtected integration branches require signed commits and squash merges. Release tags beginning with `v` cannot be edited or deleted, and tagged release workflows generate GitHub artifact provenance attestations. New releases must use a new version tag.\n'''
+branches=[]
+for target,suffix in [('master','main'),('feature/lid-generation','development')]:
+    parent=api(REPO+'/git/ref/heads/'+target)['object']['sha'];commit=api(REPO+'/git/commits/'+parent)
+    tree=api(REPO+'/git/trees','POST',{'base_tree':commit['tree']['sha'],'tree':[dict(path=p,mode='100644',type='blob',**({'sha':None} if text is None else {'content':text})) for p,text in files.items()]})
+    c=api(REPO+'/git/commits','POST',{'message':'Use a conventional directory for the vendored dependency inventory','tree':tree['sha'],'parents':[parent]})
+    branch='codex/security-inventory-'+suffix
+    api(REPO+'/git/refs','POST',{'ref':'refs/heads/'+branch,'sha':c['sha']})
+    pr=api(REPO+'/pulls','POST',{'title':'Verify security gates and dependency inventory on '+target,'head':branch,'base':target,'body':'GitHub rejected the first npm Dependabot update with `dependency_file_not_supported` after successfully resolving the package. Move the inventory out of the special `.github` directory, update its references, and document available controls. This also exercises the new required PR checks and CodeQL merge rules. No manufacturing code changes.'})
+    branches.append({'target':target,'branch':branch,'sha':c['sha'],'number':pr['number'],'url':pr['html_url']})
+(OUT/'verification-prs.json').write_text(json.dumps(branches,indent=2),encoding='utf8')
+for p,text in files.items():
+    dest=Path(p)
+    if text is None:dest.unlink()
+    else:dest.parent.mkdir(parents=True,exist_ok=True);dest.write_text(text,encoding='utf8')
+print(json.dumps(branches,indent=2))

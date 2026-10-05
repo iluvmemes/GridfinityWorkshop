@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
-const {fitDefaults,upgradeFit,pinBores,testPlan}=require('./GridfinityUIPreview/fit-tests.js');
+const {fitDefaults,upgradeFit,pinBores,testPlan}=require('../../workshop/fit-tests.js');
 assert.deepEqual(pinBores(upgradeFit({pin:2})),[2,2,2.2,2.2]);
 assert.deepEqual(pinBores({...fitDefaults}),[2,2,2,2]);
 assert.equal(testPlan({...fitDefaults,testStart:NaN}).valid,false);
@@ -14,7 +14,7 @@ assert.equal(testPlan({...c,channelColumns:5,channelRows:5,storedDiameter:30,tes
 const nodes={},memory={};
 const context={state:{family:'tests',configs:{tests:{...fitDefaults,testSelected:4,testSource:'clasp',testType:'pin'},clasp:{...fitDefaults,buckle:.2,grip:2,magnet:'press',diameter:6.08,magnetDepth:2.4,storedClearance:.5}}},families:{clasp:{name:'Clasp bin'}},
  $:id=>nodes[id]||(nodes[id]={value:'',textContent:''}),populate(){},escape:s=>String(s),localStorage:{setItem(k,v){memory[k]=v},getItem(k){return memory[k]}}};
-vm.createContext(context);vm.runInContext(fs.readFileSync(require.resolve('./GridfinityUIPreview/fit-tests.js'),'utf8'),context);
+vm.createContext(context);vm.runInContext(fs.readFileSync(require.resolve('../../workshop/fit-tests.js'),'utf8'),context);
 vm.runInContext('applyTest()',context);
 assert.equal(context.state.configs.clasp.pinAllowance,.3);
 assert.equal(context.state.configs.tests.pinAllowance,.3);

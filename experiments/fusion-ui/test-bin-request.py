@@ -2,7 +2,7 @@
 import importlib,sys,types,unittest
 from pathlib import Path
 package=types.ModuleType('_bin_request_test')
-package.__path__=[str(Path(__file__).parent/'GridfinityUIPreview')]
+package.__path__=[str(Path(__file__).resolve().parents[2]/'workshop')]
 sys.modules[package.__name__]=package
 validate=importlib.import_module(package.__name__+'.bin_request').validate
 DEFAULT=dict(family='clasp',title='Test',cols=2,rows=1,height=6,interior='open',rim=False,
