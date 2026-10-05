@@ -10,7 +10,7 @@ for p in (root/'.github/workflows').glob('*.y*ml'):
     for action in re.findall(r'uses:\s*([^\s#]+)',p.read_text()):
         if not action.startswith('./') and not re.fullmatch(r'[\w./-]+@[0-9a-f]{40}',action):
             raise SystemExit(f'{p.name}: pin action to a full commit SHA: {action}')
-inventory=root/'.github/dependencies/package.json'
+inventory=root/'security/dependencies/package.json'
 if inventory.exists():
     version=json.loads(inventory.read_text())['dependencies']['three']
     for vendor in [root/'workshop/vendor',root/'experiments/fusion-ui/GridfinityUIPreview/vendor']:
