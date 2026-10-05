@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gridfinity Workshop — Baseplate</title>
+<link rel="stylesheet" href="palette.css">
+<script src="cell-profiles.js" defer></script>
+<script src="preview-drawing.js" defer></script>
+<script src="vendor/three-runtime.js" defer></script><script src="workshop-three.js?v=23" defer></script><script src="palette.js?v=27" defer></script>
+</head>
+<body>
+<div id="gf-workshop" aria-label="Gridfinity Workshop baseplate interface">
+  <header class="gw-header"><div><span class="gw-mark">▦</span> <strong>Gridfinity Workshop</strong><span class="gw-context"> / Baseplate</span></div><span class="gw-tag" id="gw-host-status">Fusion baseplate</span></header>
+  <div class="gw-workspace">
+    <aside class="gw-panel">
+      <section><h3>Size your baseplate</h3><div class="gw-segment" aria-label="Sizing method"><button data-mode="fit" aria-pressed="true">Fit a space</button><button data-mode="grid" aria-pressed="false">Grid size</button></div>
+      <div id="gw-fit" class="gw-fields"><label>Drawer width <span>mm</span><input id="gw-width" type="number" min="42" max="2500" step="0.01" value="230"></label><label>Drawer depth <span>mm</span><input id="gw-depth" type="number" min="42" max="2500" step="0.01" value="190"></label><label class="gw-full">Wall clearance <span>mm per side</span><input id="gw-clearance" type="number" min="0" max="5" step="0.1" value="0.5"></label></div>
+      <div id="gw-grid" class="gw-fields" hidden><label>Columns<input id="gw-columns" type="number" min="1" max="60" value="5"></label><label>Rows<input id="gw-rows" type="number" min="1" max="60" value="4"></label></div>
+      <div class="gw-result" id="gw-grid-summary" aria-live="polite"></div><p class="gw-small">Standard 42 mm grid · large drawer layouts · each printed plate up to 6 × 6</p><div id="gw-error" class="gw-error" role="alert" hidden></div></section>
+      <section id="gw-padding-section"><div class="gw-heading"><h3>Padding & alignment</h3><span id="gw-anchor-name">Centered</span></div>
+        <div class="gw-padding"><div class="gw-pad-back">Back <strong id="gw-back"></strong></div><div class="gw-pad-left">Left<strong id="gw-left"></strong></div><div class="gw-anchor" aria-label="Grid alignment"></div><div class="gw-pad-right">Right<strong id="gw-right"></strong></div><div class="gw-pad-front">Front <strong id="gw-front"></strong></div></div>
+      </section>
+      <section><h3>Plate & mounting</h3><div class="gw-segment" aria-label="Plate style"><button data-style="skeleton" aria-pressed="true">Skeletonized</button><button data-style="solid" aria-pressed="false">Solid</button></div><div class="gw-checks"><label><input id="gw-magnets" type="checkbox" checked> Magnet pockets</label><label><input id="gw-screws" type="checkbox"> Screw holes</label></div>
+      <div class="gw-checks"><label><input id="gw-press-fit" type="checkbox"> Press fit — Ø6.08 mm</label></div>
+      <details><summary>Hardware dimensions</summary><div class="gw-fields"><label>Magnet hole diameter <span>mm</span><input id="gw-magnet-diameter" type="number" min="3" max="8" step="0.01" value="6.5"></label><label>Pocket depth <span>mm</span><input id="gw-magnet-depth" type="number" min="1" max="3" step="0.1" value="2.4"></label></div></details></section>
+      <section><div class="gw-heading"><h3>Print layout</h3><label class="gw-switch"><input id="gw-splits" type="checkbox" checked> Show splits</label></div><div class="gw-fields"><label>Max plate width <span>cells</span><input id="gw-max-columns" type="number" min="1" max="6" step="1" value="5"></label><label>Max plate height <span>cells, front to back</span><input id="gw-max-rows" type="number" min="1" max="6" step="1" value="5"></label><label>Bed width <span>mm</span><input id="gw-bed-width" type="number" min="60" max="350" value="220"></label><label>Bed depth <span>mm</span><input id="gw-bed-depth" type="number" min="60" max="350" value="220"></label></div></section>
+    </aside>
+    <main class="gw-view"><div class="gw-viewbar"><div class="gw-segment" aria-label="Preview view"><button data-view="assembled" aria-pressed="true">Assembled</button><button data-view="pieces" aria-pressed="false">Print pieces</button></div><button id="gw-view-mode">2D layout</button></div>
+      <div class="gw-caption"><h2 id="gw-title">Drawer baseplate</h2><span id="gw-dimensions"></span></div>
+      <div id="gw-three" style="height:390px;touch-action:none;overflow:hidden;border-radius:10px"></div><div style="display:flex;gap:12px;align-items:center"><button id="gw-fit-view">Fit view</button><span id="gw-three-status" class="gw-small"></span></div><div id="gw-drawing" class="gw-drawing" hidden></div>
+      <div class="gw-legend"><span><i class="gw-legend-material"></i>Solid material</span><span><i class="gw-legend-opening"></i>Through opening</span><span><i class="gw-legend-pad"></i>Padding</span><span><i class="gw-legend-edge"></i>Drawer wall</span><span><i class="gw-legend-seam"></i>Print seam</span></div>
+      <div class="gw-piece-summary" aria-live="polite"><strong id="gw-piece-count"></strong><span id="gw-piece-detail"></span></div><div id="gw-piece-buttons" class="gw-piece-buttons" aria-label="Select printable piece"></div>
+      <div class="gw-preview-note">Change dimensions or alignment to explore the fit.</div>
+    </main>
+  </div>
+  <footer class="gw-footer"><span id="gw-create-status" role="status" aria-live="polite">Creates separate printable plate bodies</span><button id="gw-create" type="button">Create baseplate</button></footer>
+</div>
+
+</body>
+</html>
