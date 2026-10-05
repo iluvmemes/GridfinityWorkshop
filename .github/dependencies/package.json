@@ -1,0 +1,9 @@
+{
+  "name": "gridfinity-workshop-vendored-dependencies",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Security inventory for the offline Three.js bundle; not a Fusion runtime installer.",
+  "dependencies": {
+    "three": "0.180.0"
+  }
+}
