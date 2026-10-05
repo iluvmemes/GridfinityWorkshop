@@ -14,3 +14,8 @@ commandConfig
 
 # Personal generated print exports
 /outputs/
+
+# Retired research, UI and historical screenshots (local only)
+/experiments/
+/commands/
+/documentation/assets/

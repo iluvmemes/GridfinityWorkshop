@@ -1,6 +1,6 @@
 // Derived from captured Fusion sections; do not hand-edit the outlines.
 const GRIDFINITY_CELL_PROFILES = Object.freeze({
-  "source": "experiments/loft-cell/original-profiles.json",
+  "source": "scripts/assets/source/original-profiles.json",
   "pitch": 42,
   "skeleton": "M 12 7.75 A 4.25 4.25 0 0 1 7.75 12 L 2.7 12 L 2.7 29.5 L 7.75 29.5 A 4.25 4.25 0 0 1 12 33.75 L 12 38.8 L 29.5 38.8 L 29.5 33.75 A 4.25 4.25 0 0 1 33.75 29.5 L 38.8 29.5 L 38.8 12 L 33.75 12 A 4.25 4.25 0 0 1 29.5 7.75 L 29.5 2.7 L 12 2.7 L 12 7.75 Z",
   "mouth": "M 37.75 0 A 3.75 3.75 0 0 1 41.5 3.75 L 41.5 37.75 A 3.75 3.75 0 0 1 37.75 41.5 L 3.75 41.5 A 3.75 3.75 0 0 1 0 37.75 L 0 3.75 A 3.75 3.75 0 0 1 3.75 0 L 37.75 0 Z",

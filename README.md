@@ -69,7 +69,7 @@ Stop the add-in before replacing files. Extract a new release into a clean `Grid
 
 ## Development and packaging
 
-`GridfinityWorkshop.py` is the main Fusion entry point. `workshop/` contains runtime code, UI assets, offline Three.js and cached standard interfaces. `commands/` and `lib/` retain the original implementation for reference; they are not started or included in the workshop release. Research tools remain in `experiments/`.
+`GridfinityWorkshop.py` is the main Fusion entry point. `workshop/` contains runtime code, UI assets, offline Three.js and cached standard interfaces. Reusable tests and Fusion checks live in `.agents/qa/`; asset and preset maintenance tools live in `scripts/assets/`. `lib/` and `config.py` retain the original geometry dependencies used to rebuild bin presets; they are not started or included in the Workshop release. Retired experiments and command UI are available in Git history.
 
 From the repository root, with Python and Node.js installed:
 

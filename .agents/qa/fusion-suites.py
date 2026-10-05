@@ -11,12 +11,12 @@ def module():
  return next(m for n,m in list(sys.modules.items()) if n.startswith('__main__') and str(getattr(m,'__file__','')).replace('\\','/').endswith('/workshop/app.py'))
 def run_suite(name):
  app=adsk.core.Application.get();sys._gf_qa_anchor.activate();m=module()
- source=(ROOT/'experiments/fusion-ui'/('verify-'+name+'-generation.py')).read_text(encoding='utf8') if name!='baseplate' else (ROOT/'experiments/fusion-ui/verify-generation.py').read_text(encoding='utf8')
+ source=(ROOT/'.agents/qa'/('verify-'+name+'-generation.py')).read_text(encoding='utf8') if name!='baseplate' else (ROOT/'.agents/qa/verify-generation.py').read_text(encoding='utf8')
  # Redirect legacy evidence paths while retaining fixture paths and original assertions.
  source=re.sub(r"Path\(r'[^']+\\([^\\']+\.json)'\)",lambda hit:'Path('+repr(str(OUT/(name+'-'+hit.group(1))))+')',source)
- source=source.replace("ROOT/'experiments/fusion-ui/generation-verification.json'","OUT/'baseplate-generation.json'")
- source=source.replace("Path(r'D:\\Code Projects\\GridfinityWorkshop\\experiments\\fusion-ui\\magazine')","OUT/'magazine'")
- source=source.replace("Path(r'D:\\Code Projects\\GridfinityWorkshop\\experiments\\fusion-ui\\dovetail')","OUT/'dovetail'")
+ source=source.replace("ROOT/'.agents/qa/runs/local/generation-verification.json'","OUT/'baseplate-generation.json'")
+ source=source.replace("Path(r'D:\\Code Projects\\GridfinityWorkshop\\.agents\\qa\\runs\\local\\magazine')","OUT/'magazine'")
+ source=source.replace("Path(r'D:\\Code Projects\\GridfinityWorkshop\\.agents\\qa\\runs\\local\\dovetail')","OUT/'dovetail'")
  if name in ('baseplate','bin'):
   doc=app.documents.add(adsk.core.DocumentTypes.FusionDesignDocumentType);doc.name='QA disposable '+name
   g=m.generation if name=='baseplate' else m.catalog.bin_generation
