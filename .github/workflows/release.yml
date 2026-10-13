@@ -15,18 +15,18 @@ jobs:
       attestations: write
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       - name: Create zip file for manual installation
-        uses: vimtor/action-zip@1379ea20d4c5705669ba81fd626dd01b1c738f26 # v1.2
+        uses: vimtor/action-zip@5407800dfb2b1b37d48df912330cb22f4ab6f422 # v1.3
         with:
           files: GridfinityWorkshop.manifest GridfinityWorkshop.py config.py LICENSE.md lib/ commands/ documentation/PRIVACY_POLICY.md
           recursive: false
           dest: dist/GridfinityWorkshop-${{ github.ref_name }}.zip
       - name: Attest release archive provenance
         if: startsWith(github.ref, 'refs/tags/')
-        uses: actions/attest-build-provenance@977bb373ede98d70efdf65b84cb5f73e068dcc2a # v3
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
         with:
           subject-path: dist/*.zip
       - name: Upload the artifacts
