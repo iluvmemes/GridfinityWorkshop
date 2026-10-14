@@ -90,7 +90,7 @@ def generate(data,group_timeline=True):
     feature_start=comp.features.count
     parameter=uid+'_bin_height';suffix=uuid.uuid4().hex[:5]
     if design.userParameters.itemByName(parameter):parameter+='_'+suffix
-    design.userParameters.add(parameter,V(c['heightMM']/10),'mm',name+' nominal height, minimum 14 mm')
+    design.userParameters.add(parameter,V(c['heightMM']/10),'mm',name+(' nominal height, minimum 7 mm' if c['family']=='blank' and c['interior']=='solid' else ' nominal height, minimum 14 mm'))
     s=sketch(comp,name+' - Envelope','5 mm');rectangle(s,0,0,c['widthMM'],c['depthMM'],3.75)
     body=extrude(comp,s,parameter+' - 5 mm',uid+' - Body envelope').bodies.item(0)
     mgr=adsk.fusion.TemporaryBRepManager.get();feet=[]

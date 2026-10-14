@@ -1,5 +1,5 @@
 window.addEventListener('load',()=>{
- const native=window.fusionJavaScriptHandler,wait=()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+ const receipts=[];const native=window.fusionJavaScriptHandler,wait=()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
  const report=()=>JSON.parse(native.handle('inspect','{}')).report;
  function set(id,v){const e=document.getElementById('gw-'+id);if(e.type==='checkbox')e.checked=v;else e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));}
  const click=s=>document.querySelector(s).click();
@@ -12,7 +12,7 @@ window.addEventListener('load',()=>{
  await step('screws',()=>set('screws',true));
  await step('solid',()=>click('[data-style="solid"]'));
  await step('grid-6x6',()=>{set('columns',6);set('rows',6);});
- await step('pieces',()=>click('[data-view="pieces"]'));
+ await step('print-plan',()=>click('[data-stage="print"]'));
  await step('2d',()=>click('#gw-view-mode'));
  await step('3d',()=>click('#gw-view-mode'));
  await step('invalid-grid',()=>set('columns',61),true);
@@ -20,5 +20,5 @@ window.addEventListener('load',()=>{
  await step('invalid-bed',()=>set('bed-width',20),true);
  await step('recover-bed',()=>set('bed-width',220));
  adsk.fusionSendData('response',JSON.stringify({qa:{kind:'baseplate-ui',results}}));}
- window.fusionJavaScriptHandler={handle(action,data){if(action==='qaSuite'){suite().catch(e=>adsk.fusionSendData('response',JSON.stringify({qa:{error:String(e)}})));return JSON.stringify({queued:true});}if(action==='qaCreate'){click('[data-mode="grid"]');set('columns',1);set('rows',1);set('bed-width',220);click('[data-style="skeleton"]');set('press-fit',true);setTimeout(()=>click('#gw-create'),0);return JSON.stringify({queued:true});}return native.handle(action,data);}};
+ window.fusionJavaScriptHandler={handle(action,data){if(action==='creationStatus')receipts.push(JSON.parse(data));if(action==='qaPing')return JSON.stringify({version:'baseplate-v7',report:report()});if(action==='qaReceipt')return JSON.stringify({receipts,report:report()});if(action==='qaCreateCurrent'){setTimeout(()=>{click('[data-stage="print"]');click('#gw-create');},0);return JSON.stringify({queued:true});}if(action==='qaSuite'){suite().catch(e=>adsk.fusionSendData('response',JSON.stringify({qa:{error:String(e)}})));return JSON.stringify({queued:true});}if(action==='qaCreate'){click('[data-mode="grid"]');set('columns',1);set('rows',1);set('bed-width',220);click('[data-style="skeleton"]');set('press-fit',true);setTimeout(()=>click('#gw-create'),0);return JSON.stringify({queued:true});}return native.handle(action,data);}};
 });

@@ -14,6 +14,7 @@ PALETTE_ID = 'GridfinityWorkshop_UIPreview_Palette'
 PANEL_IDS = ('SolidCreatePanel', 'SolidScriptsAddinsPanel')
 ICON_FOLDER = str(Path(__file__).parent / 'resources')
 _handlers = []
+_palette_handler = None
 _started = False
 _messages = []
 _last_preview = None
@@ -32,7 +33,9 @@ class _HTMLHandler(adsk.core.HTMLEventHandler):
         try:
             event = adsk.core.HTMLEventArgs.cast(args)
             data = json.loads(event.data) if event.data else {}
-            if event.action in ('ready', 'previewChanged'):
+            if event.action == 'ping':
+                event.returnData = json.dumps({'ok': True})
+            elif event.action in ('ready', 'previewChanged'):
                 _last_preview = data
                 event.returnData = json.dumps({'ok': True, 'previewOnly': True})
             elif event.action == 'create':
@@ -90,7 +93,7 @@ class _GenerateHandler(adsk.core.CommandEventHandler):
                 raise ValueError('The active document changed. Create the plate again in the intended design.')
             result = generation.generate(job['settings'])
             _last_creation = result
-            status('complete',f"Created {result['pieces']} piece(s) in {result['seconds']:.2f} s",result)
+            status('complete',f"Created {result['pieces']} bodies; print {result.get('printCount', result['pieces'])} plates total ({result['seconds']:.2f} s)",result)
             app.activeViewport.fit()
         except Exception as error:
             args.executeFailed = True
@@ -174,22 +177,32 @@ def start():
 
 def show():
     """Open the local HTML in Fusion's supported embedded browser."""
+    global _palette_handler
     ui = _ui()
     palette = ui.palettes.itemById(PALETTE_ID)
     if not palette:
         url = (Path(__file__).parent / 'palette.html').resolve().as_uri()
         palette = ui.palettes.add(
             PALETTE_ID, 'Gridfinity Workshop — Baseplate', url,
-            False, True, True, 480, 760, True)
+            False, True, True, 1000, 780, True)
         if not palette:
             raise RuntimeError('Fusion could not create the preview palette.')
         palette.dockingOption = adsk.core.PaletteDockingOptions.PaletteDockOptionsToVerticalOnly
         palette.dockingState = adsk.core.PaletteDockingStates.PaletteDockStateRight
         palette.setMinimumSize(360, 480)
-        handler = _HTMLHandler()
-        palette.incomingFromHTML.add(handler)
-        _handlers.append(handler)
     palette.isVisible = True
+    # Reopening should start above the 700 px side-by-side breakpoint.
+    palette.width = 1000
+    # Bind after showing/resizing: Fusion may replace the HTML event source while
+    # initializing the browser. Rebind on reopen as well, without duplicate handlers.
+    if _palette_handler is not None:
+        palette.incomingFromHTML.remove(_palette_handler)
+        if _palette_handler in _handlers:
+            _handlers.remove(_palette_handler)
+    _palette_handler = _HTMLHandler()
+    if not palette.incomingFromHTML.add(_palette_handler):
+        raise RuntimeError('Could not connect the Workshop panel to Fusion.')
+    _handlers.append(_palette_handler)
     return palette
 
 

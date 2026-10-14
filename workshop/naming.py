@@ -21,8 +21,8 @@ def labels(settings, layout_id):
     layout = f"{identity} - {settings['columns']}x{settings['rows']} - {variant}"
     pieces = []
     for index, piece in enumerate(settings['pieces'], 1):
-        row = piece['y']//settings['chunkY']+1
-        column = piece['x']//settings['chunkX']+1
+        row = piece.get('layoutRow', piece['y']//settings['chunkY']+1)
+        column = piece.get('layoutColumn', piece['x']//settings['chunkX']+1)
         width, depth = piece['x1']-piece['x0'], piece['y1']-piece['y0']
         pieces.append(f"{identity} - P{index:02d}of{len(settings['pieces']):02d} R{row}C{column}"
                       f" - {piece['columns']}x{piece['rows']} - {width:g}x{depth:g}mm - {variant}")

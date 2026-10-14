@@ -44,6 +44,11 @@ def validate(data):
         raise ValueError('The available space must fit between 1 and 60 full cells per axis.')
     extra_x, extra_y = width-(cols*42-.5), depth_mm-(rows*42-.5)
     left, back = extra_x*(anchor%3)/2, extra_y*(anchor//3)/2
+    if 'planningPreference' in data or 'outputMode' in data:
+        from .plate_plan import plan
+        result=dict(data,columns=cols,rows=rows,widthMM=width,depthMM=depth_mm,left=left,right=extra_x-left,back=back,front=extra_y-back,clearance=clearance,maxPlateColumns=max_columns,maxPlateRows=max_rows,magnetDiameter=diameter,magnetDepth=depth)
+        result.update(plan(result))
+        return result
     def chunk_size(count, leading, trailing, bed, maximum):
         # Padding belongs only to the outer pieces; the last cell is 0.5 mm shorter.
         for stride in range(min(count, maximum), 0, -1):
@@ -64,8 +69,10 @@ def validate(data):
             x1 = cols*42-.5+(extra_x-left) if x+n == cols else (x+n)*42
             y1 = rows*42-.5+(extra_y-back) if y+m == rows else (y+m)*42
             pieces.append({'x':x,'y':y,'columns':n,'rows':m,'x0':x0,'y0':y0,'x1':x1,'y1':y1})
-    return dict(data, columns=cols, rows=rows, widthMM=width, depthMM=depth_mm,
+    result = dict(data, columns=cols, rows=rows, widthMM=width, depthMM=depth_mm,
                 left=left, right=extra_x-left, back=back, front=extra_y-back,
                 clearance=clearance, pieces=pieces, chunkX=chunk_x, chunkY=chunk_y,
                 maxPlateColumns=max_columns, maxPlateRows=max_rows,
                 magnetDiameter=diameter, magnetDepth=depth)
+
+    return result

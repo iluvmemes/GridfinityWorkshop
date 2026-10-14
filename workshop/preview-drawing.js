@@ -5,11 +5,11 @@ function drawGridfinityPreview(container, plate, options) {
   const profile = GRIDFINITY_CELL_PROFILES;
   const {pw,pd,nx,ny,left,back,right,front,pieces} = plate;
   const width = container.clientWidth || 550;
-  const height = Math.max(280, Math.min(470, width * .85));
+  const height = container.clientHeight || Math.max(280, Math.min(470, width * .85));
   const gap = options.exploded ? 13 : 0;
   const totalW = pw + gap * Math.floor((nx - 1) / pieces[0].cols);
   const totalH = pd + gap * Math.floor((ny - 1) / pieces[0].rows);
-  const scale = Math.min((width - 44) / totalW, (height - 50) / totalH);
+  const scale = Math.min((width - 20) / totalW, (height - 20) / totalH);
   const ox = (width - totalW * scale) / 2;
   const oy = (height - totalH * scale) / 2;
   const rect = (x,y,w,h,extra='') => `<rect x="${x}" y="${y}" width="${w}" height="${h}" ${extra}/>`;
@@ -68,11 +68,12 @@ function drawGridfinityPreview(container, plate, options) {
     svg += '</g>';
     // Only the printable piece has an outside boundary, not every grid cell.
     svg += outline(p,
-      `fill="none" stroke="var(${pieces.length>1&&i===options.selected?'--gw-blue':'--gw-muted'})" stroke-width="${(pieces.length>1&&i===options.selected?1.5:.8)/scale}"`);
+      `fill="none" stroke="var(${pieces.length>1&&(i===options.selected||p.typeIndex===options.selectedType)?'--gw-blue':'--gw-muted'})" stroke-width="${(pieces.length>1&&(i===options.selected||p.typeIndex===options.selectedType)?1.5:.8)/scale}"`);
     if(options.showSplits && pieces.length>1) {
       if(p.x1<pw) svg += `<path d="M ${p.x1} ${p.y0} V ${p.y1}" fill="none" stroke="var(--gw-blue)" stroke-width="${1.5/scale}" stroke-dasharray="4 3"/>`;
       if(p.y1<pd) svg += `<path d="M ${p.x0} ${p.y1} H ${p.x1}" fill="none" stroke="var(--gw-blue)" stroke-width="${1.5/scale}" stroke-dasharray="4 3"/>`;
     }
+    if(options.showSplits&&p.typeId)svg+=`<text x="${(p.x0+p.x1)/2}" y="${(p.y0+p.y1)/2}" text-anchor="middle" font-size="${13/scale}" fill="#123d57" stroke="white" stroke-width="${3/scale}" paint-order="stroke">${p.typeId}${p.rotation?`<tspan x="${(p.x0+p.x1)/2}" dy="${10/scale}" font-size="${9/scale}">${p.rotation}°</tspan>`:''}</text>`;
     svg += '</g>';
   });
   container.innerHTML = svg + '</g></svg>';

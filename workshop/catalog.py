@@ -10,6 +10,7 @@ from .fit_test_request import validate as validate_test
 COMMAND_ID = 'GridfinityWorkshop_BinCatalog_Show'
 PALETTE_ID = 'GridfinityWorkshop_BinCatalog_Palette'
 _handlers = []
+_palette_handler = None
 _last_response = None
 _pending = None
 _last_creation = None
@@ -19,7 +20,9 @@ class HTMLHandler(adsk.core.HTMLEventHandler):
     def notify(self, args):
         global _last_response
         try:
-            if args.action in ('response', 'catalogReady'):
+            if args.action == 'ping':
+                args.returnData = json.dumps({'ok': True})
+            elif args.action in ('response', 'catalogReady'):
                 data = json.loads(args.data)
                 wrapped = data.get('data') if isinstance(data, dict) else None
                 _last_response = json.loads(wrapped) if isinstance(wrapped, str) else data
@@ -72,18 +75,28 @@ def start():
     _handlers.append(generated)
 
 def show():
+    global _palette_handler
     ui = adsk.core.Application.get().userInterface
     palette = ui.palettes.itemById(PALETTE_ID)
     if not palette:
         palette = ui.palettes.add(PALETTE_ID, 'Gridfinity Workshop — Bin catalog',
-            (Path(__file__).parent/'catalog.html').resolve().as_uri() + '?v=25', False, True, True, 1000, 780, True)
+            (Path(__file__).parent/'catalog.html').resolve().as_uri() + '?v=29', False, True, True, 1000, 780, True)
         palette.setMinimumSize(390, 540)
         palette.dockingOption = adsk.core.PaletteDockingOptions.PaletteDockOptionsToVerticalOnly
         palette.dockingState = adsk.core.PaletteDockingStates.PaletteDockStateRight
-        handler = HTMLHandler()
-        palette.incomingFromHTML.add(handler)
-        _handlers.append(handler)
     palette.isVisible = True
+    # Reopening should start above the 700 px side-by-side breakpoint.
+    palette.width = 1000
+    # Bind after showing/resizing: Fusion may replace the HTML event source while
+    # initializing the browser. Rebind on reopen as well, without duplicate handlers.
+    if _palette_handler is not None:
+        palette.incomingFromHTML.remove(_palette_handler)
+        if _palette_handler in _handlers:
+            _handlers.remove(_palette_handler)
+    _palette_handler = HTMLHandler()
+    if not palette.incomingFromHTML.add(_palette_handler):
+        raise RuntimeError('Could not connect the Workshop panel to Fusion.')
+    _handlers.append(_palette_handler)
     return palette
 
 def stop():

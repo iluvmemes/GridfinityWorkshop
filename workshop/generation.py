@@ -60,6 +60,11 @@ def padded_blank(component, settings, parameters, plate_name, layout_id):
     w, d = settings['columns']*4.2-.05, settings['rows']*4.2-.05
     left, right, back, front = [settings[k]/10 for k in ('left','right','back','front')]
     points = [P(-left,-back,0),P(w+right,-back,0),P(w+right,d+front,0),P(-left,d+front,0)]
+    ox, oy = settings.get('originMM', (0, 0))
+    ox, oy = ox/10, oy/10
+    for point in points:
+        point.x += ox
+        point.y += oy
     lines = []
     for i in range(4):
         start = points[i] if i == 0 else lines[-1].endSketchPoint
@@ -67,7 +72,7 @@ def padded_blank(component, settings, parameters, plate_name, layout_id):
         line = s.sketchCurves.sketchLines.addByTwoPoints(start,end)
         (s.geometricConstraints.addHorizontal if i%2==0 else s.geometricConstraints.addVertical)(line)
         lines.append(line)
-    marker = s.sketchPoints.add(P(-10,-10,0))
+    marker = s.sketchPoints.add(P(ox-10,oy-10,0))
     marker.isFixed = True
     dims, orientation = s.sketchDimensions, adsk.fusion.DimensionOrientations
     def dim(a,b,o,expr):
@@ -82,20 +87,42 @@ def padded_blank(component, settings, parameters, plate_name, layout_id):
     extrude = component.features.extrudeFeatures.addSimple(s.profiles.item(0),V(.79),OPS.NewBodyFeatureOperation)
     extrude.name = layout_id + ' - Plate blank 7.9 mm'
     body = extrude.bodies.item(0)
-    vertical = [edge for edge in body.edges if abs(edge.boundingBox.maxPoint.z-edge.boundingBox.minPoint.z-.79)<1e-6]
-    fillet_input = component.features.filletFeatures.createInput()
-    fillet_input.edgeSetInputs.addConstantRadiusEdgeSet(collection(vertical),V(.375),False)
-    component.features.filletFeatures.add(fillet_input).name = layout_id + ' - Outer corners R3.75 mm'
+    exterior = settings.get('edges', [True]*4)
+    xmin, xmax, ymin, ymax = ox-left, ox+w+right, oy-back, oy+d+front
+    def near(a,b): return abs(a-b)<1e-6
+    vertical=[]
+    for edge in body.edges:
+        bb=edge.boundingBox
+        if not near(bb.maxPoint.z-bb.minPoint.z,.79): continue
+        ex=(near(bb.minPoint.x,xmin) and exterior[0]) or (near(bb.minPoint.x,xmax) and exterior[1])
+        ey=(near(bb.minPoint.y,ymin) and exterior[2]) or (near(bb.minPoint.y,ymax) and exterior[3])
+        if ex and ey: vertical.append(edge)
+    if vertical:
+        fillet_input = component.features.filletFeatures.createInput()
+        fillet_input.edgeSetInputs.addConstantRadiusEdgeSet(collection(vertical),V(.375),False)
+        component.features.filletFeatures.add(fillet_input).name = layout_id + ' - Outer corners R3.75 mm'
     bottom = next(face for face in body.faces if abs(face.boundingBox.maxPoint.z)<1e-6)
-    chamfer = component.features.chamferFeatures.createInput2()
-    chamfer.chamferEdgeSets.addEqualDistanceChamferEdgeSet(collection(bottom.edges),V(.05),True)
-    component.features.chamferFeatures.add(chamfer).name = layout_id + ' - Bottom chamfer 0.5 mm'
+    boundary=[]
+    for edge in bottom.edges:
+        a,b=edge.boundingBox.minPoint,edge.boundingBox.maxPoint
+        straight = ((exterior[0] and near(a.x,xmin) and near(b.x,xmin)) or
+                    (exterior[1] and near(a.x,xmax) and near(b.x,xmax)) or
+                    (exterior[2] and near(a.y,ymin) and near(b.y,ymin)) or
+                    (exterior[3] and near(a.y,ymax) and near(b.y,ymax)))
+        arc = b.x-a.x>1e-6 and b.y-a.y>1e-6
+        if straight or arc: boundary.append(edge)
+    if boundary:
+        chamfer = component.features.chamferFeatures.createInput2()
+        chamfer.chamferEdgeSets.addEqualDistanceChamferEdgeSet(collection(boundary),V(.05),False)
+        component.features.chamferFeatures.add(chamfer).name = layout_id + ' - Exterior bottom chamfer 0.5 mm'
     s.isVisible = False
     return body
 
 
 def generate(data):
     settings = validate(data)
+    if 'plateTypes' in settings:
+        return generate_planned(settings)
     app = adsk.core.Application.get()
     design = adsk.fusion.Design.cast(app.activeProduct)
     if not design or design.designType != adsk.fusion.DesignTypes.ParametricDesignType:
@@ -204,4 +231,76 @@ def generate(data):
             parameter = design.userParameters.itemByName(name)
             if parameter:
                 parameter.deleteMe()
+        raise
+
+
+def generate_planned(settings):
+    """Generate only requested parts, never a drawer-sized intermediate body."""
+    app=adsk.core.Application.get()
+    design=adsk.fusion.Design.cast(app.activeProduct)
+    if not design or design.designType != adsk.fusion.DesignTypes.ParametricDesignType:
+        raise ValueError('Open a parametric Fusion design before creating a baseplate.')
+    if design.timeline.markerPosition != design.timeline.count:
+        raise ValueError('Move the timeline marker to the end before creating a baseplate.')
+    started=time.perf_counter(); seed=cell_tool(settings)
+    names=[item.name for c in design.allComponents for item in list(c.bRepBodies)+list(c.sketches)]
+    layout_id=next_layout_id(names)
+    plate_name,_=labels(settings,layout_id)
+    uid='gf_'+uuid.uuid4().hex[:8]; start=design.timeline.count
+    is_part=design.designIntent == adsk.fusion.DesignIntentTypes.PartDesignIntentType
+    occurrence=None if is_part else design.rootComponent.occurrences.addNewComponent(adsk.core.Matrix3D.create())
+    component=design.rootComponent if is_part else occurrence.component
+    if occurrence: component.name=plate_name
+    parameter_names=[]; body_names=[]; feature_start=component.features.count
+    unique=settings['outputMode']=='unique'
+    selected=settings['plateTypes'] if unique else settings['pieces']
+    manager=adsk.fusion.TemporaryBRepManager.get()
+    try:
+        for index,piece in enumerate(selected):
+            type_id=piece['typeId']; quantity=settings['plateTypes'][next(i for i,t in enumerate(settings['plateTypes']) if t['typeId']==type_id)]['quantity']
+            identity=f'{layout_id} - Type {type_id} - {piece["columns"]}x{piece["rows"]}'
+            name=identity+(f' - Print {quantity}' if unique else f' - R{piece["layoutRow"]}C{piece["layoutColumn"]}')
+            local=dict(settings,columns=piece['columns'],rows=piece['rows'],edges=piece['edges'])
+            for side,value in zip(('left','right','back','front'),piece['margins']): local[side]=value
+            if unique:
+                # Compact shelf arrangement; location does not change the printable solid.
+                local['originMM']=((index%4)*400+local['left'],(index//4)*400+local['back'])
+            else: local['originMM']=(piece['x']*42+settings['left'],piece['y']*42+settings['back'])
+            params={}
+            for side in ('left','right','back','front'):
+                param=f'{uid}_{index}_{side}'
+                design.userParameters.add(param,V(local[side]/10),'mm',name+': '+side+' boundary margin')
+                parameter_names.append(param);params[side]=param
+            body=padded_blank(component,local,params,name,identity)
+            base=component.features.baseFeatures.add();base.name=identity+' - Standard cells'
+            if not base.startEdit(): raise RuntimeError('Could not start cached cell insertion.')
+            try:
+                ox,oy=local['originMM']
+                for y in range(local['rows']):
+                    for x in range(local['columns']):
+                        tool=manager.copy(seed);t=adsk.core.Matrix3D.create()
+                        t.translation=adsk.core.Vector3D.create(ox/10+x*4.2,oy/10+y*4.2,.84)
+                        if not manager.transform(tool,t) or not component.bRepBodies.add(tool,base):
+                            raise RuntimeError('Could not insert a standard cell.')
+            finally: base.finishEdit()
+            cut=component.features.combineFeatures.createInput(body,collection(base.bodies))
+            cut.operation=OPS.CutFeatureOperation;cut.isKeepToolBodies=False
+            feature=component.features.combineFeatures.add(cut);feature.name=identity+' - Cells and hardware'
+            if feature.bodies.count!=1: raise RuntimeError('A plate must be one body.')
+            body=feature.bodies.item(0)
+            if not body.isSolid or body.lumps.count!=1: raise RuntimeError('A plate must be one connected solid.')
+            body.name=name;body_names.append(name)
+            body.attributes.add('GridfinityWorkshop','layout',plate_name)
+            body.attributes.add('GridfinityWorkshop','piece',json.dumps(dict(piece,name=name,printQuantity=quantity if unique else 1)))
+        unhealthy=[f.errorOrWarningMessage for f in list(component.features)[feature_start:] if int(f.healthState)!=0]
+        if unhealthy: raise RuntimeError('Fusion reported an unhealthy feature: '+'; '.join(unhealthy))
+        component.attributes.add('GridfinityWorkshop_'+uid,'settings',json.dumps(settings))
+        group=design.timeline.timelineGroups.add(start,design.timeline.count-1);group.name=plate_name
+        return dict(component=component.name,plate=plate_name,pieces=len(selected),printCount=len(settings['pieces']),uniqueCount=len(settings['plateTypes']),seconds=time.perf_counter()-started,layoutId=layout_id,pieceNames=body_names,featureCount=component.features.count-feature_start,dimensionsMM=[settings['widthMM'],settings['depthMM'],7.9],occurrenceToken=occurrence.entityToken if occurrence else None)
+    except Exception:
+        if occurrence:
+            occurrence.deleteMe()
+            for name in parameter_names:
+                param=design.userParameters.itemByName(name)
+                if param: param.deleteMe()
         raise

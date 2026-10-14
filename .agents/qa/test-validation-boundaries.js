@@ -2,20 +2,20 @@ const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/st
 const root=path.resolve(__dirname,'../../workshop');
 const palette=fs.readFileSync(path.join(root,'palette.js'),'utf8');
 const values={'max-columns':6,'max-rows':6,width:125,depth:83.5,clearance:0,'bed-width':70,'bed-depth':100,'magnet-diameter':0};
-const ctx={state:{style:'solid',mode:'fit',anchor:4},num:id=>values[id],q:()=>({checked:false}),all:()=>[]};vm.createContext(ctx);
+const ctx={PlatePlan:require(path.join(root,'plate-plan.js')),state:{style:'solid',mode:'fit',anchor:4},num:id=>values[id],q:id=>({checked:false,value:id==='#gw-preference'?'plates':'unique'}),all:()=>[]};vm.createContext(ctx);
 vm.runInContext(palette.slice(palette.indexOf('function bedChunk('),palette.indexOf('function render(')),ctx);
 let result=vm.runInContext('calculate()',ctx);
-assert.deepEqual(Array.from(result.pieces,p=>p.x1-p.x0),[62.75,62.25]);
+assert.deepEqual(Array.from(result.pieces,p=>p.x1-p.x0),[62.5,62.5]);
 for(let anchor=0;anchor<9;anchor++)for(const bed of [60,70,84,100,125]){
  ctx.state.anchor=anchor;values['bed-width']=values['bed-depth']=bed;
  result=vm.runInContext('calculate()',ctx);
- const left=41.5*(anchor%3)/2,feasible=Math.max(42+left,83-left)<=bed;
+ const left=41.5*(anchor%3)/2,feasible=Math.max(41.75+left,83.25-left)<=bed;
  assert.equal(!result.error,feasible);
  if(feasible){assert.ok(result.pieces.every(p=>p.x1-p.x0<=bed&&p.y1-p.y0<=bed));assert.equal(result.pieces.reduce((sum,p)=>sum+(p.x1-p.x0)*(p.y1-p.y0),0),125*83.5);}
 }
 ctx.state.anchor=4;
 values.width=1242.06;values.depth=535.94;values.clearance=.5;
-for(const [bed,count] of [[220,24],[256,18],[350,10]]){
+for(const [bed,count] of [[220,21],[256,18],[350,10]]){
  values['bed-width']=values['bed-depth']=bed;result=vm.runInContext('calculate()',ctx);
  assert.equal(result.pieces.length,count);assert.equal(result.nx*result.ny,348);
  assert.ok(result.pieces.every(p=>p.cols<=6&&p.rows<=6&&p.x1-p.x0<=bed+1e-8&&p.y1-p.y0<=bed+1e-8));

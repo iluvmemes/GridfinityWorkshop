@@ -11,6 +11,14 @@ DEFAULT=dict(family='clasp',title='Test',cols=2,rows=1,height=6,interior='open',
              channelWidth=6,channelDepth=10,channelColumns=9,channelRows=5)
 
 class BinRequests(unittest.TestCase):
+    def test_one_unit_blank(self):
+        c=validate(dict(DEFAULT,family='blank',interior='solid',height=1))
+        self.assertEqual(c['heightMM'],7)
+        self.assertEqual(c['cavities'],[])
+        self.assertEqual(c['diameter'],6.08)
+        for change in (dict(height=0),dict(interior='open'),dict(family='standard',interior='open')):
+            with self.assertRaises(ValueError):validate(dict(DEFAULT,family='blank',interior='solid',height=1,**{}) | change)
+
     def test_fixed_dovetail_height(self):
         for rim in (False,True):
             c=validate({**DEFAULT,'family':'standard','dovetailLid':True,'rim':rim})

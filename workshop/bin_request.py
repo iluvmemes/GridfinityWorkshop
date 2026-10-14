@@ -19,7 +19,7 @@ def validate(data):
         c['cartLength']=number(c,'cartLength',30,220)
         c['cartWidth']=number(c,'cartWidth',12,80)
         c.update(cols=1,rows=1,magnet='off',scoop=False,label=False)
-    for key,lo,hi in [('cols',2 if clasp else 1,6),('rows',1,6),('height',6 if clasp else 4 if cartridge else 2,20)]:
+    for key,lo,hi in [('cols',2 if clasp else 1,6),('rows',1,6),('height',6 if clasp else 4 if cartridge else 1 if c['family']=='blank' and c.get('interior')=='solid' else 2,20)]:
         c[key]=number(c,key,lo,hi,True)
     if c.get('interior') not in (('open','divided','magnets') if c['family']!='blank' else ('solid','open')):
         raise ValueError('Choose a supported interior.')

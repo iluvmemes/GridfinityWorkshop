@@ -6,7 +6,7 @@ window.addEventListener('error', event => {
     adsk.fusionSendData('uiError', JSON.stringify({message:event.message}));
   }
 });
-(()=>{const root=document.getElementById('gf-workshop'),q=s=>root.querySelector(s),all=s=>[...root.querySelectorAll(s)];const state={mode:'fit',style:'skeleton',view:'assembled',anchor:4,selected:0};const names=['Back left','Back center','Back right','Middle left','Centered','Middle right','Front left','Front center','Front right'];const arrows=['↖','↑','↗','←','•','→','↙','↓','↘'];q('.gw-anchor').innerHTML=names.map((n,i)=>`<button aria-label="${n}" data-anchor="${i}" aria-pressed="${i===4}">${arrows[i]}</button>`).join('');const num=id=>Number(q('#gw-'+id).value),fmt=n=>Number(n.toFixed(2)).toString();let last; let creating=false; let useThree=true; let previewThree=null;
+(()=>{const root=document.getElementById('gf-workshop'),q=s=>root.querySelector(s),all=s=>[...root.querySelectorAll(s)];const state={mode:'fit',style:'skeleton',view:'assembled',anchor:4,selected:0,stage:'design'};const names=['Back left','Back center','Back right','Middle left','Centered','Middle right','Front left','Front center','Front right'];const arrows=['↖','↑','↗','←','•','→','↙','↓','↘'];q('.gw-anchor').innerHTML=names.map((n,i)=>`<button aria-label="${n}" data-anchor="${i}" aria-pressed="${i===4}">${arrows[i]}</button>`).join('');const num=id=>Number(q('#gw-'+id).value),fmt=n=>Number(n.toFixed(2)).toString();let last; let creating=false; let useThree=true; let previewThree=null;
 function validNumber(el) {
   const value = Number(el.value);
   const min = Number(el.getAttribute('min'));
@@ -27,22 +27,25 @@ function bedChunk(count,leading,trailing,bed,maximum){
   }
   return 0;
 }
-function calculate(){if(state.style==='skeleton'&&q('#gw-magnets').checked&&num('magnet-diameter')>6.5)return {error:'Skeletonized plates support magnet holes up to 6.5 mm. Choose Solid for larger holes.'};const fit=state.mode==='fit',clear=fit?num('clearance'):0,w=fit?num('width'):num('columns')*42-.5,d=fit?num('depth'):num('rows')*42-.5;for(const el of all('input[type=number]')){if(el.closest('[hidden]')||el.id.startsWith('gw-magnet-')&&!q('#gw-magnets').checked)continue;if(!validNumber(el))return {error:'Enter a valid value within the field limits.'};}const nx=fit?Math.floor((w-clear*2+.5)/42):num('columns'),ny=fit?Math.floor((d-clear*2+.5)/42):num('rows');if(nx<1||ny<1||nx>60||ny>60)return{error:'Layouts support 1–60 cells per axis; each printed plate is at most 6×6.'};const pw=w-clear*2,pd=d-clear*2,ex=pw-(nx*42-.5),ey=pd-(ny*42-.5),left=ex*(state.anchor%3)/2,back=ey*Math.floor(state.anchor/3)/2;const cx=bedChunk(nx,left,ex-left,num('bed-width'),num('max-columns')),cy=bedChunk(ny,back,ey-back,num('bed-depth'),num('max-rows'));if(!cx||!cy)return{error:'The bed is too small for a cell with this padding.'};let pieces=[];for(let y=0;y<ny;y+=cy)for(let x=0;x<nx;x+=cx){let cols=Math.min(cx,nx-x),rows=Math.min(cy,ny-y),x0=x===0?0:left+x*42,y0=y===0?0:back+y*42,x1=x+cols===nx?pw:left+(x+cols)*42,y1=y+rows===ny?pd:back+(y+rows)*42;pieces.push({x,y,cols,rows,x0,y0,x1,y1});}return{w,d,pw,pd,nx,ny,left,back,right:ex-left,front:ey-back,pieces};}
-function render(){q('#gw-press-fit').checked=Math.abs(num('magnet-diameter')-6.08)<0.000001;q('#gw-press-fit').disabled=!q('#gw-magnets').checked;q('#gw-fit').hidden=state.mode!=='fit';q('#gw-grid').hidden=state.mode!=='grid';q('#gw-padding-section').hidden=state.mode!=='fit';for(const key of ['mode','style','view','anchor'])all('[data-'+key+']').forEach(b=>b.setAttribute('aria-pressed',String(String(state[key])===b.dataset[key])));q('#gw-anchor-name').textContent=names[state.anchor];const data=calculate();q('#gw-error').hidden=!data.error;q('#gw-create').disabled=creating||!!data.error;if(data.error){q('#gw-error').textContent=data.error;q('#gw-title').textContent='Last valid preview';return;}last=data;const{w,d,pw,pd,nx,ny,left,back,right,front,pieces}=data;state.selected=Math.max(0,Math.min(state.selected,pieces.length-1));q('#gw-grid-summary').textContent=`${nx} × ${ny} grid · ${nx*ny} usable cells`;['left','right','front','back'].forEach(k=>q('#gw-'+k).textContent=fmt(data[k])+' mm');q('#gw-title').textContent=state.mode==='fit'?'Drawer baseplate':'Grid baseplate';q('#gw-dimensions').textContent=`${fmt(pw)} × ${fmt(pd)} mm finished plate`;q('#gw-piece-count').textContent=pieces.length===1?'One printable plate':`${pieces.length} printable pieces`;const p=pieces[state.selected];q('#gw-piece-detail').textContent=`Piece ${state.selected+1} · ${p.cols} × ${p.rows} cells · ${fmt(p.x1-p.x0)} × ${fmt(p.y1-p.y0)} mm`;q('#gw-piece-buttons').innerHTML=pieces.map((p,i)=>`<button data-piece="${i}" aria-pressed="${i===state.selected}">Piece ${i+1}</button>`).join('');draw();}
+function calculate(){if(state.style==='skeleton'&&q('#gw-magnets').checked&&num('magnet-diameter')>6.5)return {error:'Skeletonized plates support magnet holes up to 6.5 mm. Choose Solid for larger holes.'};const fit=state.mode==='fit',clear=fit?num('clearance'):0,w=fit?num('width'):num('columns')*42-.5,d=fit?num('depth'):num('rows')*42-.5;for(const el of all('input[type=number]')){if((['gw-width','gw-depth','gw-clearance'].includes(el.id)&&!fit)||(['gw-columns','gw-rows'].includes(el.id)&&fit)||el.id.startsWith('gw-magnet-')&&!q('#gw-magnets').checked)continue;el.setAttribute('aria-invalid',String(!validNumber(el)));if(!validNumber(el))return {error:(el.closest('label')?.textContent.trim()||'Value')+': enter a value from '+el.min+' to '+el.max+'.'};}const nx=fit?Math.floor((w-clear*2+.5)/42):num('columns'),ny=fit?Math.floor((d-clear*2+.5)/42):num('rows');if(nx<1||ny<1||nx>60||ny>60)return{error:'Layouts support 1–60 cells per axis; each printed plate is at most 6×6.'};const pw=w-clear*2,pd=d-clear*2,ex=pw-(nx*42-.5),ey=pd-(ny*42-.5),left=ex*(state.anchor%3)/2,back=ey*Math.floor(state.anchor/3)/2;let planned;try{planned=PlatePlan.plan({columns:nx,rows:ny,left,right:ex-left,back,front:ey-back,bedWidth:num('bed-width'),bedDepth:num('bed-depth'),maxPlateColumns:num('max-columns'),maxPlateRows:num('max-rows'),planningPreference:q('#gw-preference').value,preferSymmetry:q('#gw-symmetry').checked,outputMode:q('#gw-output').value});}catch(e){return{error:e.message};}const pieces=planned.pieces.map(p=>({...p,cols:p.columns,x0:p.x0+left,x1:p.x1+left,y0:p.y0+back,y1:p.y1+back}));return{w,d,pw,pd,nx,ny,left,back,right:ex-left,front:ey-back,...planned,pieces};}
+
+function render(){const printing=state.stage==='print';q('#gw-splits').closest('label').hidden=!printing;q('#gw-print-settings').hidden=!printing;q('#gw-print-list').hidden=!printing;[...q('.gw-panel').children].forEach(e=>{if(!['gw-print-settings','gw-print-list'].includes(e.id))e.hidden=printing;});q('#gw-create').hidden=!printing;q('#gw-next').hidden=printing;all('[data-stage]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.stage===state.stage)));q('#gw-press-fit').checked=Math.abs(num('magnet-diameter')-6.08)<0.000001;q('#gw-press-fit').disabled=!q('#gw-magnets').checked;q('#gw-fit').hidden=state.mode!=='fit';q('#gw-grid').hidden=state.mode!=='grid';q('#gw-padding-section').hidden=printing||state.mode!=='fit';for(const key of ['mode','style','view','anchor'])all('[data-'+key+']').forEach(b=>b.setAttribute('aria-pressed',String(String(state[key])===b.dataset[key])));q('#gw-anchor-name').textContent=names[state.anchor];const data=calculate();q('#gw-error').hidden=!data.error;q('#gw-create').disabled=creating||!!data.error;q('#gw-next').disabled=!!data.error;if(data.error){q('#gw-error').textContent=data.error;q('#gw-title').textContent='Last valid preview';q('#gw-create-status').textContent=data.error;return;}last=data;const{w,d,pw,pd,nx,ny,left,back,right,front,pieces}=data;state.selected=Math.max(0,Math.min(state.selected,data.plateTypes.length-1));q('#gw-grid-summary').textContent=`${nx} × ${ny} grid · ${nx*ny} usable cells`;['left','right','front','back'].forEach(k=>q('#gw-'+k).textContent=fmt(data[k])+' mm');q('#gw-title').textContent=state.mode==='fit'?'Drawer baseplate':'Grid baseplate';q('#gw-dimensions').textContent=`${fmt(pw)} × ${fmt(pd)} mm`;q('#gw-piece-count').textContent=`${data.plateTypes.length} unique designs · ${pieces.length} plates total`;const t=data.plateTypes[state.selected];q('#gw-piece-detail').textContent=`Type ${t.typeId} · print ${t.quantity}`;q('#gw-piece-buttons').innerHTML='<table><thead><tr><th>Type</th><th>Grid</th><th>Size (mm)</th><th>Print</th></tr></thead><tbody>'+data.plateTypes.map((p,i)=>`<tr><td><button data-piece="${i}" aria-pressed="${i===state.selected}">${p.typeId}</button></td><td>${p.columns} × ${p.rows}</td><td>${fmt(p.x1-p.x0)} × ${fmt(p.y1-p.y0)}</td><td>${p.quantity}</td></tr>`).join('')+'</tbody></table>';q('#gw-plan-comparison').textContent=`Minimum plate count: ${data.minimumPlateCount}. Selected plan: ${pieces.length}.`;q('#gw-create').textContent=q('#gw-output').value==='unique'?`Create ${data.plateTypes.length} unique bodies`:`Create ${pieces.length} plate bodies`;if(!creating)q('#gw-create-status').textContent=printing?`Print ${pieces.length} plates total`:'Set the size and mounting, then review the print plan.';draw();}
 function draw() {
   if (!last) return;
+  q('.gw-legend').hidden=useThree;
   q('#gw-three').hidden=!useThree;q('#gw-drawing').hidden=useThree;q('#gw-fit-view').hidden=!useThree;q('#gw-three-status').hidden=!useThree;
-  if(useThree){if(!previewThree)previewThree=new WorkshopThree.Preview(q('#gw-three'),q('#gw-three-status'));previewThree.update({family:'baseplate',layout:last,options:{style:state.style,exploded:state.view==='pieces',magnets:q('#gw-magnets').checked,screws:q('#gw-screws').checked,magnetDiameter:num('magnet-diameter'),magnetDepth:num('magnet-depth'),selected:state.selected}});}
+  if(useThree){if(!previewThree)previewThree=new WorkshopThree.Preview(q('#gw-three'),q('#gw-three-status'));previewThree.update({family:'baseplate',layout:last,options:{style:state.style,exploded:false,showSplits:state.stage==='print'&&q('#gw-splits').checked,selectedType:state.stage==='print'?state.selected:-1,magnets:q('#gw-magnets').checked,screws:q('#gw-screws').checked,magnetDiameter:num('magnet-diameter'),magnetDepth:num('magnet-depth'),selected:state.selected}});}
   drawGridfinityPreview(q('#gw-drawing'), last, {
-    style: state.style, exploded: state.view === 'pieces', fit: state.mode === 'fit',
+    style: state.style, exploded: false, fit: state.mode === 'fit',
     magnets:q('#gw-magnets').checked, screws:q('#gw-screws').checked,
     magnetDiameter:num('magnet-diameter'), clearance:state.mode === 'fit' ? num('clearance') : 0,
-    showSplits:q('#gw-splits').checked, selected:state.selected
+    showSplits:state.stage==='print'&&q('#gw-splits').checked, selectedType:state.stage==='print'?state.selected:-1, selected:-1
   });
 }
 root.addEventListener('click', e => {
   const b = e.target && typeof e.target.closest === 'function' ? e.target.closest('button') : null;
   if (!b || b.disabled) return;
+  if(b.dataset.stage||b.id==='gw-next'){state.stage=b.dataset.stage||'print';useThree=state.stage!=='print';q('#gw-view-mode').textContent=useThree?'2D layout':'3D preview';render();return;}
   if(b.id==='gw-view-mode'){useThree=!useThree;b.textContent=useThree?'2D layout':'3D preview';draw();return;}
   if(b.id==='gw-fit-view'){previewThree?.fit();return;}
   if (b.id === 'gw-create') {
@@ -53,7 +56,7 @@ root.addEventListener('click', e => {
       return;
     }
     creating=true;
-    q('#gw-create-status').textContent='Creating baseplate…';
+    q('#gw-create-status').textContent='Connecting to Fusion…';
     render();
     send('create',creationRequest());
     return;
@@ -87,9 +90,10 @@ function creationRequest() {
     columns:num('columns'),rows:num('rows'),magnets:q('#gw-magnets').checked,
     screws:q('#gw-screws').checked,magnetDiameter:num('magnet-diameter'),
     maxPlateColumns:num('max-columns'),maxPlateRows:num('max-rows'),
-    magnetDepth:num('magnet-depth'),bedWidth:num('bed-width'),bedDepth:num('bed-depth')};
+    magnetDepth:num('magnet-depth'),bedWidth:num('bed-width'),bedDepth:num('bed-depth'),planningPreference:q('#gw-preference').value,preferSymmetry:q('#gw-symmetry').checked,outputMode:q('#gw-output').value};
 }
 function send(action, data) {
+  if(action==='create'){FusionBridge.submit(action,data).catch(error=>{creating=false;render();q('#gw-create-status').textContent=error.message;});return;}
   if (typeof adsk === 'undefined' || typeof adsk.fusionSendData !== 'function') return;
   const result = adsk.fusionSendData(action, JSON.stringify(data));
   if (result && typeof result.catch === 'function') result.catch(error => {
@@ -114,7 +118,7 @@ function report() {
     pieces: q('#gw-piece-count').textContent,
     selectedPiece: q('#gw-piece-detail').textContent,
     validation: q('#gw-error').hidden ? null : q('#gw-error').textContent,
-    generationDisabled: q('.gw-footer button').disabled,
+    generationDisabled: q('#gw-create').disabled,
     renderedCells: last ? last.nx * last.ny : 0,
     magnetHoleDiameter: num('magnet-diameter'),
     pressFit: q('#gw-press-fit').checked,
@@ -138,11 +142,11 @@ function report() {
     errors: runtimeErrors.slice()
   };
 }
-function save() { send('previewChanged',report()); }
+function save() { try{localStorage.setItem('gridfinity-printer-v1',JSON.stringify(Object.fromEntries(['bed-width','bed-depth','max-columns','max-rows'].map(k=>[k,num(k)]))));}catch(_){}send('previewChanged',report()); }
 function restore(v) {
   if (!v || typeof v !== 'object') return;
   const m = v.modelContent || {};
-  const allowed = {mode:['fit','grid'],style:['skeleton','solid'],view:['assembled','pieces']};
+  const allowed = {mode:['fit','grid'],style:['skeleton','solid'],view:['assembled','pieces'],stage:['design','print']};
   for (const key of Object.keys(allowed)) if (allowed[key].includes(m[key])) state[key] = m[key];
   if (Number.isInteger(m.anchor) && m.anchor >= 0 && m.anchor <= 8) state.anchor = m.anchor;
   if (Number.isInteger(m.selected) && m.selected >= 0) state.selected = m.selected;
@@ -169,9 +173,9 @@ window.fusionJavaScriptHandler = {
       if (action === 'creationStatus') {
         const status=JSON.parse(data);
         creating=status.phase==='creating';
-        q('#gw-create-status').textContent=status.message;
         q('#gw-create-status').classList.toggle('gw-error',status.phase==='error');
         render();
+        q('#gw-create-status').textContent=status.message;
       } else if (action === 'setPreviewState') {
         restore(JSON.parse(data));
         render();
@@ -185,21 +189,24 @@ window.fusionJavaScriptHandler = {
   }
 };
 
+try{const prefs=JSON.parse(localStorage.getItem('gridfinity-printer-v1')||'{}');for(const k of ['bed-width','bed-depth','max-columns','max-rows'])if(Number.isFinite(prefs[k])){const el=q('#gw-'+k),old=el.value;el.value=prefs[k];if(!validNumber(el))el.value=old;}}catch(_){}
 render();
 // Observe width only. Replacing the SVG must not synchronously redraw in a
 // ResizeObserver delivery, which can cause the host to report a loop error.
 let drawnWidth = q('#gw-drawing').clientWidth;
+let drawnHeight=q('#gw-drawing').clientHeight;
 let resizePending = false;
 function onResize() {
   const width = q('#gw-drawing').clientWidth;
-  if (!width || Math.abs(width - drawnWidth) < 1 || resizePending) return;
+  const height=q('#gw-drawing').clientHeight;
+  if (!width || (Math.abs(width - drawnWidth) < 1&&Math.abs(height-drawnHeight)<1) || resizePending) return;
   resizePending = true;
   const schedule = typeof window.requestAnimationFrame === 'function'
     ? callback => window.requestAnimationFrame(callback)
     : callback => window.setTimeout(callback, 0);
   schedule(() => {
     resizePending = false;
-    drawnWidth = q('#gw-drawing').clientWidth;
+    drawnWidth = q('#gw-drawing').clientWidth;drawnHeight=q('#gw-drawing').clientHeight;
     draw();
   });
 }
