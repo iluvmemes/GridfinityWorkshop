@@ -13,7 +13,7 @@ for p in (root/'.github/workflows').glob('*.y*ml'):
 inventory=root/'security/dependencies/package.json'
 if inventory.exists():
     version=json.loads(inventory.read_text())['dependencies']['three']
-    for vendor in [root/'workshop/vendor',root/'experiments/fusion-ui/GridfinityUIPreview/vendor']:
+    for vendor in [root/'workshop/vendor']:
         if vendor.exists():
             assert f'Three.js {version} (MIT)' in (vendor/'README.txt').read_text(), 'Update the bundled Three.js and its provenance with the dependency inventory'
 runner=root/'.agents/qa/run-unit.py'

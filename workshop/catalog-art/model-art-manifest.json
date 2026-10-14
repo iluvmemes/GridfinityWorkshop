@@ -1,0 +1,32 @@
+{
+  "standard": {
+    "bodies": 1,
+    "source": "Native BRep, orthographic visible-edge capture",
+    "file": "standard.png"
+  },
+  "blank": {
+    "bodies": 1,
+    "source": "Native BRep, orthographic visible-edge capture",
+    "file": "blank.png"
+  },
+  "clasp": {
+    "bodies": 3,
+    "source": "Native BRep, orthographic visible-edge capture",
+    "file": "clasp.png"
+  },
+  "cartridge": {
+    "bodies": 3,
+    "source": "Native BRep, orthographic visible-edge capture",
+    "file": "cartridge.png"
+  },
+  "magazine": {
+    "bodies": 1,
+    "source": "Native BRep, orthographic visible-edge capture",
+    "file": "magazine.png"
+  },
+  "tests": {
+    "bodies": 3,
+    "source": "Native BRep, orthographic visible-edge capture",
+    "file": "tests.png"
+  }
+}

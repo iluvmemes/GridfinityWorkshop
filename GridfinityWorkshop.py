@@ -1,24 +1,15 @@
-# Assuming you have not changed the general structure of the template no modification is needed in this file.
-from . import commands
-from .lib import fusion360utils as futil
-
+"""Fusion entry point for the Gridfinity Workshop palettes."""
+import adsk.core
+import traceback
+from .workshop import app
 
 def run(context):
     try:
-        # This will run the start function in each of your commands as defined in commands/__init__.py
-        commands.start()
-
-    except:
-        futil.handle_error('run')
-
+        app.start()
+    except Exception:
+        adsk.core.Application.get().log(traceback.format_exc())
+        app.stop(context)
+        raise
 
 def stop(context):
-    try:
-        # Remove all of the event handlers your app has created
-        futil.clear_handlers()
-
-        # This will run the start function in each of your commands as defined in commands/__init__.py
-        commands.stop()
-
-    except:
-        futil.handle_error('stop')
+    app.stop(context)

@@ -1,0 +1,1759 @@
+{
+  "sourceBody": "Gridfinity baseplate 1x1",
+  "sourceVolumeMM3": 3255.1477013643475,
+  "profiles": [
+    {
+      "name": "Outside bottom",
+      "zFromBottomMM": 0,
+      "modelZMM": -8.4,
+      "curves": [
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            37.75,
+            41,
+            0
+          ],
+          "endPointMM": [
+            3.75,
+            41,
+            0
+          ]
+        },
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            41,
+            37.75,
+            0
+          ],
+          "endPointMM": [
+            37.75,
+            41,
+            0
+          ],
+          "centerMM": [
+            37.75,
+            37.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            1,
+            0,
+            0
+          ],
+          "radius": 3.2500000000000018,
+          "startAngle": 0,
+          "endAngle": 1.5707963267948966
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            41,
+            3.75,
+            0
+          ],
+          "endPointMM": [
+            41,
+            37.75,
+            0
+          ]
+        },
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            37.75,
+            0.5,
+            0
+          ],
+          "endPointMM": [
+            41,
+            3.75,
+            0
+          ],
+          "centerMM": [
+            37.75,
+            3.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            0,
+            -1,
+            0
+          ],
+          "radius": 3.250000000000002,
+          "startAngle": 0,
+          "endAngle": 1.5707963267948966
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            3.75,
+            0.5,
+            0
+          ],
+          "endPointMM": [
+            37.75,
+            0.5,
+            0
+          ]
+        },
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            0.5,
+            3.75,
+            0
+          ],
+          "endPointMM": [
+            3.75,
+            0.5,
+            0
+          ],
+          "centerMM": [
+            3.75,
+            3.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            -1,
+            1.7080354225002407e-16,
+            0
+          ],
+          "radius": 3.25,
+          "startAngle": 0,
+          "endAngle": 1.5707963267948968
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            0.5,
+            37.75,
+            0
+          ],
+          "endPointMM": [
+            0.5,
+            3.75,
+            0
+          ]
+        },
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            3.75,
+            41,
+            0
+          ],
+          "endPointMM": [
+            0.5,
+            37.75,
+            0
+          ],
+          "centerMM": [
+            3.75,
+            37.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            0,
+            1,
+            0
+          ],
+          "radius": 3.2500000000000018,
+          "startAngle": 0,
+          "endAngle": 1.5707963267948966
+        }
+      ],
+      "profileCount": 1,
+      "fullyConstrained": true
+    },
+    {
+      "name": "Outside shoulder",
+      "zFromBottomMM": 0.5,
+      "modelZMM": -7.9,
+      "curves": [
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            3.75,
+            41.5,
+            0
+          ],
+          "endPointMM": [
+            37.75,
+            41.5,
+            0
+          ]
+        },
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            41.5,
+            37.75,
+            0
+          ],
+          "endPointMM": [
+            37.75,
+            41.5,
+            0
+          ],
+          "centerMM": [
+            37.75,
+            37.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            1,
+            -3.5527136788005136e-15,
+            0
+          ],
+          "radius": 3.7499999999999867,
+          "startAngle": 0,
+          "endAngle": 1.5707963267949037
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            41.5,
+            37.75,
+            0
+          ],
+          "endPointMM": [
+            41.5,
+            3.75,
+            0
+          ]
+        },
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            37.75,
+            0,
+            0
+          ],
+          "endPointMM": [
+            41.5,
+            3.75,
+            0
+          ],
+          "centerMM": [
+            37.75,
+            3.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            -1.184237892933502e-15,
+            -1,
+            0
+          ],
+          "radius": 3.7499999999999947,
+          "startAngle": 0,
+          "endAngle": 1.5707963267948992
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            37.75,
+            0,
+            0
+          ],
+          "endPointMM": [
+            3.75,
+            0,
+            0
+          ]
+        },
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            0,
+            3.75,
+            0
+          ],
+          "endPointMM": [
+            3.75,
+            0,
+            0
+          ],
+          "centerMM": [
+            3.75,
+            3.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            -1,
+            0,
+            0
+          ],
+          "radius": 3.75,
+          "startAngle": 0,
+          "endAngle": 1.5707963267948966
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            0,
+            3.75,
+            0
+          ],
+          "endPointMM": [
+            0,
+            37.75,
+            0
+          ]
+        },
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            3.75,
+            41.5,
+            0
+          ],
+          "endPointMM": [
+            0,
+            37.75,
+            0
+          ],
+          "centerMM": [
+            3.75,
+            37.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            1.628327102783565e-15,
+            1,
+            0
+          ],
+          "radius": 3.7499999999999956,
+          "startAngle": 0,
+          "endAngle": 1.5707963267948994
+        }
+      ],
+      "profileCount": 1,
+      "fullyConstrained": true
+    },
+    {
+      "name": "Outside top",
+      "zFromBottomMM": 7.9,
+      "modelZMM": -0.5,
+      "curves": [
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            37.75,
+            0,
+            0
+          ],
+          "endPointMM": [
+            41.5,
+            3.75,
+            0
+          ],
+          "centerMM": [
+            37.75,
+            3.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            -1.184237892933502e-15,
+            -1,
+            0
+          ],
+          "radius": 3.7499999999999947,
+          "startAngle": 0,
+          "endAngle": 1.5707963267948994
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            37.75,
+            0,
+            0
+          ],
+          "endPointMM": [
+            3.75,
+            0,
+            0
+          ]
+        },
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            0,
+            3.75,
+            0
+          ],
+          "endPointMM": [
+            3.75,
+            0,
+            0
+          ],
+          "centerMM": [
+            3.75,
+            3.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            -1,
+            0,
+            0
+          ],
+          "radius": 3.75,
+          "startAngle": 0,
+          "endAngle": 1.5707963267948966
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            0,
+            3.75,
+            0
+          ],
+          "endPointMM": [
+            0,
+            37.75,
+            0
+          ]
+        },
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            3.75,
+            41.5,
+            0
+          ],
+          "endPointMM": [
+            0,
+            37.75,
+            0
+          ],
+          "centerMM": [
+            3.75,
+            37.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            1.628327102783565e-15,
+            1,
+            0
+          ],
+          "radius": 3.7499999999999956,
+          "startAngle": 0,
+          "endAngle": 1.5707963267948994
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            41.5,
+            37.75,
+            0
+          ],
+          "endPointMM": [
+            41.5,
+            3.75,
+            0
+          ]
+        },
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            41.5,
+            37.75,
+            0
+          ],
+          "endPointMM": [
+            37.75,
+            41.5,
+            0
+          ],
+          "centerMM": [
+            37.75,
+            37.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            1,
+            -3.5527136788005136e-15,
+            0
+          ],
+          "radius": 3.7499999999999867,
+          "startAngle": 0,
+          "endAngle": 1.5707963267949037
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            3.75,
+            41.5,
+            0
+          ],
+          "endPointMM": [
+            37.75,
+            41.5,
+            0
+          ]
+        }
+      ],
+      "profileCount": 1,
+      "fullyConstrained": true
+    },
+    {
+      "name": "Socket floor",
+      "zFromBottomMM": 3.4,
+      "modelZMM": -5,
+      "curves": [
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            3.75,
+            38.8,
+            0
+          ],
+          "endPointMM": [
+            2.7,
+            37.75,
+            0
+          ],
+          "centerMM": [
+            3.75,
+            37.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            -5.286776307738819e-16,
+            1,
+            0
+          ],
+          "radius": 1.0500000000000043,
+          "startAngle": 0,
+          "endAngle": 1.5707963267948961
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            12,
+            38.8,
+            0
+          ],
+          "endPointMM": [
+            3.75,
+            38.8,
+            0
+          ]
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            29.5,
+            38.8,
+            0
+          ],
+          "endPointMM": [
+            12,
+            38.8,
+            0
+          ]
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            37.75,
+            38.8,
+            0
+          ],
+          "endPointMM": [
+            29.5,
+            38.8,
+            0
+          ]
+        },
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            38.8,
+            37.75,
+            0
+          ],
+          "endPointMM": [
+            37.75,
+            38.8,
+            0
+          ],
+          "centerMM": [
+            37.75,
+            37.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            1,
+            0,
+            0
+          ],
+          "radius": 1.0500000000000043,
+          "startAngle": 0,
+          "endAngle": 1.5707963267948966
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            38.8,
+            29.5,
+            0
+          ],
+          "endPointMM": [
+            38.8,
+            37.75,
+            0
+          ]
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            38.8,
+            12,
+            0
+          ],
+          "endPointMM": [
+            38.8,
+            29.5,
+            0
+          ]
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            38.8,
+            3.75,
+            0
+          ],
+          "endPointMM": [
+            38.8,
+            12,
+            0
+          ]
+        },
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            37.75,
+            2.7,
+            0
+          ],
+          "endPointMM": [
+            38.8,
+            3.75,
+            0
+          ],
+          "centerMM": [
+            37.75,
+            3.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            0,
+            -1,
+            0
+          ],
+          "radius": 1.0500000000000043,
+          "startAngle": 0,
+          "endAngle": 1.5707963267948966
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            29.5,
+            2.7,
+            0
+          ],
+          "endPointMM": [
+            37.75,
+            2.7,
+            0
+          ]
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            12,
+            2.7,
+            0
+          ],
+          "endPointMM": [
+            29.5,
+            2.7,
+            0
+          ]
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            3.75,
+            2.7,
+            0
+          ],
+          "endPointMM": [
+            12,
+            2.7,
+            0
+          ]
+        },
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            2.7,
+            3.75,
+            0
+          ],
+          "endPointMM": [
+            3.75,
+            2.7,
+            0
+          ],
+          "centerMM": [
+            3.75,
+            3.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            -1,
+            -5.286776307738839e-16,
+            0
+          ],
+          "radius": 1.0500000000000003,
+          "startAngle": 0,
+          "endAngle": 1.5707963267948961
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            2.7,
+            12,
+            0
+          ],
+          "endPointMM": [
+            2.7,
+            3.75,
+            0
+          ]
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            2.7,
+            29.5,
+            0
+          ],
+          "endPointMM": [
+            2.7,
+            12,
+            0
+          ]
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            2.7,
+            37.75,
+            0
+          ],
+          "endPointMM": [
+            2.7,
+            29.5,
+            0
+          ]
+        }
+      ],
+      "profileCount": 1,
+      "fullyConstrained": true
+    },
+    {
+      "name": "Socket lower shoulder",
+      "zFromBottomMM": 4.2,
+      "modelZMM": -4.2,
+      "curves": [
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            3.75,
+            39.6,
+            0
+          ],
+          "endPointMM": [
+            1.9,
+            37.75,
+            0
+          ],
+          "centerMM": [
+            3.75,
+            37.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            -1.2002411077028687e-15,
+            1,
+            0
+          ],
+          "radius": 1.850000000000005,
+          "startAngle": 0,
+          "endAngle": 1.570796326794893
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            3.75,
+            39.6,
+            0
+          ],
+          "endPointMM": [
+            37.75,
+            39.6,
+            0
+          ]
+        },
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            39.6,
+            37.75,
+            0
+          ],
+          "endPointMM": [
+            37.75,
+            39.6,
+            0
+          ],
+          "centerMM": [
+            37.75,
+            37.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            1,
+            -2.4004822154057434e-15,
+            0
+          ],
+          "radius": 1.8500000000000005,
+          "startAngle": 0,
+          "endAngle": 1.5707963267949014
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            39.6,
+            37.75,
+            0
+          ],
+          "endPointMM": [
+            39.6,
+            3.75,
+            0
+          ]
+        },
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            37.75,
+            1.9,
+            0
+          ],
+          "endPointMM": [
+            39.6,
+            3.75,
+            0
+          ],
+          "centerMM": [
+            37.75,
+            3.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            -2.4004822154057517e-15,
+            -1,
+            0
+          ],
+          "radius": 1.849999999999994,
+          "startAngle": 0,
+          "endAngle": 1.5707963267949032
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            37.75,
+            1.9,
+            0
+          ],
+          "endPointMM": [
+            3.75,
+            1.9,
+            0
+          ]
+        },
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            1.9,
+            3.75,
+            0
+          ],
+          "endPointMM": [
+            3.75,
+            1.9,
+            0
+          ],
+          "centerMM": [
+            3.75,
+            3.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            -1,
+            -6.001205538514359e-16,
+            0
+          ],
+          "radius": 1.8500000000000005,
+          "startAngle": 0,
+          "endAngle": 1.5707963267948957
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            1.9,
+            3.75,
+            0
+          ],
+          "endPointMM": [
+            1.9,
+            37.75,
+            0
+          ]
+        }
+      ],
+      "profileCount": 1,
+      "fullyConstrained": true
+    },
+    {
+      "name": "Socket upper shoulder",
+      "zFromBottomMM": 6,
+      "modelZMM": -2.4,
+      "curves": [
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            37.75,
+            1.9,
+            0
+          ],
+          "endPointMM": [
+            39.6,
+            3.75,
+            0
+          ],
+          "centerMM": [
+            37.75,
+            3.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            0,
+            -1,
+            0
+          ],
+          "radius": 1.8500000000000023,
+          "startAngle": 0,
+          "endAngle": 1.5707963267948966
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            3.75,
+            1.9,
+            0
+          ],
+          "endPointMM": [
+            37.75,
+            1.9,
+            0
+          ]
+        },
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            1.9,
+            3.75,
+            0
+          ],
+          "endPointMM": [
+            3.75,
+            1.9,
+            0
+          ],
+          "centerMM": [
+            3.75,
+            3.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            -1,
+            0,
+            0
+          ],
+          "radius": 1.8500000000000003,
+          "startAngle": 0,
+          "endAngle": 1.5707963267948966
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            1.9,
+            37.75,
+            0
+          ],
+          "endPointMM": [
+            1.9,
+            3.75,
+            0
+          ]
+        },
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            3.75,
+            39.6,
+            0
+          ],
+          "endPointMM": [
+            1.9,
+            37.75,
+            0
+          ],
+          "centerMM": [
+            3.75,
+            37.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            0,
+            1,
+            0
+          ],
+          "radius": 1.8500000000000005,
+          "startAngle": 0,
+          "endAngle": 1.5707963267948966
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            39.6,
+            3.75,
+            0
+          ],
+          "endPointMM": [
+            39.6,
+            37.75,
+            0
+          ]
+        },
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            39.6,
+            37.75,
+            0
+          ],
+          "endPointMM": [
+            37.75,
+            39.6,
+            0
+          ],
+          "centerMM": [
+            37.75,
+            37.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            1,
+            0,
+            0
+          ],
+          "radius": 1.849999999999996,
+          "startAngle": 0,
+          "endAngle": 1.5707963267948966
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            37.75,
+            39.6,
+            0
+          ],
+          "endPointMM": [
+            3.75,
+            39.6,
+            0
+          ]
+        }
+      ],
+      "profileCount": 1,
+      "fullyConstrained": true
+    },
+    {
+      "name": "Socket mouth",
+      "zFromBottomMM": 7.9,
+      "modelZMM": -0.5,
+      "curves": [
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            37.75,
+            0,
+            0
+          ],
+          "endPointMM": [
+            41.5,
+            3.75,
+            0
+          ],
+          "centerMM": [
+            37.75,
+            3.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            -1.184237892933502e-15,
+            -1,
+            0
+          ],
+          "radius": 3.7499999999999947,
+          "startAngle": 0,
+          "endAngle": 1.5707963267948994
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            37.75,
+            0,
+            0
+          ],
+          "endPointMM": [
+            3.75,
+            0,
+            0
+          ]
+        },
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            0,
+            3.75,
+            0
+          ],
+          "endPointMM": [
+            3.75,
+            0,
+            0
+          ],
+          "centerMM": [
+            3.75,
+            3.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            -1,
+            0,
+            0
+          ],
+          "radius": 3.75,
+          "startAngle": 0,
+          "endAngle": 1.5707963267948966
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            0,
+            3.75,
+            0
+          ],
+          "endPointMM": [
+            0,
+            37.75,
+            0
+          ]
+        },
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            3.75,
+            41.5,
+            0
+          ],
+          "endPointMM": [
+            0,
+            37.75,
+            0
+          ],
+          "centerMM": [
+            3.75,
+            37.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            1.628327102783565e-15,
+            1,
+            0
+          ],
+          "radius": 3.7499999999999956,
+          "startAngle": 0,
+          "endAngle": 1.5707963267948994
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            41.5,
+            37.75,
+            0
+          ],
+          "endPointMM": [
+            41.5,
+            3.75,
+            0
+          ]
+        },
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            41.5,
+            37.75,
+            0
+          ],
+          "endPointMM": [
+            37.75,
+            41.5,
+            0
+          ],
+          "centerMM": [
+            37.75,
+            37.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            1,
+            -3.5527136788005136e-15,
+            0
+          ],
+          "radius": 3.7499999999999867,
+          "startAngle": 0,
+          "endAngle": 1.5707963267949037
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            3.75,
+            41.5,
+            0
+          ],
+          "endPointMM": [
+            37.75,
+            41.5,
+            0
+          ]
+        }
+      ],
+      "profileCount": 1,
+      "fullyConstrained": true
+    },
+    {
+      "name": "Skeleton opening",
+      "zFromBottomMM": 0,
+      "modelZMM": -8.4,
+      "curves": [
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            12,
+            7.75,
+            0
+          ],
+          "endPointMM": [
+            7.75,
+            12,
+            0
+          ],
+          "centerMM": [
+            7.75,
+            7.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            1,
+            -1.0449157878825007e-15,
+            0
+          ],
+          "radius": 4.249999999999998,
+          "startAngle": 0,
+          "endAngle": 1.5707963267948988
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            12,
+            7.75,
+            0
+          ],
+          "endPointMM": [
+            12,
+            2.7,
+            0
+          ]
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            12,
+            2.7,
+            0
+          ],
+          "endPointMM": [
+            29.5,
+            2.7,
+            0
+          ]
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            29.5,
+            2.7,
+            0
+          ],
+          "endPointMM": [
+            29.5,
+            7.75,
+            0
+          ]
+        },
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            33.75,
+            12,
+            0
+          ],
+          "endPointMM": [
+            29.5,
+            7.75,
+            0
+          ],
+          "centerMM": [
+            33.75,
+            7.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            0,
+            1,
+            0
+          ],
+          "radius": 4.2500000000000036,
+          "startAngle": 0,
+          "endAngle": 1.5707963267948966
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            33.75,
+            12,
+            0
+          ],
+          "endPointMM": [
+            38.8,
+            12,
+            0
+          ]
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            38.8,
+            12,
+            0
+          ],
+          "endPointMM": [
+            38.8,
+            29.5,
+            0
+          ]
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            38.8,
+            29.5,
+            0
+          ],
+          "endPointMM": [
+            33.75,
+            29.5,
+            0
+          ]
+        },
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            29.5,
+            33.75,
+            0
+          ],
+          "endPointMM": [
+            33.75,
+            29.5,
+            0
+          ],
+          "centerMM": [
+            33.75,
+            33.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            -1,
+            0,
+            0
+          ],
+          "radius": 4.250000000000007,
+          "startAngle": 0,
+          "endAngle": 1.5707963267948957
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            29.5,
+            33.75,
+            0
+          ],
+          "endPointMM": [
+            29.5,
+            38.8,
+            0
+          ]
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            29.5,
+            38.8,
+            0
+          ],
+          "endPointMM": [
+            12,
+            38.8,
+            0
+          ]
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            12,
+            38.8,
+            0
+          ],
+          "endPointMM": [
+            12,
+            33.75,
+            0
+          ]
+        },
+        {
+          "type": "Arc3D",
+          "startPointMM": [
+            7.75,
+            29.5,
+            0
+          ],
+          "endPointMM": [
+            12,
+            33.75,
+            0
+          ],
+          "centerMM": [
+            7.75,
+            33.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "referenceVector": [
+            -1.0449157878825007e-15,
+            -1,
+            0
+          ],
+          "radius": 4.249999999999998,
+          "startAngle": 0,
+          "endAngle": 1.5707963267948988
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            7.75,
+            29.5,
+            0
+          ],
+          "endPointMM": [
+            2.7,
+            29.5,
+            0
+          ]
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            2.7,
+            29.5,
+            0
+          ],
+          "endPointMM": [
+            2.7,
+            12,
+            0
+          ]
+        },
+        {
+          "type": "Line3D",
+          "startPointMM": [
+            2.7,
+            12,
+            0
+          ],
+          "endPointMM": [
+            7.75,
+            12,
+            0
+          ]
+        }
+      ],
+      "profileCount": 1,
+      "fullyConstrained": true
+    },
+    {
+      "name": "Magnet pockets",
+      "zFromBottomMM": 1,
+      "modelZMM": -7.4,
+      "curves": [
+        {
+          "type": "Circle3D",
+          "centerMM": [
+            33.75,
+            33.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "radius": 3.25
+        },
+        {
+          "type": "Circle3D",
+          "centerMM": [
+            7.75,
+            33.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "radius": 3.25
+        },
+        {
+          "type": "Circle3D",
+          "centerMM": [
+            33.75,
+            7.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "radius": 3.25
+        },
+        {
+          "type": "Circle3D",
+          "centerMM": [
+            7.75,
+            7.75,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "radius": 3.25
+        }
+      ],
+      "profileCount": 4,
+      "fullyConstrained": true
+    }
+  ]
+}

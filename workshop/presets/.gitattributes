@@ -1,0 +1,3 @@
+# Autodesk geometry assets must retain their exact exported bytes.
+*.smt binary
+*.f3d binary

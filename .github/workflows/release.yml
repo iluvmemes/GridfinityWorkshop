@@ -1,14 +1,14 @@
+name: Package release
 on:
   push:
     tags:
-      - '*'
-name: Handle Release
+      - 'v*'
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
-  generate-installer:
-    name: Create release-artifacts
-    runs-on: windows-latest
+  package:
+    runs-on: ubuntu-latest
     permissions:
       contents: write
       id-token: write
@@ -18,23 +18,33 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
-      - name: Create zip file for manual installation
-        uses: vimtor/action-zip@1379ea20d4c5705669ba81fd626dd01b1c738f26 # v1.2
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
-          files: GridfinityWorkshop.manifest GridfinityWorkshop.py config.py LICENSE.md lib/ commands/ documentation/PRIVACY_POLICY.md
-          recursive: false
-          dest: dist/GridfinityWorkshop-${{ github.ref_name }}.zip
+          python-version: '3.12'
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+      - name: Run local regression checks
+        run: python .agents/qa/run-unit.py dist/qa
+      - name: Build installable archive
+        run: python scripts/build-release.py
+      - name: Verify archive contents and offline assets
+        run: python .agents/qa/test-release.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: GridfinityWorkshop
+          path: dist/*.zip
       - name: Attest release archive provenance
         if: startsWith(github.ref, 'refs/tags/')
         uses: actions/attest-build-provenance@977bb373ede98d70efdf65b84cb5f73e068dcc2a # v3
         with:
           subject-path: dist/*.zip
-      - name: Upload the artifacts
+      - name: Attach archive to tagged release
+        if: startsWith(github.ref, 'refs/tags/')
         uses: svenstaro/upload-release-action@29e53e917877a24fad85510ded594ab3c9ca12de # v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: dist/*
+          file: dist/*.zip
           file_glob: true
           tag: ${{ github.ref }}
-          body: TBD
           prerelease: true
