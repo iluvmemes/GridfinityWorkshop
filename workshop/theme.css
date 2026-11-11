@@ -1,0 +1,114 @@
+/* Shared shadcn-inspired light theme. Plain CSS, bundled locally for Fusion.
+   Layout and preview geometry belong in palette.css / catalog.css. */
+:root {
+  color-scheme: light;
+  --ui-background: #ffffff;
+  --ui-foreground: #18181b;
+  --ui-muted: #f4f4f5;
+  --ui-muted-foreground: #71717a;
+  --ui-border: #e4e4e7;
+  --ui-input: #d4d4d8;
+  --ui-primary: #2563eb;
+  --ui-primary-hover: #1d4ed8;
+  --ui-primary-foreground: #ffffff;
+  --ui-accent: #eff6ff;
+  --ui-destructive: #b91c1c;
+  --ui-radius: 6px;
+  --ui-shadow: 0 1px 2px #18181b0d;
+  font: 14px/1.45 'Segoe UI', Arial, sans-serif;
+  color: var(--ui-foreground);
+  background: var(--ui-background);
+}
+#gf-workshop {
+  --gw-bg: var(--ui-background);
+  --gw-canvas: var(--ui-muted);
+  --gw-text: var(--ui-foreground);
+  --gw-muted: var(--ui-muted-foreground);
+  --gw-line: var(--ui-border);
+  --gw-blue: var(--ui-primary);
+  --gw-soft: var(--ui-accent);
+  --gw-error: var(--ui-destructive);
+  border-radius: 0;
+}
+button, #gf-workshop button {
+  border-color: var(--ui-input);
+  border-radius: var(--ui-radius);
+  background: var(--ui-background);
+  color: var(--ui-foreground);
+  font-weight: 500;
+  box-shadow: var(--ui-shadow);
+  transition: background-color .12s, border-color .12s;
+}
+button:hover:not(:disabled), #gf-workshop button:hover:not(:disabled) {
+  background: var(--ui-muted);
+  border-color: var(--ui-muted-foreground);
+}
+button[aria-pressed=true], #gf-workshop button[aria-pressed=true] {
+  background: var(--ui-accent);
+  color: var(--ui-primary);
+  border-color: var(--ui-primary);
+  box-shadow: var(--ui-shadow);
+}
+button:disabled, #gf-workshop button:disabled { opacity: .5; cursor: default; }
+input:not([type=checkbox]), select, textarea, #lidLabelText,
+#gf-workshop input:not([type=checkbox]), .unit-input, #gf-workshop .unit-input {
+  border-color: var(--ui-input);
+  border-radius: var(--ui-radius);
+  background: var(--ui-background);
+  color: var(--ui-foreground);
+  box-shadow: var(--ui-shadow);
+}
+.unit-input input, #gf-workshop .unit-input input { box-shadow: none; background: transparent; }
+input[type=checkbox], #gf-workshop input[type=checkbox] { accent-color: var(--ui-primary); }
+button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible,
+summary:focus-visible, #lidLabelText:focus-visible,
+#gf-workshop button:focus-visible, #gf-workshop input:focus-visible {
+  outline: 2px solid var(--ui-primary);
+  outline-offset: 2px;
+}
+.unit-input:focus-within, #gf-workshop .unit-input:focus-within {
+  border-color: var(--ui-primary);
+  box-shadow: 0 0 0 2px var(--ui-accent);
+  outline: 2px solid var(--ui-primary);
+  outline-offset: 2px;
+}
+.unit-input input:focus-visible, #gf-workshop .unit-input input:focus-visible { outline: none; }
+input:disabled, select:disabled, textarea:disabled,
+.unit-input.unit-disabled, #gf-workshop .unit-input.unit-disabled {
+  background: var(--ui-muted); color: var(--ui-muted-foreground);
+}
+input[aria-invalid=true], textarea[aria-invalid=true], select[aria-invalid=true],
+.unit-input.unit-invalid, #gf-workshop .unit-input.unit-invalid { border-color: var(--ui-destructive); }
+.field-error, #errors, #lettering-error { color: var(--ui-destructive); }
+header, footer, nav, aside, section { border-color: var(--ui-border); }
+header span, small, .note, #subtitle, .field-help, .input-unit,
+#gf-workshop .unit-input .input-unit { color: var(--ui-muted-foreground); }
+main, .lettering-output { background: var(--ui-muted); }
+h1, h2, h3, #gf-workshop h2, #gf-workshop h3 { font-weight: 600; letter-spacing: -.02em; }
+.metrics div, article, .three-canvas, #lettering-preview, .lettering-card {
+  border-color: var(--ui-border); border-radius: var(--ui-radius);
+}
+.metrics div, article, .lettering-card { box-shadow: var(--ui-shadow); }
+.card { background: var(--ui-background); border-color: var(--ui-border); box-shadow: var(--ui-shadow); }
+.card span { color: inherit; font-weight: 500; }
+.card[aria-pressed=true] { background: var(--ui-accent); border-color: var(--ui-primary); }
+.field-help[open] { background: var(--ui-muted); border-color: var(--ui-border); border-radius: var(--ui-radius); }
+.lettering-card header { background: var(--ui-muted); }
+#catalog-home { color: var(--ui-primary); box-shadow: none; }
+footer button, #lettering-place, #gf-workshop .gw-footer button {
+  background: var(--ui-primary); color: var(--ui-primary-foreground); border-color: var(--ui-primary);
+}
+footer button:hover:not(:disabled), #lettering-place:hover:not(:disabled),
+#gf-workshop .gw-footer button:hover:not(:disabled) {
+  background: var(--ui-primary-hover); border-color: var(--ui-primary-hover);
+}
+/* Filament samples retain their actual colors and explicit selection ring. */
+.filament-swatch[aria-pressed=true] { outline-color: var(--ui-primary); }
+/* Match the reserved WebGL strip so the cube cannot cover compact models. */
+@media (max-width: 700px) {
+  .viewcube-hud { width: 102px; height: 80px; right: 4px; bottom: 4px; }
+  .viewcube-hit { width: 72px; height: 72px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  button, .card, #gf-workshop button { transition: none; }
+}
