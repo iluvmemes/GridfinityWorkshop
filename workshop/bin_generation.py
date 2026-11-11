@@ -107,10 +107,10 @@ def generate(data,group_timeline=True):
                 curve=s.sketchCurves.sketchCircles.addByCenterRadius(P((q['x']+q['w']/2)/10,(q['y']+q['d']/2)/10,0),q['w']/20);curve.isFixed=True
             else:rectangle(s,q['x'],q['y'],q['w'],q['d'],q['r'])
         extrude(comp,s,parameter+' - 7 mm',uid+' - Cut interior in this bin',OP.CutFeatureOperation,body)
-    lid=None
+    lid=None;label_bodies=[]
     if c['dovetailLid']:
         from . import dovetail_generation
-        body,lid=dovetail_generation.add(design,comp,body,c,parameter,name)
+        body,lid,label_bodies=dovetail_generation.add(design,comp,body,c,parameter,name)
     elif rim:
         base=insert(comp,[rim],uid+' - Cached standard stacking rim')
         ri=comp.features.moveFeatures.createInput2(collection(list(base.bodies)))
@@ -131,7 +131,8 @@ def generate(data,group_timeline=True):
     return dict(name=body.name,seconds=time.perf_counter()-started,heightParameter=parameter,
                 overallHeightMM=c['overallMM'],features=comp.features.count-feature_start,
                 bodyToken=body.entityToken,lidToken=lid.entityToken if lid else None,
-                parts=[body.name]+([lid.name] if lid else []),
+                labelTokens=[letter.entityToken for letter in label_bodies],
+                parts=[body.name]+([lid.name] if lid else [])+([f'{len(label_bodies)} label color bodies'] if label_bodies else []),
                 interior=c['interior'],channels=len(c['cavities']) if c['interior']=='magnets' else 0)
 
 

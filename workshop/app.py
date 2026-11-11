@@ -5,7 +5,7 @@ from pathlib import Path
 import traceback
 
 import adsk.core
-from . import generation, catalog
+from . import generation, catalog, bambu_export_ui
 from .request import validate
 
 COMMAND_ID = 'GridfinityWorkshop_UIPreview_Show'
@@ -172,6 +172,7 @@ def start():
     create_command.commandCreated.add(created)
     _handlers.extend([generate,destroyed,created])
     catalog.start()
+    bambu_export_ui.start()
     _started = True
 
 
@@ -236,6 +237,7 @@ def stop(context):
     """Remove only the workshop palettes, controls, and commands."""
     global _started, _last_preview, _last_response, _pending
     catalog.stop()
+    bambu_export_ui.stop()
     ui = _ui()
     palette = ui.palettes.itemById(PALETTE_ID)
     if palette:

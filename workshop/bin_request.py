@@ -66,4 +66,7 @@ def validate(data):
         for y in range(ny):
             for x in range(nx):c['cavities'].append(dict(x=x0+x*(cw+gx),y=y0+y*(cd+gy),w=cw,d=cd,r=0,round=shape=='round'))
     c['lidRetentionPlan'] = retention_plan(c)
+    from .lid_label import plan as label_plan
+    c['lidLabelPlan']=label_plan(c)
+    if c['lidLabelPlan'] and c['lidLabelMode']=='raised':c['overallMM']+=c['lidLabelDepth'] if not c['rim'] else 0
     return c

@@ -15,6 +15,15 @@ for(const n of [1,6])for(const style of ['skeleton','solid'])check({family:'base
 assert.throws(()=>build({family:'standard',c:{...base,cols:7}},mats));
 assert.throws(()=>build({family:'magazine',c:{...base,quantity:30}},mats));
 assert.throws(()=>build({family:'cartridge',c:{...base,interior:'magnets',channelColumns:48}},mats));
+// The default 1U blank is solid at 7 mm; open blanks still need 2U.
+for(const height of [1,2,6]){
+ const blank=build({family:'blank',c:{...base,height,interior:'solid',rim:false}},mats);
+ blank.updateMatrixWorld(true);
+ const hits=new T.Raycaster(new T.Vector3(0,200,0),new T.Vector3(0,-1,0)).intersectObject(blank,true);
+ assert.ok(hits.length && Math.abs(hits[0].point.y-height*7)<.001,`Solid blank ${height}U top`);
+ blank.traverse(o=>o.geometry?.dispose());
+}
+assert.throws(()=>build({family:'blank',c:{...base,height:1,interior:'open'}},mats));
 // A vertical ray through an open bin must hit its floor, not a filled cavity.
 const g=build({family:'standard',c:{...base,rim:false}},mats);g.updateMatrixWorld(true);
 const hits=new T.Raycaster(new T.Vector3(0,100,0),new T.Vector3(0,-1,0)).intersectObject(g,true);assert.ok(Math.abs(hits[0].point.y-7)<.001);

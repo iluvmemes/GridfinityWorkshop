@@ -4,18 +4,15 @@ import adsk.core,adsk.fusion
 from .fit_test_request import validate
 from .bin_generation import sketch,rectangle,extrude,insert,P,E,OP
 from . import clasp_generation
+from .lettering import text_svg
+from .lettering_generation import import_art,apply_profiles
 
 
 def label(comp,body,text,x,y,w,h,z):
     s=sketch(comp,'Sample marking - '+text,f'{z} mm');s.isComputeDeferred=False
-    i=s.sketchTexts.createInput3("'"+text+"'",E('1.8 mm'))
-    i.fontName='Arial'
-    i.setAsMultiLine(P(x/10,y/10,0),P((x+w)/10,(y+h)/10,0),
-        adsk.core.HorizontalAlignments.CenterHorizontalAlignment,adsk.core.VerticalAlignments.MiddleVerticalAlignment,0)
-    textobj=s.sketchTexts.add(i)
-    inp=comp.features.extrudeFeatures.createInput(textobj,OP.CutFeatureOperation)
-    inp.setDistanceExtent(False,E('-0.3 mm'));inp.participantBodies=[body]
-    f=comp.features.extrudeFeatures.add(inp);f.name='Engrave '+text;s.isVisible=False
+    art=text_svg(text,'rubik',min(1.8,h-.4),w-.8)
+    import_art(comp,s,art['svg'],art['height'],art['width'],x+w/2,y+h/2)
+    apply_profiles(comp,s,body,'engrave',.3,name='Engrave outlined '+text)
 
 
 def block(manager,x,y,w,d,h):

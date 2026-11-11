@@ -11,6 +11,9 @@ with tempfile.TemporaryDirectory() as temp:
         assert all(n.startswith('GridfinityWorkshop/') for n in names)
         assert not any('/'+part+'/' in n for n in names for part in ('experiments','outputs','.agents','__pycache__','commands'))
         assert 'GridfinityWorkshop/workshop/vendor/three-LICENSE.txt' in names
+        for asset in ('outlines.json','outlines.js','Rubik.ttf','Rubik-OFL.txt','AtkinsonHyperlegibleNext.ttf','AtkinsonHyperlegibleNext-OFL.txt'):
+            assert 'GridfinityWorkshop/workshop/fonts/'+asset in names
+        assert 'GridfinityWorkshop/workshop/lettering.js' in names
         assert 'GridfinityWorkshop/workshop/presets/clasp-template.f3d' in names
         assert 'GridfinityWorkshop/workshop/presets/cartridge-template.f3d' in names
         for x in range(1,7):

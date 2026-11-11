@@ -49,11 +49,45 @@ def add(design,comp,body,c,height,name):
         base=b.insert(comp,[b.preset(f"bin-rim-{c['cols']}x{c['rows']}.smt")],name+' - Standard stacking lip on lid')
         rim=move_up(comp,base.bodies.item(0),height+' + 5.6 mm',name+' - Lip above lid')
         lid=b.join(comp,lid,[rim],name+' - Join stacking lip to lid')
+    label_bodies=[]
+    if c.get('lidLabelPlan'):
+        lid,label_bodies=add_label(comp,lid,c,height,name)
     lid.name=name+' - Dovetail lid'+(' with stacking lip' if c['rim'] else '')
+    from .filament_colors import apply as apply_color,color
+    apply_color(design,lid,c['lidColor']);lid.name+=' - '+color(c['lidColor'])['name']
+    for letter in label_bodies:
+        apply_color(design,letter,c['lidLabelColor'])
+        letter.name+=' - '+color(c['lidLabelColor'])['name']
     if not lid.isSolid or lid.lumps.count!=1:raise RuntimeError('Dovetail lid is not one connected solid.')
     lid.attributes.add('GridfinityWorkshop','lidPlateThicknessMM','3')
     lid.attributes.add('GridfinityWorkshop','slideDirection','-Y; slide out through the front')
-    return body,lid
+    return body,lid,label_bodies
+
+
+def add_label(comp,lid,c,height,name):
+    from .lettering_generation import import_art,apply_profiles
+    p=c['lidLabelPlan'];letters=[]
+    for index,row in enumerate(p['rows']):
+        embedded=p['mode']=='embedded'
+        z=height+f' + {TOP-(p["depth"] if embedded else 0):g} mm'
+        s=b.sketch(comp,name+f' - Label line {index+1} SVG',z);s.isComputeDeferred=False
+        import_art(comp,s,row['svg'],row['height'],row['width'],row['x'],row['y'])
+        operation='separate' if p['mode'] in ('embedded','raised') else 'engrave'
+        f=apply_profiles(comp,s,lid,operation,p['depth'],name=name+f' - {p["mode"]} label line {index+1}')
+        if embedded:
+            tools=list(f.bodies)
+            inp=comp.features.combineFeatures.createInput(lid,b.collection(tools))
+            inp.operation=b.OP.CutFeatureOperation;inp.isKeepToolBodies=True
+            cut=comp.features.combineFeatures.add(inp);cut.name='Pocket for flush label line '+str(index+1)
+            lid=cut.bodies.item(0)
+            for j,letter in enumerate(tools):letter.name=name+f' - Label color line {index+1} glyph {j+1}'
+            letters.extend(tools)
+        elif p['mode']=='raised':
+            tools=list(f.bodies)
+            for j,letter in enumerate(tools):letter.name=name+f' - Raised label line {index+1} glyph {j+1}'
+            letters.extend(tools)
+    lid.attributes.add('GridfinityWorkshop','lidLabel',c['lidLabelText'])
+    return lid,letters
 
 
 def cut_tools(comp, target, tools, height, name):

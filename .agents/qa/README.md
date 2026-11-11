@@ -1,5 +1,9 @@
 # Gridfinity Workshop end-to-end QA
 
+## Commit privacy
+
+Follow the root `AGENTS.md` commit privacy requirements for all QA code, documentation, fixtures, and evidence. Never commit the project owner's email or identifying information, or AI agent names, models, provider/company identities, attribution, or other identifiable agentic information. Use neutral placeholders and the repository-local neutral Git identity; inspect staged content, filenames, commit messages, trailers, and author/committer metadata before committing.
+
 Scope: main Fusion add-in at GridfinityWorkshop.py, with runtime in workshop/; all six bin families and baseplates. Bins and printed plates are limited to 6x6; baseplate layouts support up to 60x60 cells. Use Fusion MCP and its documented API, not desktop automation. Never modify user documents. Create named disposable QA designs and close only those designs without saving.
 
 ## Repeatable sequence

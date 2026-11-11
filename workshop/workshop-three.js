@@ -58,13 +58,39 @@ function retentionPlan(c,w,d){
 function railPrism(b,points,y,length,mat='body'){
  const shape=new T.Shape();points.forEach((p,i)=>i?shape.lineTo(...p):shape.moveTo(...p));shape.closePath();
  const g=new T.ExtrudeGeometry(shape,{depth:length,bevelEnabled:false});const p=g.attributes.position;
- for(let i=0;i<p.count;i++)p.setXYZ(i,p.getX(i),p.getY(i),-y-p.getZ(i));g.computeVertexNormals();return b.add(g,mat);
+ for(let i=0;i<p.count;i++)p.setXYZ(i,p.getX(i),p.getY(i),-y-p.getZ(i));
+ // Mapping extrusion depth to -Z is a reflection. Reverse triangle winding
+ // so the rails and tongue retain outward faces and front-face visibility.
+ g.setIndex(Array.from({length:p.count},(_,i)=>i%3===1?i+1:i%3===2?i-1:i));
+ g.computeVertexNormals();return b.add(g,mat);
+}
+// Loft the guides inside the same rounded footprint as the bin collar.
+function roundedGuide(b,w,d,h,right){
+ const r=3.75,ys=[-d/2];
+ for(let i=1;i<=16;i++)ys.push(-d/2+r*(i/16)**2);
+ ys.push(d/2-r);
+ for(let i=15;i>=0;i--)ys.push(d/2-r*(i/16)**2);
+ const vertices=[],rings=ys.map(y=>{
+  const end=Math.min(y+d/2,d/2-y),inset=end<r?r*(1-Math.sqrt(Math.max(0,end)/r))**2:0;
+  const outer=-w/2+inset,sign=right?-1:1;
+  return [[outer,h],[Math.max(outer,-w/2+1.9),h],[Math.max(outer,-w/2+4.2),h+2.3],[outer,h+2.3]].map(([x,z])=>new T.Vector3(sign*x,z,-y));
+ });
+ const tri=(a,c,e)=>{if(right)[c,e]=[e,c];vertices.push(...a.toArray(),...c.toArray(),...e.toArray());};
+ for(let i=0;i<rings.length-1;i++)for(let j=0;j<4;j++){const k=(j+1)%4;tri(rings[i][j],rings[i+1][j],rings[i][k]);tri(rings[i][k],rings[i+1][j],rings[i+1][k]);}
+ for(const [i,flip] of [[0,false],[rings.length-1,true]]){const q=rings[i];if(flip){tri(q[0],q[2],q[1]);tri(q[0],q[3],q[2]);}else{tri(q[0],q[1],q[2]);tri(q[0],q[2],q[3]);}}
+ const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(vertices,3));g.computeVertexNormals();return b.add(g);
+}
+function roundedRearStop(b,w,d,h){
+ const points=rounded(-w/2,-d/2,w,d,3.75).getPoints(16),edge=d/2-2,out=[];
+ for(let i=0;i<points.length;i++){const a=points[i],c=points[(i+1)%points.length],inside=a.y>=edge,next=c.y>=edge;if(inside)out.push(a);if(inside!==next)out.push(new T.Vector2(a.x+(c.x-a.x)*(edge-a.y)/(c.y-a.y),edge));}
+ const shape=new T.Shape(out);b.add(extruded(shape,h,2.3));
 }
 function bin(b,c,family,opts={}){
  const closure=['clasp','cartridge'].includes(family),flat=family==='cartridge';
  const w=flat?c.cartLength: c.cols*42-.5-(closure?12.2:0),d=flat?c.cartWidth:c.rows*42-.5;
  const h=c.height*7,floor=flat?2:7,top=closure?h+1.5:h,base=flat?0:5;
- if(![w,d,h].every(Number.isFinite)||w<4||d<4||h<14||h>140)throw Error('Enter valid bin dimensions.');
+ const minHeight=family==='blank'&&c.interior==='solid'?7:14;
+ if(![w,d,h].every(Number.isFinite)||w<4||d<4||h<minHeight||h>140)throw Error('Enter valid bin dimensions.');
  if(!flat)feet(b,c,w,d);
  b.block(-w/2,-d/2,w,d,base,floor-base,3.75);
  const holes=[],cells=[];
@@ -79,7 +105,7 @@ function bin(b,c,family,opts={}){
   if(Math.min(cw,cd)<3)throw Error('Compartments are too small.');
   for(let y=0;y<ny;y++)for(let x=0;x<nx;x++){const q={x:-w/2+2+x*(cw+1.2),y:-d/2+2+y*(cd+1.2),w:cw,d:cd};cells.push(q);holes.push(rounded(q.x,q.y,cw,cd,closure?0:1.75));}
  }
- b.block(-w/2,-d/2,w,d,floor,top-floor,3.75,holes);
+ if(top>floor)b.block(-w/2,-d/2,w,d,floor,top-floor,3.75,holes);
  if(family==='standard')for(const q of cells){
   if(c.scoop)ramp(b,q,floor,Math.min(c.scoopRadius,h-floor,q.d/2));
   if(c.label){const length=Math.min(c.labelLength,q.w),depth=Math.min(c.labelDepth,q.d/2,h-floor);b.block(q.x+(q.w-length)/2,q.y+q.d-depth,length,depth,h-2,2,.5,[],'hardware');}
@@ -87,9 +113,9 @@ function bin(b,c,family,opts={}){
  const dovetail=family==='standard'&&c.dovetailLid,retention=dovetail?retentionPlan(c,w,d):{detents:[],seats:[]};
  const lid=closure||dovetail;
  if(dovetail){
-  railPrism(b,[[-w/2,h],[-w/2+1.9,h],[-w/2+4.2,h+2.3],[-w/2,h+2.3]],-d/2,d);
-  railPrism(b,[[w/2-1.9,h],[w/2,h],[w/2,h+2.3],[w/2-4.2,h+2.3]],-d/2,d);
-  b.block(-w/2,d/2-2,w,2,h,2.3);
+  roundedGuide(b,w,d,h,false).userData.dovetail='left guide';
+  roundedGuide(b,w,d,h,true).userData.dovetail='right guide';
+  roundedRearStop(b,w,d,h);
   for(const q of retention.seats){
    const x=q.x-w/2,y=q.y-d/2,depth=d-.5-(q.y-q.span/2);
    b.block(x-q.span/2,y-q.span/2,q.span,depth,h-3,1,.5);
@@ -107,9 +133,17 @@ function bin(b,c,family,opts={}){
  }
  if(lid&&(opts.showLid||opts.parts)){
   const x=opts.parts?w/2+15:-w/2,y=-d/2,z=closure?h+.7:h+2.6;
-  b.block(x,y,w,d,z,3,3.75,[],'lid');
+  const label=dovetail&&root.WorkshopLidLabel?root.WorkshopLidLabel.plan({...c,family:'standard'}):null;
+  const outlines=label?label.rows.flatMap(row=>root.WorkshopLidLabel.shapes(row,c.lidLabelFont||'rubik',T,x,y)):[];
+  if(label&&label.mode!=='raised'){
+   b.block(x,y,w,d,z,3-label.depth,3.75,[],'lid');
+   b.block(x,y,w,d,z+3-label.depth,label.depth,3.75,outlines,'lid');
+   // Counters remain lid material, attached to the lower solid plate.
+   for(const shape of outlines)for(const hole of shape.holes){const island=new T.Shape();island.curves=hole.curves;b.add(extruded(island,z+3-label.depth,label.depth),'lid');}
+  }else b.block(x,y,w,d,z,3,3.75,[],'lid');
+  if(label&&label.mode!=='cutout')for(const shape of outlines){const start=label.mode==='embedded'?z+3-label.depth:z+3;const mesh=b.add(extruded(shape,start,label.depth),'hardware');mesh.userData.lidLabel=label.mode;}
   if(dovetail){
-   railPrism(b,[[x+2.5,h+.3],[x+w-2.5,h+.3],[x+w-4.5,h+2.3],[x+w-4.5,h+2.6],[x+4.5,h+2.6],[x+4.5,h+2.3]],y+.3,d-2.3,'lid');
+   railPrism(b,[[x+2.5,h+.3],[x+w-2.5,h+.3],[x+w-4.5,h+2.3],[x+w-4.5,h+2.6],[x+4.5,h+2.6],[x+4.5,h+2.3]],y+.3,d-2.3,'lid').userData.dovetail='tongue';
    for(const q of retention.detents){const bump=b.add(new T.SphereGeometry(q.radius,16,12),'accent');bump.position.set(x+q.x,h+q.z,-y-q.y);bump.userData.detent=true;}
    for(const q of retention.seats){const disc=b.add(new T.CylinderGeometry(Number(c.lidMagnetSize||'6')/2,Number(c.lidMagnetSize||'6')/2,2,32),'hardware');disc.position.set(x+q.x,h+1.3,-y-q.y);disc.userData.lidMagnet='lid';}
   }
@@ -184,13 +218,21 @@ function build(recipe,mats){const b=builder(mats);try{
  else if(family==='tests')tests(b,c,recipe.testPlan);
  else if(family==='magazine')magazine(b,c);
  else bin(b,c,family,options);
+ if(family==='standard'&&c.dovetailLid&&root.WorkshopFilaments){
+  const colors=root.WorkshopFilaments.colors;
+  const lid=colors.find(q=>q.id===(c.lidColor||'grey')),label=colors.find(q=>q.id===(c.lidLabelColor||'white'));
+  if(!lid||!label)throw Error('Choose a color swatch.');
+  b.group.traverse(o=>{if(o.isMesh&&(o.material===mats.lid||o.userData.lidLabel)){
+   o.material=o.material.clone();o.material.color.set(o.userData.lidLabel?label.hex:lid.hex);o.userData.ownedMaterial=true;
+  }});
+ }
  return b.group;
  }catch(e){b.group.traverse(o=>{o.geometry?.dispose();if(o.userData?.ownedMaterial){o.material.map?.dispose();o.material.dispose();}});throw e;}}
 class Preview{
  constructor(container,status){this.container=container;this.status=status;this.mats=materials();this.az=.65;this.polar=.85;this.zoom=1;this.stats={ready:false};
  try{this.renderer=new T.WebGLRenderer({antialias:true});this.renderer.setPixelRatio(Math.min(root.devicePixelRatio||1,1.5));this.renderer.setClearColor(0xf3f7fa);container.appendChild(this.renderer.domElement);
  this.scene=new T.Scene();this.camera=new T.PerspectiveCamera(38,1,.1,5000);this.scene.add(new T.HemisphereLight(0xffffff,0x738897,2.3));const light=new T.DirectionalLight(0xffffff,2.2);light.position.set(-80,180,100);this.scene.add(light);
- const canvas=this.renderer.domElement;let drag;canvas.addEventListener('pointerdown',e=>{this.orientation?.cancel();drag=[e.clientX,e.clientY];canvas.setPointerCapture(e.pointerId);});canvas.addEventListener('pointermove',e=>{if(!drag)return;this.az-=(e.clientX-drag[0])*.008;this.polar=Math.max(.12,Math.min(3.02,this.polar+(e.clientY-drag[1])*.008));drag=[e.clientX,e.clientY];this.render();});for(const type of ['pointerup','pointercancel','lostpointercapture'])canvas.addEventListener(type,()=>drag=null);
+ const canvas=this.renderer.domElement;let drag;canvas.addEventListener('pointerdown',e=>{this.orientation?.cancel();drag=[e.clientX,e.clientY];canvas.setPointerCapture(e.pointerId);});canvas.addEventListener('pointermove',e=>{if(!drag)return;this.az-=(e.clientX-drag[0])*.008;this.polar=Math.max(.12,Math.min(3.02,this.polar-(e.clientY-drag[1])*.008));drag=[e.clientX,e.clientY];this.render();});for(const type of ['pointerup','pointercancel','lostpointercapture'])canvas.addEventListener(type,()=>drag=null);
  canvas.addEventListener('wheel',e=>{e.preventDefault();this.zoom=Math.max(.3,Math.min(5,this.zoom*Math.exp(e.deltaY*.001)));this.render();},{passive:false});canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();this.fail('3D graphics unavailable. Use the 2D layout or reopen the catalog.');});
  this.createOrientation();this.container.title="Drag to orbit; scroll to zoom. Click the cube to orient the camera.";
  this.observer=new ResizeObserver(()=>this.resize());this.observer.observe(container);this.resize();
@@ -203,10 +245,10 @@ class Preview{
  this.status.textContent='';
  }catch(e){this.fail('Last valid preview: '+e.message);}}
  render(){if(!this.target||!this.renderer||this.stats.error?.startsWith('3D graphics'))return;const {x:sx,y:sy,z:sz}=this.size,sa=Math.sin(this.az),ca=Math.cos(this.az),sp=Math.sin(this.polar),cp=Math.cos(this.polar),pw=Math.abs(ca)*sx+Math.abs(sa)*sz,ph=Math.abs(cp*sa)*sx+Math.abs(sp)*sy+Math.abs(cp*ca)*sz,pd=Math.abs(sp*sa)*sx+Math.abs(cp)*sy+Math.abs(sp*ca)*sz,dist=(Math.max(ph,pw/this.camera.aspect)/(2*Math.tan(19*Math.PI/180))*1.12+pd/2)*this.zoom;
- this.camera.position.set(this.target.x+dist*Math.sin(this.polar)*Math.sin(this.az),this.target.y+dist*Math.cos(this.polar),this.target.z+dist*Math.sin(this.polar)*Math.cos(this.az));this.camera.lookAt(this.target);this.renderer.render(this.scene,this.camera);this.updateOrientation();}
+ this.camera.position.set(this.target.x+dist*Math.sin(this.polar)*Math.sin(this.az),this.target.y+dist*Math.cos(this.polar),this.target.z+dist*Math.sin(this.polar)*Math.cos(this.az));this.camera.lookAt(this.target);this.renderer.setViewport(0,0,this.viewWidth,this.viewHeight);this.renderer.render(this.scene,this.camera);this.updateOrientation();}
  createOrientation(){this.orientation=new root.OrientationCube(this,T);}
  updateOrientation(){this.orientation?.render();}
- resize(){if(!this.renderer)return;const b=this.container.getBoundingClientRect();if(b.width<1||b.height<1)return;this.renderer.setSize(b.width,b.height);this.camera.aspect=b.width/b.height;this.camera.updateProjectionMatrix();this.render();}
+ resize(){if(!this.renderer)return;const b=this.container.getBoundingClientRect();if(b.width<1||b.height<1)return;this.renderer.setSize(b.width,b.height);this.viewWidth=Math.max(1,b.width-(root.innerWidth<=700?110:0));this.viewHeight=b.height;this.camera.aspect=this.viewWidth/b.height;this.camera.updateProjectionMatrix();this.render();}
  fit(){this.orientation?.cancel();this.zoom=1;this.az=.65;this.polar=.85;this.render();}
  capture(){this.flush();this.render();return this.renderer.domElement.toDataURL('image/png');}
  dispose(){if(this.frame)cancelAnimationFrame(this.frame);this.observer?.disconnect();this.orientation?.dispose();this.group?.traverse(o=>{o.geometry?.dispose();if(o.userData?.ownedMaterial){o.material.map?.dispose();o.material.dispose();}});Object.values(this.mats).forEach(m=>m.dispose());this.renderer?.dispose();}

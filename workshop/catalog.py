@@ -6,6 +6,7 @@ from . import bin_generation,clasp_generation,cartridge_generation,magazine_gene
 from .bin_request import validate
 from .magazine_request import validate as validate_magazine
 from .fit_test_request import validate as validate_test
+from . import lettering,lettering_generation
 
 COMMAND_ID = 'GridfinityWorkshop_BinCatalog_Show'
 PALETTE_ID = 'GridfinityWorkshop_BinCatalog_Palette'
@@ -30,6 +31,29 @@ class HTMLHandler(adsk.core.HTMLEventHandler):
             elif args.action == 'createBin':
                 request_creation(json.loads(args.data))
                 args.returnData = json.dumps({'ok': True, 'queued': True})
+            elif args.action == 'createLettering':
+                lettering_generation.request(json.loads(args.data))
+                args.returnData=json.dumps({'ok':True,'queued':True})
+            elif args.action == 'exportLid3MF':
+                from . import lid_export
+                if not _last_creation or not _last_creation.get('lidToken'):raise ValueError('Create a dovetail bin in this panel first, then export its lid.')
+                dialog=adsk.core.Application.get().userInterface.createFileDialog()
+                dialog.title='Export colored dovetail lid';dialog.filter='3MF files (*.3mf)';dialog.initialFilename='Workshop-labeled-lid.3mf'
+                saved=dialog.showSave()==adsk.core.DialogResults.DialogOK
+                result=lid_export.export_latest(_last_creation,dialog.filename) if saved else None
+                args.returnData=json.dumps({'ok':True,'cancelled':not saved,'result':result})
+            elif args.action == 'createFontCoupon':
+                app=adsk.core.Application.get()
+                if app.userInterface.activeCommand!='SelectCommand':raise ValueError('Finish the active Fusion command first.')
+                result=lettering_generation.coupon()
+                args.returnData=json.dumps({'ok':True,'result':result})
+            elif args.action == 'saveLetteringSVG':
+                c=lettering.validate(json.loads(args.data))
+                dialog=adsk.core.Application.get().userInterface.createFileDialog()
+                dialog.title='Save outlined lettering';dialog.filter='SVG files (*.svg)';dialog.initialFilename='Workshop-lettering.svg'
+                saved=dialog.showSave()==adsk.core.DialogResults.DialogOK
+                if saved:Path(dialog.filename).write_text(c['svg'],encoding='utf8')
+                args.returnData=json.dumps({'ok':True,'cancelled':not saved})
             elif args.action == 'threePreview':
                 from . import three_preview
                 three_preview.show()
@@ -73,6 +97,7 @@ def start():
     generated = GenerateCreated()
     definition.commandCreated.add(generated)
     _handlers.append(generated)
+    lettering_generation.start(lettering_status)
 
 def show():
     global _palette_handler
@@ -80,7 +105,7 @@ def show():
     palette = ui.palettes.itemById(PALETTE_ID)
     if not palette:
         palette = ui.palettes.add(PALETTE_ID, 'Gridfinity Workshop — Bin catalog',
-            (Path(__file__).parent/'catalog.html').resolve().as_uri() + '?v=29', False, True, True, 1000, 780, True)
+            (Path(__file__).parent/'catalog.html').resolve().as_uri() + '?v=33', False, True, True, 1000, 780, True)
         palette.setMinimumSize(390, 540)
         palette.dockingOption = adsk.core.PaletteDockingOptions.PaletteDockOptionsToVerticalOnly
         palette.dockingState = adsk.core.PaletteDockingStates.PaletteDockStateRight
@@ -102,6 +127,7 @@ def show():
 def stop():
     from . import three_preview
     three_preview.stop()
+    lettering_generation.stop()
     global _pending
     _pending=None
     ui = adsk.core.Application.get().userInterface
@@ -125,6 +151,10 @@ def stop():
 def status(phase,message,result=None):
     p=adsk.core.Application.get().userInterface.palettes.itemById(PALETTE_ID)
     if p:p.sendInfoToHTML('creationStatus',json.dumps(dict(phase=phase,message=message,result=result)))
+
+def lettering_status(message):
+    p=adsk.core.Application.get().userInterface.palettes.itemById(PALETTE_ID)
+    if p:p.sendInfoToHTML('letteringStatus',json.dumps(dict(message=message)))
 
 
 def request_creation(data):

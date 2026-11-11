@@ -18,7 +18,7 @@
   const parts=document.createElement('details');parts.innerHTML='<summary>Parts to create</summary>';const article=document.getElementById('parts').closest('article');article.hidden=false;article.replaceWith(parts);parts.append(article);document.getElementById('controls').append(parts);
  }
  // Help remains keyboard/click accessible, rather than relying on native title text.
- const selector=bin?'section p.note:not([role]):not(#channel-summary):not(#pin-summary):not(#accessory-summary):not(#lid-retention-summary),#height-note':'p.help-note';
+ const selector=bin?'#controls section p.note:not([role]):not(#channel-summary):not(#pin-summary):not(#accessory-summary):not(#lid-retention-summary),#height-note':'p.help-note';
  document.querySelectorAll(selector).forEach((note,i)=>{
   const help=document.createElement('details');help.className='field-help';const summary=document.createElement('summary');summary.textContent='ⓘ';summary.setAttribute('aria-label','Help: '+(note.closest('section')?.querySelector('h3,h2')?.textContent||'setting'));help.append(summary);note.replaceWith(help);help.append(note);help.hidden=note.hidden;new MutationObserver(()=>help.hidden=note.hidden).observe(note,{attributes:true,attributeFilter:['hidden']});
   help.addEventListener('mouseenter',()=>help.open=true);help.addEventListener('mouseleave',()=>{if(!help.contains(document.activeElement))help.open=false;});help.addEventListener('keydown',e=>{if(e.key==='Escape'){help.open=false;summary.focus();}});

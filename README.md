@@ -38,6 +38,22 @@ Round, square and rectangular magnet channels support explicit counts and separa
 
 Saved favorites and fit profiles stay in the embedded browser's local storage.
 
+### Text and SVG lettering
+
+The lid's **Label & colors** section includes separate lid and text swatches for 12 common PLA colors. Display swatches approximate physical filament colors. Selections are saved with the recipe/favorite and applied to Fusion body appearances. Raised and embedded labels are separate color bodies; engraved recesses use the lid color. After creating a dovetail bin, choose **Export latest lid · colored 3MF** to export one aligned assembly with named lid and label parts and their color swatches. Map those names/colors to your actual filaments in Bambu Studio; the file does not assign AMS slots or printer profiles. Use 3MF for color mapping; STL has no color information.
+
+Standard bins with a sliding dovetail lid also have an integrated **Label** section. Choose **Cutout (engraved)**, **Raised**, or **Embedded**; enter up to 120 characters; and choose single-line fitting or multiline wrapping (up to four lines, with manual line breaks supported). Maximum letter height is 2–12 mm, with proportional reduction to fit a centered area 6 mm inside the lid edges. Labels that would fall below 1.5 mm are rejected. Depth/rise is 0.2–1.5 mm; cutouts are recessed rather than through-holes. Embedded labels fill matching pockets flush with the lid surface and remain separate color bodies. Export them with the lid as an assembly, preserving alignment, and assign the lettering a second filament in the slicer. All styles follow the bin-height parameter and use outlined SVG geometry.
+
+Open **Text & SVG** in the catalog header. Type a single line in bundled **Rubik SemiBold** or **Atkinson Hyperlegible Next Bold**, or import your own outlined SVG. Fonts and outlines ship with Workshop and work offline; no system font installation is needed. Text becomes SVG paths before Fusion imports and extrudes it. Fit-test markings use this same outlined path.
+
+Set the full visible outline height, maximum width and depth in millimeters. Width fitting scales proportionally. Choose an engraved cut, raised lettering joined to the part, or separate color bodies. **Place on face** opens a native Fusion command: click a planar face at the lettering center, then confirm. Offsets and rotation use that face's sketch axes. Assembly placement writes to the owning component, so repeated instances share the lettering. Placement is one undoable command; the outline preview shows artwork, not a live placement preview on the face. Separate lettering bodies can be assigned a filament when exported with their parent part as an assembly.
+
+**Save SVG** writes reusable outlined artwork. For Illustrator imports, convert text and strokes to outlines, expand appearances, unite overlapping shapes, and export plain SVG with presentation attributes (no CSS, linked images, masks or clipping). Closed filled paths, groups, transforms, rectangles, circles, ellipses and polygons are supported. Imported colors become a single silhouette; nested regions alternate between fill and holes. Maximum input size is 500 KB. Typed text supports the bundled Latin character sets; unsupported characters produce an error rather than a substitute glyph.
+
+**Create comparison coupon** opens a new Fusion design containing two **120 × 75 × 2 mm** plates, one per font. Each compares actual outline heights of **2, 3, 4 and 5 mm**, with **0.6 mm** raised (R) and engraved (E) samples. Print flat with lettering up, using your intended material, nozzle and layer height. The smallest size deliberately tests the print limit. Thin strokes and tight gaps still depend on printer settings.
+
+Font sources and SIL Open Font License notices are in `workshop/fonts/`. The reproducible outline builder is `scripts/assets/build-lettering-fonts.py`; it requires fontTools on the build machine, with no extra Python dependency inside Fusion.
+
 The preview supports orbit, zoom, fit-to-view, lid visibility and 2D/parts views. It is planning geometry: feet, stacking interfaces and closures are simplified. **Finger scoops and label ledges are currently preview-only**; selecting them disables creation until they are turned off.
 
 ## Install and start
@@ -45,7 +61,7 @@ The preview supports orbit, zoom, fit-to-view, lid visibility and 2D/parts views
 1. Obtain the source or a packaged release. For a source checkout:
 
    ```sh
-   git clone https://github.com/iluvmemes/GridfinityWorkshop.git
+   git clone <repository-url> GridfinityWorkshop
    ```
 
    For a release ZIP, extract it once. The included `GridfinityWorkshop` folder is the add-in folder. If using GitHub's **Code → Download ZIP**, rename the extracted folder to `GridfinityWorkshop`.

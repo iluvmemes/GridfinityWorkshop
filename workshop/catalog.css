@@ -40,3 +40,17 @@
 .unit-input:focus-within,#gf-workshop .unit-input:focus-within{border-color:#1977a5;box-shadow:0 0 0 1px #1977a5}
 .unit-input.unit-invalid,#gf-workshop .unit-input.unit-invalid{border-color:#ad352e}
 .unit-input.unit-disabled,#gf-workshop .unit-input.unit-disabled{background:#f2f5f7}
+/* Outlined lettering is independent of the active bin recipe. */
+.lettering-overlay{position:fixed;inset:0;z-index:100;background:#172b3dcc;display:grid;place-items:center;padding:20px;overflow:auto}
+.lettering-card{background:#fff;border:1px solid #ccd9e2;border-radius:12px;width:min(960px,100%);max-height:95vh;display:flex;flex-direction:column;box-shadow:0 16px 60px #0004;overflow:hidden}
+.lettering-card header{background:#f6f9fb}.lettering-card header h2{margin:0}.lettering-card header span{font-size:12px}
+.lettering-body{display:grid;grid-template-columns:1fr 1fr;overflow:auto;min-height:0}.lettering-body section{min-width:0;padding:20px}.lettering-body label{margin-bottom:12px}.lettering-body .fields label{margin-bottom:0}.lettering-output{background:#f3f6f8}
+#lettering-preview{min-height:160px;padding:14px;background:white;border:1px solid #dbe3e9;border-radius:8px;display:flex;align-items:center}#lettering-preview svg{display:block;width:100%;height:130px;overflow:visible}#lettering-preview svg *{fill:#243442;fill-rule:evenodd}
+#lettering-error{color:#a1322b;font-size:12px}#lettering-status{font-size:12px;min-height:32px}#lettering-place{background:#1977a5;color:#fff}.lettering-output article p{margin-bottom:12px}
+@media(max-width:700px){.lettering-overlay{padding:6px}.lettering-body{grid-template-columns:1fr}.lettering-card{max-height:98vh}.lettering-body section{padding:14px}}
+
+#lidLabelText{display:block;width:100%;margin-top:5px;padding:8px;border:1px solid #ccd9e2;border-radius:5px;font:inherit;resize:vertical;min-height:66px}#lidLabelText:focus-visible{outline:2px solid #1977a5;outline-offset:2px}
+
+.filament-picker{margin:12px 0 18px;font-size:12px}.filament-swatches{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin:7px 0}.filament-swatch{height:32px;min-width:0;padding:0;border:2px solid #aab8c3;background:var(--swatch-color)!important;border-radius:6px;position:relative}.filament-swatch[aria-pressed=true]{outline:2px solid #1977a5;outline-offset:2px}.filament-swatch[aria-pressed=true]::after{content:'';position:absolute;inset:7px;border:2px solid #fff;border-radius:2px;box-shadow:0 0 0 1px #111}.filament-picker small{font-size:12px;letter-spacing:0}
+
+.preview-toolbar #preview-lid-label{order:10;flex-basis:100%;margin:0}
